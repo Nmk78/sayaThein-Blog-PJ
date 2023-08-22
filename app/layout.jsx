@@ -16,11 +16,13 @@ const RootLayout = ({ children }) => {
   return (
     <html lang="en">
       <body>
-        <main className="app w-screen h-screen flex flex-col items-center bg-gray-200 dark:bg-slate-800 ">
+        <main className="app w-screen h-screen flex flex-col items-center bg-gray-200 dark:bg-slate-800 relative">
           <Session_Provider>
             <ThemeProvider>
               <Nav />
-              {children}
+                <section className="w-full h-full mt-16 mb-16 overflow-auto">
+                {children}
+                </section>
               <Footer />
             </ThemeProvider>
           </Session_Provider>

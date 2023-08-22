@@ -10,11 +10,13 @@ const Nav = () => {
   let user = true;
 
   return (
-    <div className="w-full h-16 flex flex-row items-center justify-between bg-cyan-500 dark:bg-cyan-800 drop-shadow-lg shadow-slate-900 mb-5">
+    <div className="w-full h-16 flex flex-row items-center justify-between fixed top-0 bg-cyan-500 dark:bg-cyan-800 drop-shadow-lg shadow-slate-900 mb-5">
       <Link href="/" className="flex gap-2 flex-center mx-4">
         <Image
           src="/images/logoRmBg.png"
           alt="logo"
+          quality={50}
+          priority={false} // {false} | {true}
           width={60}
           height={60}
           className="object-contain"
@@ -24,15 +26,15 @@ const Nav = () => {
         <ThemeSwitcher />
         {
           user ? (
-            <Link href="/" className="flex gap-2 flex-center mr-4">
+            <Link href="/profile" className="flex gap-2 flex-center mr-4">
               <div>
                 {" "}
                 <Image
-                  src="/images/logoRmBg.png"
+                  src="/images/sample4.jpg"
                   alt="logo"
-                  width={50}
-                  height={50}
-                  className="object-contain"
+                  width={40}
+                  height={40}
+                  className="object-contain rounded-full"
                 />
               </div>
             </Link>
