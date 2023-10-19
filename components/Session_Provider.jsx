@@ -5,8 +5,11 @@ import React from 'react'
 import { SessionProvider } from 'next-auth/react'
 
 const Session_Provider = ({children, session}) => {
+
+  console.log("Session_Provider Log ", session);
+  
   return (
-    <SessionProvider session={session}>
+    <SessionProvider session={session} >
       {children}
     </SessionProvider>
     )

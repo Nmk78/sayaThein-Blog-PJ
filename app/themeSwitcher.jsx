@@ -40,7 +40,7 @@ const ThemeSwitcher = () => {
 
 
        <div className="hidden w-14 h-7 bg-gray-400 peer-focus:outline-none rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-[4px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-6 after:w-6 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
-        <span className="ml-3 text-lg font-medium text-gray-800 dark:text-gray-300 p-3 items-center">
+        <span className="mx-3 text-lg font-medium text-gray-800 dark:text-gray-300 p-2 items-center">
           {theme == 'light' ? '🌤️' : '🌛'}
         </span>
       </label> 

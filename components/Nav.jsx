@@ -4,10 +4,28 @@ import React from "react";
 import ThemeSwitcher from "../app/themeSwitcher";
 import Image from "next/image";
 import Link from "next/link";
-import { sigIn, sigOut, useSession, getProvider } from "next-auth/react";
+import {useSession, getProvider } from "next-auth/react";
 
 const Nav = () => {
-  let user = true;
+ 
+
+  const{data: session, status } = useSession();
+
+  console.log("Session Status - ",{data: session, status });
+
+  // const user = {
+  //   id: 1,
+  //   username: 'Nmk',
+  //   firstName: 'Nay Myo',
+  //   lastName: 'Khant',
+  //   email: 'john.doe@example.com',
+  //   age: 25,
+  //   isAdmin: false,
+  //   // Additional properties as needed
+  // };
+  
+
+
 
   return (
     <div className="w-full h-16 flex flex-row items-center justify-between fixed top-0 bg-cyan-500 dark:bg-cyan-800 drop-shadow-lg shadow-slate-900 mb-5">
@@ -22,11 +40,11 @@ const Nav = () => {
           className="object-contain"
         />
       </Link>
-      <div className="flex flex-row h-full items-center">
+      <div id="themeSwitcher profile" className="flex flex-row h-full items-center">
         <ThemeSwitcher />
         {
-          user ? (
-            <Link href="/profile" className="flex gap-2 flex-center mr-4">
+          status === "authenticated" ? (
+            <Link href={`/profile/${user.username}`} className="flex gap-2 flex-center mr-4">
               <div>
                 {" "}
                 <Image

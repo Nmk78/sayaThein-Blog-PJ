@@ -4,7 +4,9 @@ import React from 'react'
 const Login = () => {
   return (
     <>
-    <G_Auth />
+    <h1>Login</h1>
+    <p>Please login to continue</p>
+    {/* <G_Auth /> */}
     </>
   )
 }
