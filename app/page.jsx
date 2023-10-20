@@ -4,7 +4,7 @@ import React, { useState } from "react";
 
 import Post from "@components/Post";
 import SearchBox from "@components/SearchBox";
-import G_Auth from "@components/G_Auth";
+import G_Auth from "@components/Login";
 const home = () => {
 
 const posts = [

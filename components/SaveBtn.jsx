@@ -10,13 +10,13 @@ const SaveBtn = ({ id }) => {
       <input
         id="checkbox"
         type="checkbox"
-        value=""
+        value={id}
         defaultChecked={false}
-        checked={like ? true : false}
+        // checked={like ? true : false}
         className="hidden"
       />
       <FontAwesomeIcon
-        className="w-5 h-5 p-2 ml-2 text-gray-500 dark:text-gray-200"
+        className="w-5 h-5 p-2 ml-2 text-gray-500 dark:text-gray-200  cursor-pointer"
         icon={like ? faHeartCircleCheck : faHeart}
         onClick={() => {
             console.log("Saved ID", id);

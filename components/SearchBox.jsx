@@ -9,33 +9,19 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import Link from "next/link";
 import Image from "next/image";
-
 const SearchBox = () => {
-  const [open, setOpen] = useState(false);
 
-  const searchBoxTogglerFn = () => {
-    const div = document.getElementById("searchBox");
-    if (div) {
-      div.classList.toggle("hidden");
-    }
-  };
+  
 
   return (
     <div
       id="searchBox"
       className="absolute top-56 w-full h-auto "
     >
-      <div className="w-80 mx-auto dark:bg-sky-700   bg-sky-400 rounded-2xl">
+      <div className="w-80 mx-auto py-5 dark:bg-sky-700   bg-sky-400 rounded-2xl">
         <div id="closeBtn " className="float-right w-10 z-50">
-          <button onClick={searchBoxTogglerFn}>
-            <FontAwesomeIcon
-              icon={faClose}
-              className=" text-sky-900 dark:text-gray-200 w-8 ml-auto float-right"
-              size="3x"
-            />
-          </button>
         </div>
-        <div id="searchBar" className="flex flex-row w-full px-5">
+        <div id="searchBar" className="flex flex-row w-full px-5 py-2">
           <input
             type="text"
             name="searchBar"
