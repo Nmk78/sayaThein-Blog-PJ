@@ -47,7 +47,7 @@ const Post = ({id, title, content, author, date}) => {
               height={30}
               className=" object-contain object-center rounded-full"
             />
-            <div id="name" className="text-md font-latin font-md ">
+            <div id="name" className="text-md font-latin font-sm ">
               {author}
             </div>
             

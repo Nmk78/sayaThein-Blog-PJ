@@ -4,7 +4,7 @@ import React from 'react'
 const LoginPage = () => {
   return (
     <>
-      <Login mode="Register" />
+      <Login mode="register" />
     </>
   )
 }

@@ -17,7 +17,7 @@ const Footer = () => {
   let user = true;
 
   return (
-    <div className="w-full h-16 flex flex-row justify-around items-center fixed bottom-0 bg-cyan-500 dark:bg-cyan-800 drop-shadow-lg shadow-slate-900">
+    <footer className="w-full h-16 flex flex-row justify-around items-center fixed bottom-0 bg-cyan-500 dark:bg-cyan-800 drop-shadow-lg shadow-slate-900">
       <Link href="/" className="flex flex-col items-center m-0">
         <FontAwesomeIcon
           icon={faHome}
@@ -48,7 +48,7 @@ const Footer = () => {
         />
         <span className="text-md text-sky-900 dark:text-gray-200 ">Create</span>
       </Link>
-    </div>
+    </footer>
   );
 };
 

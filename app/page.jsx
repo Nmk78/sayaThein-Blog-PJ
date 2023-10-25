@@ -12,7 +12,7 @@ const posts = [
     id: 1,
     title: "Getting Started with JavaScript",
     content: "In this post, we'll explore the basics of JavaScript programming. JavaScript is a versatile programming language that is commonly used for building interactive and dynamic web applications. We'll cover topics such as variables, data types, functions, and control flow. By the end of this post, you'll have a solid foundation in JavaScript to start creating your own web projects.",
-    author: "John Doe",
+    author: "Wai Yan Thein",
     date: "2023-08-01"
   },
   {
@@ -45,7 +45,7 @@ const posts = [
   }
 ];
   return (
-    <div className="flex flex-col md:w-2/3 h-screen items-center mx-auto px-4 ">
+    <main className="flex flex-col md:w-2/3 h-screen items-center mx-auto px-4 ">
         <div
           id="hero-text"
           className="flex flex-col w-full mx-10 mt-4 bg-slate-800 dark:bg-slate-900 px-5 py-2 rounded-sm"
@@ -63,7 +63,7 @@ const posts = [
                 return <Post key={id} id={id} title = {title} author = {author} date = {date}/>
         })}
 
-    </div>
+    </main>
   );
 };
 
