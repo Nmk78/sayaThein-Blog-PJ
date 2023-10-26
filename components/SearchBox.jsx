@@ -16,7 +16,7 @@ const SearchBox = () => {
   return (
     <div
       id="searchBox"
-      className="absolute top-56 w-full h-auto "
+      className="absolute top-56 w-full h-auto hidden"
     >
       <div className="w-80 mx-auto py-5 dark:bg-sky-700   bg-sky-400 rounded-2xl">
         <div id="closeBtn " className="float-right w-10 z-50">

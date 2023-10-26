@@ -13,6 +13,7 @@ const Nav = () => {
 
   console.log("Session Status - ",{data: session, status });
 
+
   // const user = {
   //   id: 1,
   //   username: 'Nmk',
@@ -44,7 +45,7 @@ const Nav = () => {
         <ThemeSwitcher />
         {
           status === "authenticated" ? (
-            <Link href={`/profile/${user.username}`} className="flex gap-2 flex-center mr-4">
+            <Link href={`/profile/${session.user.name}`} className="flex gap-2 flex-center mr-4">
               <div>
                 {" "}
                 <Image

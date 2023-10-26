@@ -7,12 +7,8 @@ import { set } from "mongoose";
 import { signIn } from "next-auth/react";
 
 const Login = ({ mode }) => {
-  let URI = `/api/${mode}`;
 
   const router = useRouter();
-
-  console.log(mode);
-  console.log(URI);
 
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -55,21 +51,23 @@ const Login = ({ mode }) => {
         redirect: false,
       });
 
+      console.log(res);
       if (res.error) {
-        setError("Invalid Credentials");
+        setError("\x1b[31m%s\x1b[0m", "Error in submit", res.error);
+        // setError("Invalid Credentials");
+        setError(res.error);
         return;
       }
       // Redirect after successful login
       router.push(res.url || "/");
     } catch (error) {
       console.error("Error in login:", error);
-      setError("\x1b[31m%s\x1b[0m", "Error in submit", error);
+      setError(error);
     }
   };
 
   const register = async (e) => {
     e.preventDefault();
-    console.log(URI);
     console.log("Register Fn emit");
     if (mode == "register") {
       if (!name || !email || !password || !referralCode) {
@@ -86,8 +84,8 @@ const Login = ({ mode }) => {
       }
     }
     try {
-      console.log(URI);
-      const res = await fetch(URI, {
+      // console.log(URI);
+      const res = await fetch("/api/register", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -136,7 +134,7 @@ const Login = ({ mode }) => {
                 placeholder="Name"
                 required
                 onChange={(e) => {
-                  setName(e.target.value), console.log(name);
+                  setName(e.target.value);
                 }}
               />
               
@@ -155,7 +153,7 @@ const Login = ({ mode }) => {
                 placeholder="Email"
                 required
                 onChange={(e) => {
-                  setEmail(e.target.value), console.log(email);
+                  setEmail(e.target.value);
                 }}
               />
               <span className="block text-sm font-medium text-white">
@@ -173,7 +171,7 @@ const Login = ({ mode }) => {
                 placeholder="Password"
                 required
                 onChange={(e) => {
-                  setPassword(e.target.value), console.log(password);
+                  setPassword(e.target.value);
                 }}
               />
               <span className="block text-sm font-medium text-white">
@@ -191,7 +189,7 @@ const Login = ({ mode }) => {
                 placeholder="Refferal Code"
                 required
                 onChange={(e) => {
-                  setRefferalcode(e.target.value), console.log(referralCode);
+                  setRefferalcode(e.target.value);
                 }}
               />
               {error ? (
@@ -256,7 +254,7 @@ const Login = ({ mode }) => {
                 placeholder="Email"
                 required
                 onChange={(e) => {
-                  setEmail(e.target.value), console.log(email);
+                  setEmail(e.target.value);
                 }}
               />
               <span className="block text-sm font-medium text-white">
@@ -274,7 +272,7 @@ const Login = ({ mode }) => {
                 placeholder="Password"
                 required
                 onChange={(e) => {
-                  setPassword(e.target.value), console.log(password);
+                  setPassword(e.target.value);
                 }}
               />
 

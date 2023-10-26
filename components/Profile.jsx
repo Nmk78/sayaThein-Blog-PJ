@@ -26,12 +26,10 @@ const Profile = ({ email, posts }) => {
           />
           <div className="mx-2 flex flex-col items-start h-fit content-evenly">
             <div className="text-2xl font-bold text-white dark:text-white-500 mt-4">
-              {/* {session == undefined ? "Session Undefined" : session} */}
-              Wai Yan Thein
+              {session?.user.name}
             </div>
             <div className="text-sm font-light text-white dark:text-white-500 mb-3">
-              {/* {session == undefined ? "Session Undefined" : session} */}
-              waiyanthein@gmail.com
+              {session?.user.email}
             </div>
             {status.authenciated ? (
               <div id="userAccessOnly" className="flex flex-row items-center ">
