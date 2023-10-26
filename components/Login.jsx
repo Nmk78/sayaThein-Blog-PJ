@@ -3,7 +3,6 @@
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { set } from "mongoose";
 import { signIn } from "next-auth/react";
 
 const Login = ({ mode }) => {
@@ -59,7 +58,7 @@ const Login = ({ mode }) => {
         return;
       }
       // Redirect after successful login
-      router.push(res.url || "/");
+      router.push('/');
     } catch (error) {
       console.error("Error in login:", error);
       setError(error);

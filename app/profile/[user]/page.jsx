@@ -1,18 +1,17 @@
 "use client"
 
 import Profile from "@components/Profile";
-import React, { useState } from "react";
+import { useRouter } from "next/navigation";
+import React from "react";
 
+const User = ({ session }) => {
+  const router = useRouter();
+  const { user } = router.query;
 
-const User = ({session}) => {
-  
-  const [posts, setPosts] = useState([])
-
-console.log("Session = ",session);
-
+  console.log(router);
   return (
     <>
-      <Profile name={session} email={session} posts = {posts}  />
+      <Profile />
     </>
   );
 };

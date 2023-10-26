@@ -45,7 +45,7 @@ const Nav = () => {
         <ThemeSwitcher />
         {
           status === "authenticated" ? (
-            <Link href={`/profile/${session.user.name}`} className="flex gap-2 flex-center mr-4">
+            <Link href="/profile/[user]" as={`/profile?user=${session.user.name}`} className="flex gap-2 flex-center mr-4">
               <div>
                 {" "}
                 <Image
