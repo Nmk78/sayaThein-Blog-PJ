@@ -4,11 +4,16 @@ import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { signIn } from "next-auth/react";
+import Loading from "./Loading";
 
 const Login = ({ mode }) => {
 
   const router = useRouter();
 
+  const [loading, setLoading] = useState(false)
+
+
+  
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -40,6 +45,9 @@ const Login = ({ mode }) => {
   // }
 
   const login = async (e) => {
+
+    setLoading(true)
+
     e.preventDefault();
     console.log("Login Fn emit");
 
@@ -50,22 +58,27 @@ const Login = ({ mode }) => {
         redirect: false,
       });
 
-      console.log(res);
+      // console.log("res =", res);
       if (res.error) {
+        setLoading(false)
         setError("\x1b[31m%s\x1b[0m", "Error in submit", res.error);
-        // setError("Invalid Credentials");
-        setError(res.error);
+        setError("Invalid Credentials");
         return;
       }
       // Redirect after successful login
       router.push('/');
+      setLoading(false)
     } catch (error) {
+      setLoading(false)
       console.error("Error in login:", error);
       setError(error);
     }
+    setLoading(false)
   };
 
   const register = async (e) => {
+    setLoading(true)
+
     e.preventDefault();
     console.log("Register Fn emit");
     if (mode == "register") {
@@ -92,6 +105,8 @@ const Login = ({ mode }) => {
         body: JSON.stringify({ name, email, password, referralCode }),
       });
       if (res.ok) {
+        setLoading(false)
+
         const form = e.target;
         form.reset();
         setName("");
@@ -105,8 +120,17 @@ const Login = ({ mode }) => {
       }
     } catch (error) {
       setError("\x1b[31m%s\x1b[0m", "Error in submit", error);
+      setLoading(false)
     }
+    setLoading(false)
+
   };
+
+  // if(loading){
+  //   // if(status == "loading"){
+  //     return (<div className="w-full h-full flex flex-col items-center justify-center ">
+  //     </div>)
+  //   }
 
   return (
     <>
@@ -114,6 +138,10 @@ const Login = ({ mode }) => {
         id={`${mode}_form`}
         className="w-full h-full flex flex-col justify-center items-center gap-4 p-4 bg-gray-200 dark:bg-slate-800"
       >
+        {loading && <div className="absolute flex items-center justify-center inset-0 bg-black bg-opacity-50">
+        <Loading size="3x" />
+
+        </div>}
         {mode == "register" ? (
           <form onSubmit={register} className="w-full">
             <div className="w-full h-auto pt-5 px-3 pb-4 dark:bg-sky-700 bg-sky-400 rounded-2xl">
@@ -131,7 +159,8 @@ const Login = ({ mode }) => {
                 name="refferal_ode"
                 id="referralCode"
                 placeholder="Name"
-                required
+                required                disabled={loading}
+
                 onChange={(e) => {
                   setName(e.target.value);
                 }}
@@ -150,7 +179,8 @@ const Login = ({ mode }) => {
                 name="email"
                 id="email"
                 placeholder="Email"
-                required
+                required                disabled={loading}
+
                 onChange={(e) => {
                   setEmail(e.target.value);
                 }}
@@ -169,6 +199,7 @@ const Login = ({ mode }) => {
                 id="password"
                 placeholder="Password"
                 required
+                disabled={loading}
                 onChange={(e) => {
                   setPassword(e.target.value);
                 }}
@@ -186,7 +217,8 @@ const Login = ({ mode }) => {
                 name="refferal_ode"
                 id="referralCode"
                 placeholder="Refferal Code"
-                required
+                required                 disabled={loading}
+
                 onChange={(e) => {
                   setRefferalcode(e.target.value);
                 }}
@@ -217,7 +249,7 @@ const Login = ({ mode }) => {
               <div className="my-2">
                 {" "}
                 <span>Already have an acount? </span>{" "}
-                <Link href={"/auth/login"} className="underline">
+                <Link href={"/login"} className="underline">
                   Login
                 </Link>
               </div>
@@ -251,7 +283,8 @@ const Login = ({ mode }) => {
                 name="email"
                 id="email"
                 placeholder="Email"
-                required
+                required                 disabled={loading}
+
                 onChange={(e) => {
                   setEmail(e.target.value);
                 }}
@@ -269,7 +302,8 @@ const Login = ({ mode }) => {
                 name="password"
                 id="password"
                 placeholder="Password"
-                required
+                required                 disabled={loading}
+
                 onChange={(e) => {
                   setPassword(e.target.value);
                 }}
@@ -301,14 +335,15 @@ const Login = ({ mode }) => {
 
               <div className="my-2">
                 <span>Doesn't have account? </span>{" "}
-                <Link href={"/auth/register"} className="underline">
+                <Link href={"/register"} className="underline">
                   Register
                 </Link>
               </div>
             </div>
             <div className="w-full flex justify-center my-4">
               <button
-                type="submit"
+                type="submit"                 disabled={loading}
+
                 onClick={()=> console.log("Loginned")}
                 className="dark:bg-sky-700 font-bold bg-sky-400 rounded-xl px-4 py-2"
               >
