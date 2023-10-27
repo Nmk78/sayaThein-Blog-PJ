@@ -5,8 +5,18 @@ import React, { useState } from "react";
 import Post from "@components/Post";
 import SearchBox from "@components/SearchBox";
 import G_Auth from "@components/Login";
+import Loading from "@components/Loading";
 const home = () => {
 
+  let loading = false;
+
+  if(loading){
+    // if(status == "loading"){
+      return (<div className="w-full h-full flex flex-col items-center justify-center ">
+        <Loading size="2x" />
+        <span className="my-4">Loading posts...</span>
+      </div>)
+    }
 const posts = [
   {
     id: 1,
@@ -58,6 +68,8 @@ const posts = [
             Guide
           </div>
         </div>
+
+        
 
         {posts.map(({id, title, content, author, date})=>{
                 return <Post key={id} id={id} title = {title} author = {author} date = {date}/>

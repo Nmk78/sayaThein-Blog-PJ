@@ -12,8 +12,11 @@ import {
   faAdd,
 } from "@fortawesome/free-solid-svg-icons";
 import SearchboxToggler from "./SearchboxToggler";
+import { useSession } from "next-auth/react";
 
 const Footer = () => {
+  const { data: session, status } = useSession();
+
   let user = true;
 
   return (
@@ -36,18 +39,27 @@ const Footer = () => {
       </Link>
       <div className="flex flex-col items-center m-0">
         <div className="w-10 h-4 items-center">
-        <SearchboxToggler size="2x" />
+          <SearchboxToggler size="2x" />
         </div>
-        <span className="text-md text-sky-900 dark:text-gray-200 mt-4">Search</span>
+        <span className="text-md text-sky-900 dark:text-gray-200 mt-4">
+          Search
+        </span>
       </div>
-      <Link href="/posts/create" className="flex flex-col items-center m-0">
-        <FontAwesomeIcon
-          icon={faAdd}
-          className=" text-sky-900 dark:text-gray-200 w-6"
-          size="2x"
-        />
-        <span className="text-md text-sky-900 dark:text-gray-200 ">Create</span>
-      </Link>
+      {status === "authenticated" ? (
+        <Link href="/posts/create" className="flex flex-col items-center m-0">
+          <FontAwesomeIcon
+            icon={faAdd}
+            className=" text-sky-900 dark:text-gray-200 w-6"
+            size="2x"
+          />
+          <span className="text-md text-sky-900 dark:text-gray-200 ">
+            Create
+          </span>
+        </Link>
+      ) : (
+        <></>
+      )}
+      
     </footer>
   );
 };

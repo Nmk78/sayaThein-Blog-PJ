@@ -8,13 +8,21 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faAdd } from "@fortawesome/free-solid-svg-icons";
 import { signOut , useSession, getProvider } from "next-auth/react";
 import { useRouter } from "next/router";
+import Loading from "./Loading";
 
 
 const Profile = () => {
 
-let user;
-  
-      const {data: session, status } = useSession();
+  let user;
+        const {data: session, status } = useSession();
+
+        if(status == "loading"){
+        // if(status == "loading"){
+          return (<div className="w-full h-full flex flex-col items-center justify-center ">
+            <Loading size="3x" />
+            <span className="my-4">Loading Profile...</span>
+          </div>)
+        }
 
       return (
     <div>
@@ -50,7 +58,7 @@ let user;
                   />
                 </Link>
                 <button className="bg-sky-900 dark:bg-cyan-800 text-white dark:text-white-500 text-sm px-3 py-2 rounded-full mx-4 text-center"
-                onClick={()=>{signOut ()}}
+                onClick={()=>{signOut ({ callbackUrl: '/' })}}
                 >
                   Logout
                 </button>

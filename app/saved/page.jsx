@@ -1,7 +1,17 @@
+import Loading from '@components/Loading';
 import Post from '@components/Post';
 import React from 'react'
 
 const SavedPosts = () => {
+
+  let loading = false;
+
+  if(loading){
+      return (<div className="w-full h-full flex flex-col items-center justify-center ">
+        <Loading size="2x" />
+        <span className="my-4">Loading saved posts...</span>
+      </div>)
+    }
   
   const posts = [
     {
@@ -41,9 +51,12 @@ const SavedPosts = () => {
     }
   ];
     return (
-          posts.map(({id, title, author, date})=>{
+      <main className="flex flex-col md:w-2/3 h-screen items-center mx-auto px-4 ">
+
+          {posts.map(({id, title, author, date})=>{
                   return <Post id={id} title = {title} author = {author} date = {date}/>
-          })
+          })}
+          </main>
     );
 }
 

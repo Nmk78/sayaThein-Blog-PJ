@@ -8,14 +8,12 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Image from "next/image";
 import React, { useState } from "react";
-import Link from "next/link";
 
 import SaveBtn from "./SaveBtn";
+import Link from "next/link";
 
-const Post = ({id, title, content, author, date}) => {
-
+const Post = ({ id, title, content, author, date }) => {
   //Post Element
-
 
   return (
     <Link href={`/posts/${id}`}>
@@ -40,25 +38,24 @@ const Post = ({id, title, content, author, date}) => {
           </div>
 
           <div className="w-full h-10 flex flex-row items-center justify-around">
-            <Image
-              src="/images/sample4.jpg"
-              alt="profile-image"
-              width={30}
-              height={30}
-              className=" object-contain object-center rounded-full"
-            />
-            <div id="name" className="text-md font-latin font-sm ">
-              {author}
-            </div>
-            
+              <Image
+                src="/images/sample4.jpg"
+                alt="profile-image"
+                width={30}
+                height={30}
+                className=" object-contain object-center rounded-full"
+              />
+              <div id="name" className="text-md font-latin font-sm ">
+                {author}
+              </div>
 
-              <SaveBtn id = {id} />
+            <SaveBtn id={id} />
             {/* </div> */}
           </div>
         </div>
       </div>
     </Link>
-  )
+  );
 };
 
 export default Post;

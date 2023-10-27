@@ -15,12 +15,17 @@ import SaveBtn from "./SaveBtn";
 import ShareButton from "./Sharebutton";
 import Link from "next/link";
 import GoBack from "./GoBack";
+import { useSession } from "next-auth/react";
+import Loading from "./Loading";
 
 const DetailPost = () => {
 
 
 
-  let user = false;
+  const{data: session, status } = useSession();
+
+
+
   let data = {
     id: 1,
     title: "Getting Started with JavaScript",
@@ -45,7 +50,7 @@ const DetailPost = () => {
         width={400}
         height={115}
         className=" object-contain object-center m-3"
-      />{" "}
+        />
       <div
         id="Content_Area"
         className=" w-full h-full px-3 py-2 flex flex-col justify-around"
@@ -56,8 +61,8 @@ const DetailPost = () => {
               <Image
                 src="/images/sample4.jpg"
                 alt="profile-image"
-                width={30}
-                height={30}
+                width={40}
+                height={40}
                 className=" object-contain object-center rounded-full"
               />
               <div
@@ -67,7 +72,7 @@ const DetailPost = () => {
                 {author}
               </div>
             </Link>
-            <div id="userDependElement" className={user ? "ml-2" : "hidden"}>
+            <div id="userDependElement" className={status == "authenticated" ? "ml-2" : "hidden"}>
               <Link href={`posts/edit/${id}`}>
                 <FontAwesomeIcon
                   className="w-5 h-5 p-2 ml-2 text-gray-500 dark:text-gray-200 cursor-pointer"
@@ -87,7 +92,7 @@ const DetailPost = () => {
           </div>
           <SaveBtn id={id} />
         </div>
-        <div id="date" className="w-full h-5 flex px-4 text-sm">
+        <div id="date" className="w-full h-5 my-2 flex px-4 text-sm">
           {date}
         </div>
         <div className="font-bold text-xl my-2 mb-4 font-latin break-words flex flex-nowrap whitespace-normal overflow-hidden">
