@@ -8,5 +8,9 @@
     "dev": "node --watch server.js"
   },
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "express-async-handler": "^1.2.0",
+    "mongoose": "^8.0.0"
+  }
 }

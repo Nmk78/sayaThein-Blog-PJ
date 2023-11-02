@@ -6,13 +6,14 @@ const {get_one_user,
 const router = express.Router();
 
 router
-      .route("/:id")
-            .get(get_one_user)
-router
       .route("/register")
             .post(user_register)
 router
       .route("/login")
             .post(user_login)
+
+router
+      .route("/:id")
+            .get(get_one_user)
 
 module.exports = router;
