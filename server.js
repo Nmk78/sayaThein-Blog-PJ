@@ -4,6 +4,7 @@ const dotenv = require('dotenv').config()
 //Routes
 const userRoutes = require('./routes/user')
 const postRoutes = require('./routes/post');
+const privateRoutes = require('./routes/private');
 const errorHandler = require('./middleware/errorHandler');
 const connectToDB = require("./dbConnection") ;
 
@@ -23,6 +24,7 @@ app.use((req, res, next)=>{
 app.use(express.json())
 app.use("/user", userRoutes)
 app.use("/posts", postRoutes)
+app.use("/post", privateRoutes)
 app.use(errorHandler)
 
 

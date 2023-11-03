@@ -5,12 +5,12 @@ const {get_one_user,
 
 const router = express.Router();
 
-router
-      .route("/register")
-            .post(user_register)
-router
-      .route("/login")
-            .post(user_login)
+// router
+//       .route("/register")
+//             .post(user_register)
+// router
+//       .route("/login")
+//             .post(user_login)
 
 router
       .route("/:id")

@@ -1,25 +1,41 @@
-const mongoose = require(mongoose);
+const mongoose = require('mongoose');
 
+const authorSchema = new mongoose.Schema({
+  id: {
+    type: mongoose.Schema.Types.ObjectId,
+    required: true,
+  },
+  name: {
+    type: String,
+    required: true,
+  },
+  email: {
+    type: String,
+    required: true,
+  },
+});
 
-const postSchema = new mongoose.Schema({
+const postSchema = new mongoose.Schema(
+  {
+    title: {
+      type: String,
+      required: true,
+    },
+    content: {
+      type: String,
+      required: true,
+    },
+    author: {
+      type: authorSchema,
+      required: true,
+    },
+    tags: {
+      type: [String],
+    },
+  },
+  { timestamps: true }
+);
 
-      title:{
-            type: String,
-            required: true,
-      },
-      content:{
-            type: String,
-            required: true,
-      },
-      author:{
-            type: String,
-            required: true,
-      },
-      date:{
-            type: Date,
-            default: Date.now,
-      }
+const Post = mongoose.model('BlogPost', postSchema);
 
-},{timestamps: true,})
-
-module.exports = mongoose.model('Post', postSchema);
+module.exports = Post;

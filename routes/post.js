@@ -1,10 +1,8 @@
 const express = require("express");
 const {
             get_a_post,
-            get_all_posts,
-            edit_a_post,
-            delete_a_post,
-            create_a_post     } = require("../controller/postController");
+            get_all_posts
+                             } = require("../controller/postController");
 
 const router = express.Router();
 
