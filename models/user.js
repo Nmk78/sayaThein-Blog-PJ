@@ -18,7 +18,7 @@ const userSchema = new Schema(
       type: String,
       required: true,
     },
-    referralCode: {
+    code: {
       type: String,
       required: true,
     },

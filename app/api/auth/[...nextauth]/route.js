@@ -65,7 +65,7 @@ const authOptions = {
   },
   secret: process.env.JWT_SECRECT,
   pages: {
-    signIn: "/auth/login",
+    signIn: "/login",
   },
 };
 

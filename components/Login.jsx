@@ -58,7 +58,6 @@ const Login = ({ mode }) => {
         redirect: false,
       });
 
-      // console.log("res =", res);
       if (res.error) {
         setLoading(false)
         setError("\x1b[31m%s\x1b[0m", "Error in submit", res.error);
@@ -66,7 +65,7 @@ const Login = ({ mode }) => {
         return;
       }
       // Redirect after successful login
-      router.push('/');
+      router.push('/profile/1');
       setLoading(false)
     } catch (error) {
       setLoading(false)
@@ -74,6 +73,9 @@ const Login = ({ mode }) => {
       setError(error);
     }
     setLoading(false)
+
+    {localStorage.setItem("user", JSON.stringify(user))}
+
   };
 
   const register = async (e) => {
@@ -81,7 +83,6 @@ const Login = ({ mode }) => {
 
     e.preventDefault();
     console.log("Register Fn emit");
-    if (mode == "register") {
       if (!name || !email || !password || !referralCode) {
         setError("Please fill all the fields");
         if (password.length < 8) {
@@ -89,14 +90,8 @@ const Login = ({ mode }) => {
         }
         return;
       }
-    } else {
-      if (!email || !password) {
-        setError("Please fill all the fields");
-        return;
-      }
-    }
+
     try {
-      // console.log(URI);
       const res = await fetch("/api/register", {
         method: "POST",
         headers: {
@@ -114,9 +109,9 @@ const Login = ({ mode }) => {
         setPassword("");
         setRefferalcode("");
         setError("");
-        router.push("/");
+        router.push("/login");
       } else {
-        setError("Something went wrong");
+        setError("Something went wrong.");
       }
     } catch (error) {
       setError("\x1b[31m%s\x1b[0m", "Error in submit", error);
@@ -156,8 +151,8 @@ const Login = ({ mode }) => {
              invalid:border-pink-500 invalid:text-pink-600
              focus:invalid:border-pink-500 focus:invalid:ring-pink-500"
                 type="text"
-                name="refferal_ode"
-                id="referralCode"
+                name="Name"
+                id="Name"
                 placeholder="Name"
                 required                disabled={loading}
 
@@ -214,7 +209,7 @@ const Login = ({ mode }) => {
              invalid:border-pink-500 invalid:text-pink-600
              focus:invalid:border-pink-500 focus:invalid:ring-pink-500"
                 type="text"
-                name="refferal_ode"
+                name="refferal_Code"
                 id="referralCode"
                 placeholder="Refferal Code"
                 required                 disabled={loading}
