@@ -1,4 +1,4 @@
-import { connecToMongoDB } from "@lib/mongodb";
+import { connectToMongoDB } from "@lib/mongodb";
 import User from "@models/user";
 import bcrypt from "bcryptjs";
 
@@ -17,7 +17,7 @@ const authOptions = {
       //   const { email, password } = credentials;
 
       //   try {
-      //     await connecToMongoDB();
+      //     await connectToMongoDB();
       //     const user = await user.findOne({ email });
 
       //     if (!user) {
@@ -28,37 +28,44 @@ const authOptions = {
       //       return null;
       //     }
       //     console.log("Passwordmatch", passwordMatch);
-            //   return user;
+      //   return user;
       //   } catch (error) {
       //     console.log(error);
       //   }
 
       // },
 
-      async authorize (credentials) {
-        const {email, password} = credentials;
+      async authorize(credentials) {
+        const { email, password } = credentials;
 
         try {
-          await connecToMongoDB()
-          const user = await User.findOne({email});
+          await connectToMongoDB();
+          const user = await User.findOne({ email });
 
-          if(!user){
+          if (!user) {
             return null;
           }
           const passwordMatch = await bcrypt.compare(password, user.password);
 
-          if(!passwordMatch){
+          if (!passwordMatch) {
             return null;
           }
           console.log(user);
           return user;
-        }
-         catch (error) {
+        } catch (error) {
           console.log(error);
         }
-      }
+      },
     }),
   ],
+  callbacks: {
+    session: async (session, user) => {
+      console.log(user);
+      // Add the user object to the session
+      session.user = user;
+      return Promise.resolve(session);
+    },
+  },
 
   session: {
     strategy: "jwt",

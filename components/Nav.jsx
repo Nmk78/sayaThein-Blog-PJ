@@ -5,6 +5,7 @@ import ThemeSwitcher from "../app/themeSwitcher";
 import Image from "next/image";
 import Link from "next/link";
 import {useSession, getProvider } from "next-auth/react";
+import { data } from "autoprefixer";
 
 const Nav = () => {
  
@@ -13,20 +14,7 @@ const Nav = () => {
 
   console.log("Session Status - ",{data: session, status });
 
-
-  // const user = {
-  //   id: 1,
-  //   username: 'Nmk',
-  //   firstName: 'Nay Myo',
-  //   lastName: 'Khant',
-  //   email: 'john.doe@example.com',
-  //   age: 25,
-  //   isAdmin: false,
-  //   // Additional properties as needed
-  // };
-  
-
-
+  // console.log(session?.token);
 
   return (
     <nav className="w-full h-16 flex flex-row items-center justify-between fixed top-0 bg-cyan-500 dark:bg-cyan-800 drop-shadow-lg shadow-slate-900 mb-5">
@@ -45,7 +33,7 @@ const Nav = () => {
         <ThemeSwitcher />
         {
           status === "authenticated" ? (
-            <Link href={`/profile/${session.user.name}`} className="flex gap-2 flex-center mr-4">
+            <Link href={`/profile/${session.token?.sub}`} className="flex gap-2 flex-center mr-4">
               <div>
                 {" "}
                 <Image

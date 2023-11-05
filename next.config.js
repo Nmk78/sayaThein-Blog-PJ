@@ -5,6 +5,9 @@ const nextConfig = {
 
 
 module.exports = {
+  env: {
+    API: process.env.API,
+  },
       async rewrites() {
         return [
           {

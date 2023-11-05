@@ -3,17 +3,22 @@
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { signIn } from "next-auth/react";
+import { signIn, useSession } from "next-auth/react";
 import Loading from "./Loading";
+
 
 const Login = ({ mode }) => {
 
+  const { data: session, status } = useSession();
   const router = useRouter();
 
-  const [loading, setLoading] = useState(false)
-
+  if(status == "authenticated"){
+    router.push("/")
+  }
 
   
+  const [loading, setLoading] = useState(false)
+
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -74,7 +79,7 @@ const Login = ({ mode }) => {
     }
     setLoading(false)
 
-    {localStorage.setItem("user", JSON.stringify(user))}
+    // {localStorage.setItem("user", JSON.stringify(user))}
 
   };
 

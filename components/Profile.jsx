@@ -7,7 +7,6 @@ import Post from "./Post";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faAdd } from "@fortawesome/free-solid-svg-icons";
 import { signOut , useSession, getProvider } from "next-auth/react";
-import { useRouter } from "next/router";
 import Loading from "./Loading";
 
 
@@ -40,10 +39,10 @@ const Profile = () => {
           />
           <div className="mx-2 flex flex-col items-start h-fit content-evenly">
             <div className="text-2xl font-bold text-white dark:text-white-500 mt-4">
-              {status == "authenticated" ? session.user.name : user}
+              {status == "authenticated" ? session.token?.name : user}
             </div>
             <div className="text-sm font-light text-white dark:text-white-500 mb-3">
-              {session?.user.email}
+              {session?.token?.email}
             </div>
             {status == "authenticated" ? (
               <div id="userAccessOnly" className="flex flex-row items-center ">

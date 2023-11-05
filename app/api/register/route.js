@@ -1,4 +1,4 @@
-import { connecToMongoDB } from "@lib/mongodb";
+import { connectToMongoDB } from "@lib/mongodb";
 import User from "@models/user";
 import { NextResponse } from "next/server";
 import bcrypt from "bcryptjs";
@@ -12,18 +12,8 @@ export async function POST(req) {
         { status: 400 }
       );
     }
-    console.log(
-      "Name:",
-      name,
-      "Email:",
-      email,
-      "Password:",
-      password,
-      "Referral-Code:",
-      referralCode
-    );
 
-    await connecToMongoDB();
+    await connectToMongoDB();
     const validReferralCode = await User.exists({ referralCode: referralCode });
     console.log("\x1b[31m%s\x1b[0m", validReferralCode);
 
