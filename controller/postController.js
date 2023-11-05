@@ -14,15 +14,16 @@ const create_a_post = async (req, res) => {
                   "tags": ["tag1", "tag2"]
             }
             */
-  const book = await Post.create({
+  const post = await Post.create({
     title,
     content,
     author,
     tags,
   });
+  console.log("post", post);
 
   res.status(201).json({
-    book,
+    post,
   });
 };
 
