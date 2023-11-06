@@ -10,36 +10,39 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import Image from "next/image";
 
-import React, { useEffect } from "react";
+import React from "react";
 import SaveBtn from "./SaveBtn";
 import ShareButton from "./Sharebutton";
 import Link from "next/link";
 import GoBack from "./GoBack";
 import Loading from "./Loading";
 import { usePostContext } from "@app/Contex/postContext";
+import DOMPurify from "dompurify";
+import { postFinder } from "@lib/postFinder";
 
 const DetailPost = () => {
-
   const { posts } = usePostContext();
   console.log("posts-", posts);
 
-  let id = window.location.pathname.split("/").pop()
-  useEffect(() => {
-    post = posts.find((p) => p._id == window.location.pathname.split("/").pop());
+  const browser = window;
 
+  let id = browser.location.pathname.split("/").pop();
+  // useEffect(() => {
+  //   post = posts.find((p) => p._id == browser.location.pathname.split("/").pop());
 
-    return () => {
-      post = posts.find((p) => p._id == window.location.pathname.split("/").pop());
-    }
-  }, [id])
+  //   return () => {
+  //     post = posts.find((p) => p._id == browser.location.pathname.split("/").pop());
+  //   }
+  // }, [id])
 
-
-   let post = posts.find((p) => p._id == window.location.pathname.split("/").pop());
-
+  // let post = posts.find(
+  //   (p) => p._id == browser.location.pathname.split("/").pop()
+  // );
 
   // post = posts.find((p) => p._id == id);
-  // window.location.reload(true);
-
+  // browser.location.reload(true);
+console.log(id);
+  const post = postFinder(id)
   console.log("post-", post);
 
   if (!post) {
@@ -49,6 +52,8 @@ const DetailPost = () => {
   let like = true;
 
   const { _id, title, content, author, updatedAt } = post;
+
+  const sanitizedContent = DOMPurify.sanitize(content);
 
   return (
     <div className="flex flex-col h-screen">
@@ -117,22 +122,23 @@ const DetailPost = () => {
             {title}
           </div>
 
-          <div className="w-auto h-full">{content}</div>
+          <div className="w-full h-auto mb-auto overflow-x-hidden overflow-y-auto whitespace-pre-wrap">
+            <div dangerouslySetInnerHTML={{ __html: sanitizedContent }} />
+          </div>
         </div>
-        
       </div>
       <div
-          id="button-toolbar"
-          className="w-full h-10 px-10  flex flex-row items-center justify-between bg-gray-200 dark:bg-gray-500"
-        >
-          <GoBack />
-          <div className="w-1/3 h-full flex justify-center items-center cursor-pointer">
-            <SaveBtn id={_id} />
-          </div>
-          <div className="w-1/3 h-full flex justify-center items-center cursor-pointer">
-            <ShareButton />
-          </div>
+        id="button-toolbar"
+        className="w-full h-10 px-10  flex flex-row items-center justify-between bg-gray-200 dark:bg-gray-500"
+      >
+        <GoBack />
+        <div className="w-1/3 h-full flex justify-center items-center cursor-pointer">
+          <SaveBtn id={_id} />
         </div>
+        <div className="w-1/3 h-full flex justify-center items-center cursor-pointer">
+          <ShareButton />
+        </div>
+      </div>
     </div>
   );
 };

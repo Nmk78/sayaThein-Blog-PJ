@@ -2,6 +2,7 @@
 
 import { faHeart, faHeartCircleCheck } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { postFinder } from "@lib/postFinder";
 import React, { useState } from "react";
 
 const SaveBtn = ({ id }) => {
@@ -22,6 +23,12 @@ const SaveBtn = ({ id }) => {
         icon={like ? faHeartCircleCheck : faHeart}
         onClick={() => {
             console.log("Saved ID", id);
+            const newPost = postFinder(id)
+            const existingPosts = JSON.parse(localStorage.getItem('posts')) || [];
+            existingPosts.push(newPost);
+
+            localStorage.setItem('posts', JSON.stringify(existingPosts));
+
           setLike(!like);
         }}
       />
