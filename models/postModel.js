@@ -13,7 +13,7 @@ const authorSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-});
+},{_id: false});
 
 const postSchema = new mongoose.Schema(
   {
