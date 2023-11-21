@@ -2,54 +2,56 @@
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
-  faHeart,
   faEdit,
   faTrash,
-  faShareNodes,
-  faArrowLeft,
+
 } from "@fortawesome/free-solid-svg-icons";
 import Image from "next/image";
 
-import React from "react";
+import React, { useEffect, useState } from "react";
 import SaveBtn from "./SaveBtn";
 import ShareButton from "./Sharebutton";
 import Link from "next/link";
 import GoBack from "./GoBack";
-import Loading from "./Loading";
 import { usePostContext } from "@app/Contex/postContext";
 import DOMPurify from "dompurify";
-import { postFinder } from "@lib/postFinder";
 
 const DetailPost = () => {
   const { posts } = usePostContext();
   console.log("posts-", posts);
+  const [post, setPost] = useState(null);
 
-  const browser = window;
-
-  let id = browser.location.pathname.split("/").pop();
-  // useEffect(() => {
-  //   post = posts.find((p) => p._id == browser.location.pathname.split("/").pop());
-
-  //   return () => {
-  //     post = posts.find((p) => p._id == browser.location.pathname.split("/").pop());
-  //   }
-  // }, [id])
-
-  // let post = posts.find(
-  //   (p) => p._id == browser.location.pathname.split("/").pop()
-  // );
-
-  // post = posts.find((p) => p._id == id);
-  // browser.location.reload(true);
-console.log(id);
-  const post = postFinder(id)
-  console.log("post-", post);
+  useEffect(() => {
+    const fetchPosts = async () => {
+      const id = window.location.pathname.split("/").pop();
+      try {
+        const res = await fetch(`http://localhost:4000/posts/${id}`, {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
+  
+        if (!res.ok) {
+          throw new Error(`HTTP error! Status: ${res.status}`);
+        }
+  
+        const data = await res.json();
+        // console.log("Data =",data.post);
+        setPost(data.post);
+      } catch (error) {
+        console.error("Fetch error:", error);
+      }
+    };
+  
+    fetchPosts();
+  }, []);
+  console.log("Detail post-", post);
 
   if (!post) {
     return <p>Post not found</p>;
   }
-
-  let like = true;
+  // let like = true;
 
   const { _id, title, content, author, updatedAt } = post;
 
@@ -113,7 +115,7 @@ console.log(id);
                 />
               </div>
             </div>
-            <SaveBtn id={_id} />
+            <SaveBtn post={post} />
           </div>
           <div id="date" className="w-full h-5 my-2 flex px-4 text-sm">
             {updatedAt}
@@ -133,7 +135,7 @@ console.log(id);
       >
         <GoBack />
         <div className="w-1/3 h-full flex justify-center items-center cursor-pointer">
-          <SaveBtn id={_id} />
+          <SaveBtn post={post} />
         </div>
         <div className="w-1/3 h-full flex justify-center items-center cursor-pointer">
           <ShareButton />

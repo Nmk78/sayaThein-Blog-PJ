@@ -42,7 +42,7 @@ const Post = ({ id, title, content, author, date }) => {
                 {author}
               </div>
 
-            <SaveBtn id={id} />
+              {/* <SaveBtn /> */}
             {/* </div> */}
           </div>
         </div>
