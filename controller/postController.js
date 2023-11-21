@@ -34,7 +34,7 @@ const get_a_post = async (req, res) => {
     if (mongoose.isValidObjectId(id)) {
       const post = await Post.findById(id);
       if (post) {
-        return res.status(200).json({ book });
+        return res.status(200).json({ post });
       }
     } else {
       res.status(400).json({
