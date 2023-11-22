@@ -1,5 +1,8 @@
+'use client'
+
 import React from "react";
 import Loading from "./Loading";
+import Post from "./Post";
 
 const SavedPosts = () => {
   let loading = false;
@@ -18,8 +21,9 @@ const SavedPosts = () => {
     <>
       <main className="flex flex-col md:w-2/3 h-screen items-center mx-auto px-4 ">
         {savedPosts != [] ? (
-          savedPosts.map(({ id, title, author, date }) => {
-            return <Post id={id} title={title} author={author} date={date} />;
+          savedPosts.map((savedPost) => {
+            console.log(savedPost);
+            return <Post mode="saved" id={savedPost._id} title={savedPost.title} author={savedPost.author.name} date={savedPost.createdAt} />;
           })
         ) : (
           <span className="my-4">There is no saved posts.</span>

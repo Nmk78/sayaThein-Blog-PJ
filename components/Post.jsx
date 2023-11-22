@@ -6,10 +6,10 @@ import React, { useState } from "react";
 import SaveBtn from "./SaveBtn";
 import Link from "next/link";
 
-const Post = ({ id, title, content, author, date }) => {
+const Post = ({ id, title, content, author, date, mode }) => {
   //Post Element
   return (
-    <Link href={`/posts/${id}`} className="w-full">
+    <Link href={mode == "saved" ?`/saved/${id}` : `/posts/${id}`} className="w-full">
       {" "}
       <div
         id={id}

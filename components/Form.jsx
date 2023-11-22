@@ -5,11 +5,13 @@ import { useRouter } from "next/navigation";
 import ReactQuill from "react-quill";
 import Loading from "./Loading";
 import { useSession } from "next-auth/react";
-import User from "@models/user";
-import { set } from "mongoose";
+import { usePostContext } from "@app/Contex/postContext";
+
 
 
 const Form = () => {
+
+  const { fetchPosts } = usePostContext();
 
   const router = useRouter();
 
@@ -93,6 +95,7 @@ const Form = () => {
       console.error("Fetch error:", error);
     }
     setLoading(false)
+    fetchPosts()
     setTitle("")
     setContent("")
     setTags([])

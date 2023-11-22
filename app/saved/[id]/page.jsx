@@ -1,8 +1,9 @@
+import DetailPost from '@components/DetailPost'
 import React from 'react'
 
 const saved = () => {
   return (
-    <div>saved Detail Post</div>
+    <div><DetailPost mode = "saved" /></div>
   )
 }
 
