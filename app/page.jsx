@@ -26,7 +26,7 @@ const Home = () => {
     <main className="flex flex-col md:w-2/3 h-screen items-center mx-auto px-4 ">
         <div
           id="hero-text"
-          className="flex flex-col w-full mx-10 mt-4 bg-slate-800 dark:bg-slate-900 px-5 py-2 rounded-sm"
+          className="flex flex-col w-full mx-10 mt-4 bg-slate-800 dark:bg-slate-900 px-5 py-2 rounded-sm select-none"
         >
           <div className="text-4xl ml-6 font-semibold text-white">Online</div>
           <div className=" m-auto text-7xl text-clip dark:text-cyan-400 text-cyan-500 font-latin font-extrabold ">

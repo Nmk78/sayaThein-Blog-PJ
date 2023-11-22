@@ -19,18 +19,21 @@ const DetailPost = ({ mode }) => {
   if (mode == "saved") {
     let id = window.location.pathname.split("/").pop();
     const [post, setPost] = useState({})
+    const [loading, setLoading] = useState({})
 
     useEffect(() => {
       const existingPosts = JSON.parse(localStorage.getItem("posts")) || [];
-      const foundPost = existingPosts.find((post) => post._id === id);
-      console.log(foundPost);
+      const foundPost = existingPosts.find((post) => String(post._id) === id);
+      console.log("foundPost", foundPost);
       setPost(foundPost);
+      setLoading(false);
     }, []);
 
     
   const { _id, title, content, author, updatedAt } = post;
   console.log("author = ", author);
   console.log("post = ", post);
+
 
   const sanitizedContent = DOMPurify.sanitize(content);
 
@@ -56,7 +59,7 @@ const DetailPost = ({ mode }) => {
             className="w-full h-10 px-4 flex flex-row items-center justify-between"
           >
             <div className="flex">
-              <Link href={`/profile/${author.id}`} className="flex">
+              <Link href={`/profile/${author?.id}`} className="flex">
                 <Image
                   src="/images/sample4.jpg"
                   alt="profile-image"
@@ -68,7 +71,7 @@ const DetailPost = ({ mode }) => {
                   id="name"
                   className="text-lg font-latin font-md ml-5 select-none "
                 >
-                  {author.name}
+                  {author?.name}
                 </div>
               </Link>
               <div
@@ -185,7 +188,7 @@ const DetailPost = ({ mode }) => {
             className="w-full h-10 px-4 flex flex-row items-center justify-between"
           >
             <div className="flex">
-              <Link href={`/profile/${author.id}`} className="flex">
+              <Link href={`/profile/${author?.id}`} className="flex">
                 <Image
                   src="/images/sample4.jpg"
                   alt="profile-image"
@@ -197,7 +200,7 @@ const DetailPost = ({ mode }) => {
                   id="name"
                   className="text-lg font-latin font-md ml-5 select-none "
                 >
-                  {author.name}
+                  {author?.name}
                 </div>
               </Link>
               <div
