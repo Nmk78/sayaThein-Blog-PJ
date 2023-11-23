@@ -8,30 +8,20 @@ import React, { useEffect, useState } from "react";
 
 const SaveBtn = ({ post }) => {
   const [save, setSave] = useState(false);
-  // console.log("saved post-" ,post._id);
 
-  if (!post) {
-    console.log("just show saved state");
-
-    return (
-      <>
-        <FontAwesomeIcon
-          className="w-5 h-5 p-2 ml-2 text-gray-500 dark:text-gray-200  cursor-pointer"
-          icon={save ? faHeartCircleCheck : faHeart}
-        />
-      </>
-    );
-  }
   const existingPosts = JSON.parse(localStorage.getItem("posts")) || [];
 
-  const controlLocalStorage = (post) => {
-    console.log("post = ", post);
+  useEffect(() => {
     const alreadySaved = existingPosts.some(
       (existingPost) => existingPost._id === post._id
     );
     if (alreadySaved) {
       setSave(true);
     }
+  }, [post._id]);
+  const controlLocalStorage = (post) => {
+    console.log("post = ", post);
+
     if (!save) {
       //Save to local storage
       console.log("Saved ID", post._id);
@@ -39,7 +29,7 @@ const SaveBtn = ({ post }) => {
 
       localStorage.setItem("posts", JSON.stringify(existingPosts));
     } else {
-      console.log("Removed ID", post._id);      
+      console.log("Removed ID", post._id);
       const updatedPosts = existingPosts.filter(
         (existingPost) => existingPost._id !== post._id
       );
@@ -65,8 +55,7 @@ const SaveBtn = ({ post }) => {
         icon={save ? faHeartCircleCheck : faHeart}
         onClick={() => {
           setSave(!save);
-          controlLocalStorage(post)
-
+          controlLocalStorage(post);
         }}
       />
     </div>
