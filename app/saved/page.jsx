@@ -51,7 +51,7 @@ const Saved_Posts = () => {
   //   }
   // ];
   return (
-    <main className="flex flex-col md:w-2/3 h-screen items-center mx-auto px-4 ">
+    <main className="flex flex-col md:w-3/4 h-screen items-center mx-auto ">
       <SavedPosts />
     </main>
   );

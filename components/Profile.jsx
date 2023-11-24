@@ -12,7 +12,7 @@ import Loading from "./Loading";
 
 const Profile = () => {
 
-  let user;
+  // let user;
         const {data: session, status } = useSession();
 
         if(status == "loading"){

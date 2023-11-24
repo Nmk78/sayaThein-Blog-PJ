@@ -20,16 +20,16 @@ const SaveBtn = ({ post }) => {
     }
   }, [post._id]);
   const controlLocalStorage = (post) => {
-    console.log("post = ", post);
+    // console.log("post = ", post);
 
     if (!save) {
       //Save to local storage
-      console.log("Saved ID", post._id);
+      // console.log("Saved ID", post._id);
       existingPosts.push(post);
 
       localStorage.setItem("posts", JSON.stringify(existingPosts));
     } else {
-      console.log("Removed ID", post._id);
+      // console.log("Removed ID", post._id);
       const updatedPosts = existingPosts.filter(
         (existingPost) => existingPost._id !== post._id
       );
@@ -39,7 +39,7 @@ const SaveBtn = ({ post }) => {
   };
 
   // useEffect(controlLocalStorage(post),[save]);
-  console.log("Save Functionalities Working");
+  // console.log("Save Functionalities Working");
   return (
     <div className="flex items-center">
       <input

@@ -9,7 +9,7 @@ import Link from "next/link";
 const Post = ({ id, title, content, author, date, mode }) => {
   //Post Element
   return (
-    <Link href={mode == "saved" ?`/saved/${id}` : `/posts/${id}`} className="w-full">
+    <Link href={mode == "saved" ?`/saved/${id}` : `/post/${id}`} className="w-full">
       {" "}
       <div
         id={id}

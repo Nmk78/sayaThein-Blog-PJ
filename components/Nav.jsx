@@ -17,7 +17,7 @@ const Nav = () => {
   // console.log(session?.token);
 
   return (
-    <nav className="w-full h-16 flex flex-row items-center justify-between fixed top-0 bg-cyan-500 dark:bg-cyan-800 drop-shadow-lg shadow-slate-900 mb-5">
+    <nav className="w-full h-16 flex flex-row items-center justify-between fixed top-0 bg-cyan-500 dark:bg-cyan-800 drop-shadow-lg shadow-slate-900 mb-5 z-50">
       <Link href="/" className="flex gap-2 flex-center mx-4">
         <Image
           src="/images/logoRmBg.png"

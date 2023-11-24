@@ -4,7 +4,7 @@ import Create from '@components/create'
 const page = () => {
   return (
     <>
-      <Create />
+      <Create mode="edit" />
     </>
   )
 }

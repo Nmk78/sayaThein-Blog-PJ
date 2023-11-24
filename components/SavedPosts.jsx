@@ -19,14 +19,14 @@ const SavedPosts = () => {
 
   return (
     <>
-      <main className="flex flex-col md:w-2/3 h-screen items-center mx-auto px-4 ">
+      <main className="flex flex-col md:w-3/4 h-screen items-center mx-auto ">
         {savedPosts != [] ? (
-          savedPosts.map((savedPost) => {
+          savedPosts.reverse().map((savedPost) => {
             console.log(savedPost);
             return <Post mode="saved" id={savedPost._id} title={savedPost.title} author={savedPost.author.name} date={savedPost.createdAt} />;
           })
         ) : (
-          <span className="my-4">There is no saved posts.</span>
+          <span className="my-4 flex item-center justify-center">There is no saved posts.</span>
         )}
       </main>
     </>
