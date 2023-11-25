@@ -62,7 +62,7 @@ const get_all_posts = async (req, res) => {
 const edit_a_post = async (req, res) => {
   const { id } = req.params;
   const { title, content, tags } = req.body;
-  console.log(req.body);
+  console.log("pended update ",req.body);
   if (!isValidObjectId(id)) {
     return res.status(400).json({ error: "Invalid post ID" });
   }
@@ -75,8 +75,9 @@ const edit_a_post = async (req, res) => {
   if (!updatedPost) {
     return res.status(404).json({ error: "Post not found" });
   }
+  console.log("UpdatedPost", updatedPost);
   res.status(200).json({
-    post: updatedPost,
+    updatedPost: updatedPost,
   });
 };
 
