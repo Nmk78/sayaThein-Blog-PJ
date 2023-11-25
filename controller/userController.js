@@ -1,5 +1,6 @@
 const asyncHandler = require("express-async-handler")
 const User = require("../models/userModel");
+const Post = require("../models/postModel");
 const { isValidObjectId } = require("mongoose");
 
 // const get_all_users = async (req, res) => {
@@ -60,10 +61,22 @@ const get_one_user = async (req, res) => {
   }
 };
 
+const get_all_posts_by_author = async (req, res) => {
+  try {
+    const { author } = req.body;
+    let posts;
+    posts = await Post.find({ author: author.id });
 
+    res.status(200).json(posts);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+};
 
 module.exports = {
   get_one_user,
+  get_all_posts_by_author,
   // user_register,
   // user_login,
 };

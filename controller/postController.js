@@ -3,17 +3,7 @@ const Post = require("../models/postModel");
 
 const create_a_post = async (req, res) => {
   const { title, author, content, tags } = req.body;
-  /*{
-                  "title": "Sample Post4",
-                  "content": "This is the content of the post.",
-                  "author": {
-                  "id": "6544c1e3e7c71aa77bfd486c", 
-                  "name": "John Doe",
-                  "email": "john.doe@example.com"
-                  },
-                  "tags": ["tag1", "tag2"]
-            }
-            */
+
   const post = await Post.create({
     title,
     content,
@@ -62,7 +52,7 @@ const get_all_posts = async (req, res) => {
 const edit_a_post = async (req, res) => {
   const { id } = req.params;
   const { title, content, tags } = req.body;
-  console.log("pended update ",req.body);
+  console.log("pended update ", req.body);
   if (!isValidObjectId(id)) {
     return res.status(400).json({ error: "Invalid post ID" });
   }
@@ -82,9 +72,9 @@ const edit_a_post = async (req, res) => {
 };
 
 const delete_a_post = async (req, res) => {
-      const{id} = req.params;
-      const {author} = req.body;
-      console.log("author",author);
+  const { id } = req.params;
+  const { author } = req.body;
+  console.log("author", author);
   if (!isValidObjectId(id)) {
     return res.status(400).json({ error: "Invalid post ID" });
   }
@@ -92,13 +82,13 @@ const delete_a_post = async (req, res) => {
     if (mongoose.isValidObjectId(id)) {
       const post = await Post.findById(id);
       if (post) {
-        if(author.id == post.author.id){
+        if (author.id == post.author.id) {
           const deletedPost = await Post.findByIdAndDelete({ _id: id });
-          if(deletedPost){
-            return res.status(200).json({deletedPost})
+          if (deletedPost) {
+            return res.status(200).json({ deletedPost });
           }
         }
-        return res.status(400).json({error:"Only author can delete post"})
+        return res.status(400).json({ error: "Only author can delete post" });
       }
     } else {
       res.status(400).json({
@@ -110,8 +100,6 @@ const delete_a_post = async (req, res) => {
       message: "Cannot delete because post not found",
     });
   }
-
-
 };
 
 //const delete_all_post = async (req, res) => {
