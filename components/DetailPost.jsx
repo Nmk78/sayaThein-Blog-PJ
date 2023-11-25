@@ -13,6 +13,7 @@ import { usePostContext } from "@app/Contex/postContext";
 import DOMPurify from "dompurify";
 import { formatISO9075 } from "date-fns";
 import { useSession } from "next-auth/react";
+import DeleteBtn from "./DeleteBtn";
 
 
 
@@ -108,15 +109,7 @@ const DetailPost = ({ mode }) => {
                       icon={faEdit}
                     />
                   </Link>
-                  <FontAwesomeIcon
-                    className="w-5 h-5 p-2 ml-2 text-gray-500 dark:text-gray-200 cursor-pointer"
-                    icon={faTrash}
-                    onClick={() => {
-                      return alert("Deleted this post!");
-  
-                      //Delete Code
-                    }}
-                  />
+                  <DeleteBtn id={_id} />
                 </div>
               </div>
               <SaveBtn post={post} />

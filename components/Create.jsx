@@ -1,34 +1,18 @@
-"use client"
-
+"use client";
 
 import "react-quill/dist/quill.snow.css";
-// import Form from "./Form";
 import { useSession } from "next-auth/react";
 import { usePostContext } from "@app/Contex/postContext";
-import { useRouter } from 'next/navigation';
-
-import React, { Children, useState } from "react";
+import { useRouter } from "next/navigation";
+import React, { useEffect, useState } from "react";
 import ReactQuill from "react-quill";
 import Loading from "./Loading";
+// import Form from "./Form";
 
-
-const Create = ({mode}) => {
-  const {data: session, status } = useSession();
+const Create = ({ mode, post }) => {
+  const { data: session, status } = useSession();
   const { fetchPosts } = usePostContext();
-
-  console.log("mode ==>", mode);
-
   const router = useRouter();
-
-  // if(status == "loading"){
-  //   return (<><Loading /></>)
-  // }
-  if (status != "authenticated") {
-    router.push("/login");
-  }
-
-  console.log("mode = ", mode);
-
 
   const [title, setTitle] = useState("");
   const [email, setEmail] = useState("");
@@ -68,6 +52,35 @@ const Create = ({mode}) => {
     "color",
   ];
 
+  const editHandler = ()=>{
+    if (post) {
+      setTitle(post.title || "");
+      setContent(post.content || "");
+      setTags(post.tags || []);
+    }
+  }
+
+  console.log("post ==>", post);
+
+  useEffect(() => {
+    mode == "edit" ? editHandler() : null;
+  }, [post._id]);
+
+  // console.log(title, content, tags);
+
+  if(status == "loading"){
+    return (<><Loading /></>)
+  }
+
+  if (status != "authenticated") {
+    router.push("/login");
+  }
+
+
+
+
+  // console.log(title, content, tags);
+
   const handler = async () => {
     if (status != "authenticated") {
       console.log("Unauthenticated error");
@@ -82,8 +95,15 @@ const Create = ({mode}) => {
 
     try {
       setLoading(true);
-      const res = await fetch("http://localhost:4000/post/create", {
-        method: "POST",
+
+      let API = "http://localhost:4000"
+
+      let method = mode === "edit" ? "PATCH" : "POST";
+
+      console.log(mode);
+
+      const res = await fetch(`${API}/post/${mode === "edit" ? post._id : "create"}`, {
+        method: method,
         headers: {
           "Content-Type": "application/json",
         },
@@ -117,12 +137,10 @@ const Create = ({mode}) => {
       console.error("Fetch error:", error);
     }
   };
-
   const titleHandler = (e) => {
     // console.log(e.target.value);
     setTitle(e.target.value);
   };
-
   const contentHandler = (e) => {
     // console.log(e);
     setContent(e);
@@ -131,8 +149,6 @@ const Create = ({mode}) => {
     setTags(e.target.value.split("#"));
     // console.log(tags);
   };
-
-
 
   return (
     <div
@@ -145,9 +161,9 @@ const Create = ({mode}) => {
         </div>
       )}
 
-        <div className="flex flex-col items-center justify-start text-4xl text-clip dark:text-cyan-400 text-cyan-600 font-latin font-extrabold">
+      <div className="flex flex-col items-center justify-start text-4xl text-clip dark:text-cyan-400 text-cyan-600 font-latin font-extrabold">
         {mode == "edit" ? "Edit" : "Create a new post"}
-        </div>
+      </div>
       <div className="h-[80%] flex flex-col items-center justify-start  ">
         <div className="bg-gray-300 dark:bg-slate-900 h-full mb-[-5]">
           <ReactQuill
@@ -166,6 +182,7 @@ const Create = ({mode}) => {
             type="text"
             className="w-full h-10 rounded-lg px-2 border-2 border-sky-400 dark:border-sky-700 dark:bg-sky-900 bg-sky-100"
             placeholder="Title"
+            value={title}
             onChange={titleHandler}
           />
         </div>
@@ -177,6 +194,7 @@ const Create = ({mode}) => {
             type="text"
             className="w-full h-10 rounded-lg px-2 border-2 border-sky-400 dark:border-sky-700 dark:bg-sky-900 bg-sky-100"
             placeholder="Tags : #vocabulary #grammar "
+            value={tags.map((tag) => "#" + tag)}
             onChange={tagHandler}
           />
         </div>

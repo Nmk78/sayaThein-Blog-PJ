@@ -23,16 +23,16 @@ export const PostContextProvider = ({ children }) => {
 
       const data = await res.json(); // Await the promise
       setPosts(data.posts); // Update posts state
-      console.log(data);
+      // console.log(data);
     } catch (error) {
       console.error("Fetch error:", error);
     }
   };
 
-    useEffect(() => {
-      fetchPosts();
-    }, []);
-    
+  useEffect(() => {
+    fetchPosts();
+  }, []);
+  
 
   return (
     <postContext.Provider value={{ posts, fetchPosts }}>

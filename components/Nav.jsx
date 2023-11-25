@@ -12,7 +12,7 @@ const Nav = () => {
 
   const{data: session, status } = useSession();
 
-  console.log("Session Status - ",{data: session, status });
+  // console.log("Session Status - ",{data: session, status });
 
   // console.log(session?.token);
 
