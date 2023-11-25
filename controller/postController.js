@@ -83,13 +83,34 @@ const edit_a_post = async (req, res) => {
 
 const delete_a_post = async (req, res) => {
       const{id} = req.params;
+      const {author} = req.body;
+      console.log("author",author);
   if (!isValidObjectId(id)) {
     return res.status(400).json({ error: "Invalid post ID" });
   }
-  const deletedPost = await Post.findByIdAndDelete({ _id: id });
-  if(deletedPost){
-      return res.status(200).json({deletedPost})
+  try {
+    if (mongoose.isValidObjectId(id)) {
+      const post = await Post.findById(id);
+      if (post) {
+        if(author.id == post.author.id){
+          const deletedPost = await Post.findByIdAndDelete({ _id: id });
+          if(deletedPost){
+            return res.status(200).json({deletedPost})
+          }
+        }
+        return res.status(400).json({error:"Only author can delete post"})
+      }
+    } else {
+      res.status(400).json({
+        message: "Cannot delete because post not found",
+      });
+    }
+  } catch (error) {
+    res.status(400).json({
+      message: "Cannot delete because post not found",
+    });
   }
+
 
 };
 
