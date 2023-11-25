@@ -6,7 +6,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 const Loading = ({size}) => {
   return (
     <>
-      <FontAwesomeIcon icon={faSpinner} size={size} className='z-50' spin />
+      <FontAwesomeIcon icon={faSpinner} size={size} id='loading' className='z-50' spin />
     </>
   )
 }

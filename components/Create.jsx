@@ -70,7 +70,7 @@ const Create = ({ mode, post }) => {
   // console.log(title, content, tags);
 
   if(status == "loading"){
-    return (<><Loading /></>)
+    return (<><Loading size="3x" /></>)
   }
 
   if (status != "authenticated") {

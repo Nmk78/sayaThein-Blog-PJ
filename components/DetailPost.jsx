@@ -14,6 +14,7 @@ import DOMPurify from "dompurify";
 import { formatISO9075 } from "date-fns";
 import { useSession } from "next-auth/react";
 import DeleteBtn from "./DeleteBtn";
+import Loading from "./Loading";
 
 const DetailPost = ({ mode }) => {
   const { data: session, status } = useSession();
@@ -100,7 +101,7 @@ const DetailPost = ({ mode }) => {
                   </div>
                 </Link>
                 {status == "authenticated" &&
-                session?.token.sub == author.id ? (
+                session?.token.sub == author?.id ? (
                   <div id="userDependElement" className="ml-2">
                     <Link href={`edit/${_id}`}>
                       <FontAwesomeIcon
@@ -142,12 +143,13 @@ const DetailPost = ({ mode }) => {
     );
   }
 
-  //if mode was to see detail from regular posts
-  const { posts } = usePostContext();
-  // console.log("posts-", posts);
-  const [post, setPost] = useState(null);
+  //if mode wasn't in edit mode
+
+  const [post, setPost] = useState({});
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
+    setLoading(true);
     const fetchPosts = async () => {
       const id = window.location.pathname.split("/").pop();
       try {
@@ -159,12 +161,16 @@ const DetailPost = ({ mode }) => {
         });
 
         if (!res.ok) {
+          setLoading(false);
           throw new Error(`HTTP error! Status: ${res.status}`);
         }
 
         const data = await res.json();
         // console.log("Data =",data.post);
         setPost(data.post);
+        setLoading(false);
+
+        console.log(res.status);
       } catch (error) {
         console.error("Fetch error:", error);
       }
@@ -174,10 +180,8 @@ const DetailPost = ({ mode }) => {
   }, []);
   // console.log("Detail post-", post);
 
-  if (!post) {
-    return <p>Post not found</p>;
-  }
   // let like = true;
+  {loading && <div className="w-full h-full flex flex-col items-center justify-center"><Loading size="3x" /></div>}
 
   const { _id, title, content, author, updatedAt } = post;
 
@@ -229,7 +233,7 @@ const DetailPost = ({ mode }) => {
                   </div>
                 </div>
               </Link>
-              {status == "authenticated" && session?.token.sub == author.id ? (
+              {status == "authenticated" && session?.token.sub == author?.id ? (
                 <div id="userDependElement" className="ml-2">
                   <Link href={`edit/${_id}`}>
                     <FontAwesomeIcon

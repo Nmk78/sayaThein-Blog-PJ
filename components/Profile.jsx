@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Post from "./Post";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faAdd } from "@fortawesome/free-solid-svg-icons";
@@ -14,6 +14,39 @@ const Profile = () => {
 
   // let user;
         const {data: session, status } = useSession();
+        const [posts, setPosts] = useState([])
+
+        const fetchAuthorPost = async () => {
+          try {
+            const res = await fetch(`http://localhost:4000/user/posts/`, {
+              method: "GET",
+              headers: {
+                "Content-Type": "application/json",
+              },body: JSON.stringify({
+                author: {
+                  id: session.token?.sub,
+                  name: session.token?.name,
+                  email: session.token?.email,
+                },
+              }),
+            });
+      
+            if (!res.ok) {
+              throw new Error(`HTTP error! Status: ${res.status}`);
+            }
+      
+            const data = await res.json(); // Await the promise
+            setPosts(data.posts); // Update posts state
+            console.log(data);
+          } catch (error) {
+            console.error("Fetch error:", error);
+          }
+        };
+      
+        useEffect(() => {
+          fetchAuthorPost();
+          console.log(posts);
+        }, []);
 
         if(status == "loading"){
         // if(status == "loading"){
