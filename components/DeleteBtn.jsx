@@ -1,10 +1,15 @@
 'use client'
+import { usePostContext } from "@app/Contex/postContext";
 import { faTrash } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
-import React from "react";
+import React, { useEffect } from "react";
 
 const DeleteBtn = ({id}) => {
+
+  const { data: session, status } = useSession();
+  const { fetchPosts } = usePostContext();
 
   const router = useRouter()
 
@@ -13,12 +18,22 @@ const DeleteBtn = ({id}) => {
 
       const response = await fetch(`http://localhost:4000/post/${id}`, {
         method: 'DELETE',
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          author: {
+            id: session.token?.sub,
+          }
+        }),
       });
 
       if (response.ok) {
         const deletedPost = await response.json();
         console.log('Deleted post:', deletedPost);
+        fetchPosts()
         router.push("/");
+        return
       } else {
         console.error('Failed to delete post');
       }
@@ -27,9 +42,8 @@ const DeleteBtn = ({id}) => {
     }
   };
 
-  useEffect(() => {
-    handleDelete()
-  }, [])
+    
+
   
 
   return (
@@ -39,9 +53,8 @@ const DeleteBtn = ({id}) => {
         icon={faTrash}
         onClick={() => {
           if (confirm("Are you sure to delete this article?")) {
-
+            handleDelete()
           }
-          //Delete Code
         }}
       />
     </>

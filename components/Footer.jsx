@@ -46,7 +46,7 @@ const Footer = () => {
         </span>
       </div>
       {status === "authenticated" ? (
-        <Link href="/posts/create" className="flex flex-col items-center m-0">
+        <Link href="/post/create" className="flex flex-col items-center m-0">
           <FontAwesomeIcon
             icon={faAdd}
             className=" text-sky-900 dark:text-gray-200 w-6"

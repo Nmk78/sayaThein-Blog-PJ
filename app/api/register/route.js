@@ -14,7 +14,7 @@ export async function POST(req) {
     }
 
     await connectToMongoDB();
-    const validReferralCode = await User.exists({ referralCode: referralCode });
+    const validReferralCode = await User.exists({ code: referralCode });
     console.log("\x1b[31m%s\x1b[0m", validReferralCode);
 
     if(validReferralCode == null){

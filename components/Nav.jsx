@@ -12,9 +12,8 @@ const Nav = () => {
 
   const{data: session, status } = useSession();
 
-  // console.log("Session Status - ",{data: session, status });
+  console.log("Session Status - ",{data: session, status });
 
-  // console.log(session?.token);
 
   return (
     <nav className="w-full h-16 flex flex-row items-center justify-between fixed top-0 bg-cyan-500 dark:bg-cyan-800 drop-shadow-lg shadow-slate-900 mb-5 z-50">

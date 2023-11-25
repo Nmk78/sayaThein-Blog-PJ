@@ -60,11 +60,12 @@ const Create = ({ mode, post }) => {
     }
   }
 
-  console.log("post ==>", post);
+  let editTags = tags.map((tag) => "#" + tag)
+  const redirectTo = mode == "edit" ? `/post/${post._id}` : "/";
 
   useEffect(() => {
     mode == "edit" ? editHandler() : null;
-  }, [post._id]);
+  }, [post?._id]);
 
   // console.log(title, content, tags);
 
@@ -79,7 +80,6 @@ const Create = ({ mode, post }) => {
 
 
 
-  // console.log(title, content, tags);
 
   const handler = async () => {
     if (status != "authenticated") {
@@ -99,7 +99,6 @@ const Create = ({ mode, post }) => {
       let API = "http://localhost:4000"
 
       let method = mode === "edit" ? "PATCH" : "POST";
-
       console.log(mode);
 
       const res = await fetch(`${API}/post/${mode === "edit" ? post._id : "create"}`, {
@@ -124,7 +123,7 @@ const Create = ({ mode, post }) => {
         setTitle("");
         setContent("");
         setTags([]);
-        router.push("/");
+        router.push(redirectTo);
         console.log("Successfully created");
       }
       console.log(body);
@@ -194,7 +193,7 @@ const Create = ({ mode, post }) => {
             type="text"
             className="w-full h-10 rounded-lg px-2 border-2 border-sky-400 dark:border-sky-700 dark:bg-sky-900 bg-sky-100"
             placeholder="Tags : #vocabulary #grammar "
-            value={tags.map((tag) => "#" + tag)}
+            value={mode == "edit" ? editTags : ""}
             onChange={tagHandler}
           />
         </div>
