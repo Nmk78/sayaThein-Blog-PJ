@@ -12,32 +12,34 @@ import Loading from "./Loading";
 
 const Profile = () => {
 
-  // let user;
         const {data: session, status } = useSession();
-        const [posts, setPosts] = useState([])
+        const [posts, setPosts] = useState([]);
+        let id;
 
+        if (typeof window !== "undefined") {
+          id = window.location.pathname.split("/").pop();
+        }
         const fetchAuthorPost = async () => {
+
           try {
             const res = await fetch(`http://localhost:4000/user/posts/`, {
-              method: "GET",
+              method: "POST",
               headers: {
                 "Content-Type": "application/json",
               },body: JSON.stringify({
                 author: {
-                  id: session.token?.sub,
-                  name: session.token?.name,
-                  email: session.token?.email,
+                  id: id
                 },
               }),
             });
+
       
-            if (!res.ok) {
-              throw new Error(`HTTP error! Status: ${res.status}`);
+            if (res.ok) {
+              let data = await res.json();
+              return setPosts(data);
             }
-      
-            const data = await res.json(); // Await the promise
-            setPosts(data.posts); // Update posts state
-            console.log(data);
+            throw new Error(`HTTP error! Status: ${res.status}`);
+            
           } catch (error) {
             console.error("Fetch error:", error);
           }
@@ -45,11 +47,10 @@ const Profile = () => {
       
         useEffect(() => {
           fetchAuthorPost();
-          console.log(posts);
+          console.log("post ==>",posts);
         }, []);
 
         if(status == "loading"){
-        // if(status == "loading"){
           return (<div className="w-full h-full flex flex-col items-center justify-center ">
             <Loading size="3x" />
             <span className="my-4">Loading Profile...</span>
@@ -80,7 +81,7 @@ const Profile = () => {
             {status == "authenticated" ? (
               <div id="userAccessOnly" className="flex flex-row items-center ">
                 <Link
-                  href="/posts/create"
+                  href="/post/create"
                   className="flex flex-col items-center m-0"
                 >
                   <FontAwesomeIcon
@@ -101,7 +102,9 @@ const Profile = () => {
           </div>
         </div>
         <div id="uploadedPosts" className="w-full px-3">
-          <Post />
+        {posts?.map(({_id, title, content, author, date})=>{
+                return <Post key={_id} id={_id} title = {title} author = {author.name} date = {date}/>
+        })}
         </div>
       </div>
     </div>

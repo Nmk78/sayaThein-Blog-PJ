@@ -13,7 +13,7 @@ const Post = ({ id, title, content, author, date, mode }) => {
       {" "}
       <div
         id={id}
-        className="w-auto md:w-2/3 h-36 md:h-60 bg-gray-300 dark:bg-slate-900 my-1 flex flex-row items-center justify-between rounded-2xl"
+        className="w-auto md:w-2/3 h-36 md:h-60 bg-gray-300 dark:bg-slate-900 my-1 flex flex-row items-center justify-start rounded-2xl"
       >
         <Image
           src="/images/sample4.jpg"
