@@ -27,6 +27,7 @@ const postSchema = new mongoose.Schema(
     },
     author: {
       type: authorSchema,
+      ref: 'User',
       required: true,
     },
     tags: {

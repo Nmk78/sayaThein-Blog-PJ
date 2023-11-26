@@ -18,6 +18,6 @@ router
             .get(get_one_user)
 
 router
-      .route("/posts/:id")
-            .get(get_all_posts_by_author)
+      .route("/posts/")
+            .post(get_all_posts_by_author)
 module.exports = router;

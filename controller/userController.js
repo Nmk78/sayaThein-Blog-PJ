@@ -64,8 +64,11 @@ const get_one_user = async (req, res) => {
 const get_all_posts_by_author = async (req, res) => {
   try {
     const { author } = req.body;
-    let posts;
-    posts = await Post.find({ author: author.id });
+    if (!author) {
+      res.status(400).json({ message: "Author is required" });
+    }
+    let posts = await Post.find({ 'author.id': author.id })
+    console.log("posts=>" , posts);
 
     res.status(200).json(posts);
   } catch (error) {
