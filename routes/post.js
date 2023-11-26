@@ -1,14 +1,17 @@
 const express = require("express");
 const {
             get_a_post,
-            get_all_posts
+            get_all_posts,
+            search_posts
                              } = require("../controller/postController");
 
 const router = express.Router();
 
 router.
       route("/").
-            get(get_all_posts);
+            get(get_all_posts);router.
+      route("/search").
+            post(search_posts);
 router.
       route("/:id")
             .get(get_a_post)

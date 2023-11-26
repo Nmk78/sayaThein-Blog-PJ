@@ -19,7 +19,7 @@ app.get("/", (req, res) => {
     guide: {
       userRoutes: "/user/:id",
       userRoutes: "/user/posts/",
-      postsRoutes: { allPosts: "/posts",onePosts: "/posts/:id" },
+      postsRoutes: { allPosts: "/posts",onePosts: "/posts/:id", search: "/posts/search" },
       privateRoutes: { create: "post/create",editAndDelete: "/:id" },
     },
   });

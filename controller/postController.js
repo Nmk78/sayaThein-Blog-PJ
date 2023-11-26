@@ -102,6 +102,25 @@ const delete_a_post = async (req, res) => {
   }
 };
 
+const search_posts = async (req, res) => {
+  try {
+    const {search} = req.body; // Assuming searchString is passed in the request body
+
+    const posts = await Post.find({
+      $or: [
+        { title: { $regex: search.searchString, $options: 'i' } }, // Case-insensitive title search
+        { content: { $regex: search.searchString, $options: 'i' } }, // Case-insensitive content search
+        { tags: { $in: [search.searchString] } }, // Exact match for tags
+      ],
+    });
+
+    res.status(200).json({ posts });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Internal server error' });
+  }
+};
+
 //const delete_all_post = async (req, res) => {
 //   // res.status(200).json({
 //   //       message: "all posts",
@@ -121,4 +140,5 @@ module.exports = {
   edit_a_post,
   delete_a_post,
   create_a_post,
+  search_posts,
 };
