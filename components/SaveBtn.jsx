@@ -20,12 +20,12 @@ const SaveBtn = ({ post }) => {
     }
   }, [post._id]);
   const controlLocalStorage = (post) => {
-    // console.log("post = ", post);
 
     if (!save) {
       //Save to local storage
       // console.log("Saved ID", post._id);
-      existingPosts.push(post);
+      const postToSave = {_id: post._id}
+      existingPosts.push(postToSave);
 
       localStorage.setItem("posts", JSON.stringify(existingPosts));
     } else {

@@ -20,7 +20,6 @@ const Profile = () => {
           id = window.location.pathname.split("/").pop();
         }
         const fetchAuthorPost = async () => {
-
           try {
             const res = await fetch(`http://localhost:4000/user/posts/`, {
               method: "POST",
@@ -32,8 +31,7 @@ const Profile = () => {
                 },
               }),
             });
-
-      
+            
             if (res.ok) {
               let data = await res.json();
               return setPosts(data);
