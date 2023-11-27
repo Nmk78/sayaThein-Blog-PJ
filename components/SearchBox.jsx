@@ -63,7 +63,7 @@ const SearchBox = () => {
             />
           </button>
         </div>
-        <div id="searchResult" className="h-auto">
+        <div id="searchResult" className="h-auto min-h-10 max-h-72 overflow-scroll">
           <div id="result">
       <SearchResult resultPosts={resultPosts} />
           </div>

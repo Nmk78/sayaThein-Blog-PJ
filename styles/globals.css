@@ -3,3 +3,9 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.ql-editor[contenteditable="true"]:empty::before {
+      content: "Your Placeholder Text";
+      color: red; /* Set the color of the placeholder text */
+      font-size: medium; /* Set the font size of the placeholder text */
+    }

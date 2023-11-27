@@ -1,7 +1,7 @@
 "use client";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faEdit, faTrash } from "@fortawesome/free-solid-svg-icons";
+import { faEdit } from "@fortawesome/free-solid-svg-icons";
 import Image from "next/image";
 
 import React, { useEffect, useState } from "react";
@@ -9,13 +9,11 @@ import SaveBtn from "./SaveBtn";
 import ShareButton from "./Sharebutton";
 import Link from "next/link";
 import GoBack from "./GoBack";
-import { usePostContext } from "@app/Contex/postContext";
 import DOMPurify from "dompurify";
 import { formatISO9075 } from "date-fns";
 import { useSession } from "next-auth/react";
 import DeleteBtn from "./DeleteBtn";
 import Loading from "./Loading";
-import autoprefixer from "autoprefixer";
 
 const DetailPost = ({ mode }) => {
   const { data: session, status } = useSession();
@@ -185,7 +183,7 @@ const DetailPost = ({ mode }) => {
   // let like = true;
   {loading && <div className="w-full h-full flex flex-col items-center justify-center"><Loading size="3x" /></div>}
 
-  const { _id, title, content, author, updatedAt, tags } = post;
+  const { _id, title,coverImgUrl, content, author, updatedAt, tags } = post;
 
   const sanitizedContent = DOMPurify.sanitize(content);
 
@@ -195,13 +193,14 @@ const DetailPost = ({ mode }) => {
         id={_id}
         className="w-auto md:w-2/3 h-auto bg-gray-300 dark:bg-slate-900 mt-[-11px] flex flex-col items-center justify-between"
       >
-        <Image
-          src="/images/sample4.jpg"
+        {/* <Image
+          src="https://unsplash.com/photos/a-desert-landscape-with-rocks-and-sand-THlO6Mkf5uI"
           alt="logo"
           width={400}
           height={115}
           className=" object-contain object-center m-3"
-        />
+        /> */}
+        <img src={coverImgUrl} alt={title} className="w-full h-auto mt-2 mb-4" />
         <div
           id="Content_Area"
           className=" w-full h-full px-3 py-2 flex flex-col justify-around"

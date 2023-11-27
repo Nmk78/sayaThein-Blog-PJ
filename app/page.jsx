@@ -39,9 +39,9 @@ const Home = () => {
 
         
 
-        {posts?.map(({_id, title, content, author, date})=>{
+        {posts?.map(({_id, title, coverImgUrl, author, date})=>{
           // return <div>{title}</div>
-                return <Post key={_id} id={_id} title = {title} author = {author.name} date = {date}/>
+                return <Post key={_id} id={_id} title = {title} author = {author.name} coverImgUrl={coverImgUrl} />
         })}
 
     </main>

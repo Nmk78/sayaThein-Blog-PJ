@@ -20,13 +20,7 @@ const SearchResult = ({ resultPosts }) => {
         key={post._id}
         className="w-76 h-20 mx-3 bg-sky-600 dark:bg-sky-600 my-1 flex flex-row items-center justify-between rounded-xl"
       >
-        <Image
-          src="/images/sample4.jpg"
-          alt="logo"
-          width={65}
-          height={65}
-          className="object-contain object-center rounded-2xl m-2"
-        />
+        <img src={post.coverImgUrl} alt={post.title} className=" w-16 h-16 object-cover object-center rounded-2xl m-2" />
         <div
           className="w-full h-full px-3 py-2 flex flex-col justify-around"
         >

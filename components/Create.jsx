@@ -15,10 +15,14 @@ const Create = ({ mode, post }) => {
   const router = useRouter();
 
   const [title, setTitle] = useState("");
+  const [coverImgUrl, setCoverImgUrl] = useState("");
   const [email, setEmail] = useState("");
   const [content, setContent] = useState("");
   const [tags, setTags] = useState([]);
   const [loading, setLoading] = useState(false);
+
+  let editTags = tags.map((tag) => "#" + tag);
+  const redirectTo = mode == "edit" ? `/post/${post._id}` : "/";
 
   const modules = {
     toolbar: [
@@ -30,9 +34,10 @@ const Create = ({ mode, post }) => {
         { indent: "-1" },
         { indent: "+1" },
       ],
-      ["link", "image"],
+      ["link"],
       ["clean"],
     ],
+
   };
 
   const formats = [
@@ -48,38 +53,33 @@ const Create = ({ mode, post }) => {
     "bullet",
     "indent",
     "link",
-    "image",
     "color",
   ];
 
-  const editHandler = ()=>{
+  const editHandler = () => {
     if (post) {
       setTitle(post.title || "");
       setContent(post.content || "");
       setTags(post.tags || []);
     }
-  }
-
-  let editTags = tags.map((tag) => "#" + tag)
-  const redirectTo = mode == "edit" ? `/post/${post._id}` : "/";
+  };
 
   useEffect(() => {
     mode == "edit" ? editHandler() : null;
   }, [post?._id]);
 
-  // console.log(title, content, tags);
 
-  if(status == "loading"){
-    return (<><Loading size="3x" /></>)
+  if (status == "loading") {
+    return (
+      <>
+        <Loading size="3x" />
+      </>
+    );
   }
 
   if (status != "authenticated") {
     router.push("/login");
   }
-
-
-
-
 
   const handler = async () => {
     if (status != "authenticated") {
@@ -87,7 +87,7 @@ const Create = ({ mode, post }) => {
       setEmail(session.user.email);
       return;
     }
-    if (title == "" || tags == "" || content == "") {
+    if (title == "" || content == "") {
       console.log("Content Not Found");
       return;
     }
@@ -96,34 +96,39 @@ const Create = ({ mode, post }) => {
     try {
       setLoading(true);
 
-      let API = "http://localhost:4000"
+      let API = "http://localhost:4000";
 
       let method = mode === "edit" ? "PATCH" : "POST";
       console.log(mode);
 
-      const res = await fetch(`${API}/post/${mode === "edit" ? post._id : "create"}`, {
-        method: method,
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          title,
-          content,
-          author: {
-            id: session.token?.sub,
-            name: session.token?.name,
-            email: session.token?.email,
+      const res = await fetch(
+        `${API}/post/${mode === "edit" ? post._id : "create"}`,
+        {
+          method: method,
+          headers: {
+            "Content-Type": "application/json",
           },
-          tags,
-        }),
-      });
+          body: JSON.stringify({
+            title,
+            coverImgUrl,
+            content,
+            author: {
+              id: session.token?.sub,
+              name: session.token?.name,
+              email: session.token?.email,
+            },
+            tags,
+          }),
+        }
+      );
       if (res.ok) {
+        router.push(redirectTo);
         setLoading(false);
         fetchPosts();
         setTitle("");
+        setCoverImgUrl("");
         setContent("");
         setTags([]);
-        router.push(redirectTo);
         console.log("Successfully created");
       }
       console.log(body);
@@ -136,14 +141,7 @@ const Create = ({ mode, post }) => {
       console.error("Fetch error:", error);
     }
   };
-  const titleHandler = (e) => {
-    // console.log(e.target.value);
-    setTitle(e.target.value);
-  };
-  const contentHandler = (e) => {
-    // console.log(e);
-    setContent(e);
-  };
+  
   const tagHandler = (e) => {
     setTags(e.target.value.split("#"));
     // console.log(tags);
@@ -157,10 +155,10 @@ const Create = ({ mode, post }) => {
       {loading && (
         <div className="absolute flex items-center justify-center inset-0 bg-black bg-opacity-50">
           <Loading size="3x" />
-        </div>
+        </div> 
       )}
 
-      <div className="flex flex-col items-center justify-start text-4xl text-clip dark:text-cyan-400 text-cyan-600 font-latin font-extrabold">
+      <div className="flex flex-col items-center justify-start text-4xl text-clip dark:text-cyan-400 text-sky-900 font-latin font-extrabold">
         {mode == "edit" ? "Edit" : "Create a new post"}
       </div>
       <div className="h-[80%] flex flex-col items-center justify-start  ">
@@ -172,17 +170,35 @@ const Create = ({ mode, post }) => {
             placeholder="Write a post..."
             className="h-[80%] text-xl mx-1 placeholder-gray-600 dark:placeholder-gray-200  text-gray-950  bg-gray-300 dark:text-gray-100 dark:bg-slate-900"
             value={content}
-            onChange={contentHandler}
+            onChange={(e) => {
+              // console.log(e);
+              setContent(e);
+            }}
           />
         </div>
         <div className="w-full px-1 ">
-          <span className="block text-sm font-medium text-white ">Title</span>
+          <span className="block text-sm font-medium text-white mt-2">Title</span>
           <input
             type="text"
             className="w-full h-10 rounded-lg px-2 border-2 border-sky-400 dark:border-sky-700 dark:bg-sky-900 bg-sky-100"
             placeholder="Title"
+            required
             value={title}
-            onChange={titleHandler}
+            onChange={(e) => {
+              setTitle(e.target.value);
+            }}
+          />
+        </div><div className="w-full px-1 ">
+          <span className="block text-sm font-medium text-white mt-2 ">Cover Image</span>
+          <input
+            type="text"
+            className="w-full h-10 rounded-lg px-2 border-2 border-sky-400 dark:border-sky-700 dark:bg-sky-900 bg-sky-100"
+            placeholder="Cover Image URL"
+            required
+            value={coverImgUrl}
+            onChange={(e) => {
+              setCoverImgUrl(e.target.value);
+            }}
           />
         </div>
         <div className="w-full px-1 ">

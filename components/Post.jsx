@@ -5,7 +5,7 @@ import React, { useState } from "react";
 import SaveBtn from "./SaveBtn";
 import Link from "next/link";
 
-const Post = ({ id, title, content, author, date, mode }) => {
+const Post = ({ id, title,coverImgUrl, author, mode }) => {
   //Post Element
   return (
     <Link href={mode == "saved" ?`/saved/${id}` : `/post/${id}`} className="w-full">
@@ -14,16 +14,10 @@ const Post = ({ id, title, content, author, date, mode }) => {
         id={id}
         className="w-auto md:w-2/3 h-36 md:h-60 bg-gray-300 dark:bg-slate-900 my-1 flex flex-row items-center justify-start rounded-2xl"
       >
-        <Image
-          src="/images/sample4.jpg"
-          alt="logo"
-          width={115}
-          height={115}
-          className=" object-contain object-center rounded-2xl m-3"
-        />{" "}
+<img src={coverImgUrl} alt={title} className="w-32 h-32 ml-2 object-cover rounded-2xl" />
         <div
           id="Left"
-          className=" w-full h-full px-3 py-2 flex flex-col justify-around"
+          className=" w-2/3 h-full px-3 py-2 flex flex-col justify-around"
         >
           <div className="font-semibold text-md text-xl font-latin break-words flex flex-nowrap whitespace-normal overflow-hidden">
             {title}
