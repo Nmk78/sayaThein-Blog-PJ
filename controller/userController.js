@@ -68,9 +68,10 @@ const get_all_posts_by_author = async (req, res) => {
       res.status(400).json({ message: "Author is required" });
     }
     let posts = await Post.find({ 'author.id': author.id })
+    let user = await User.find({ '_id': author.id }).select('_id email name');
     console.log("posts=>" , posts);
 
-    res.status(200).json(posts);
+    res.status(200).json({posts: posts, user: user});
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Internal server error" });

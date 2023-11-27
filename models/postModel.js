@@ -1,23 +1,30 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 
-const authorSchema = new mongoose.Schema({
-  id: {
-    type: mongoose.Schema.Types.ObjectId,
-    required: true,
+const authorSchema = new mongoose.Schema(
+  {
+    id: {
+      type: mongoose.Schema.Types.ObjectId,
+      required: true,
+    },
+    name: {
+      type: String,
+      required: true,
+    },
+    email: {
+      type: String,
+      required: true,
+    },
   },
-  name: {
-    type: String,
-    required: true,
-  },
-  email: {
-    type: String,
-    required: true,
-  },
-},{_id: false});
+  { _id: false }
+);
 
 const postSchema = new mongoose.Schema(
   {
     title: {
+      type: String,
+      required: true,
+    },
+    coverImgUrl: {
       type: String,
       required: true,
     },
@@ -27,7 +34,7 @@ const postSchema = new mongoose.Schema(
     },
     author: {
       type: authorSchema,
-      ref: 'User',
+      ref: "User",
       required: true,
     },
     tags: {
@@ -37,6 +44,6 @@ const postSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-const Post = mongoose.model('BlogPost', postSchema);
+const Post = mongoose.model("BlogPost", postSchema);
 
 module.exports = Post;

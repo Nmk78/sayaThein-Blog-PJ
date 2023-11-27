@@ -2,10 +2,11 @@ const { default: mongoose, isValidObjectId } = require("mongoose");
 const Post = require("../models/postModel");
 
 const create_a_post = async (req, res) => {
-  const { title, author, content, tags } = req.body;
+  const { title, author, coverImgUrl, content, tags } = req.body;
 
   const post = await Post.create({
     title,
+    coverImgUrl,
     content,
     author,
     tags,
