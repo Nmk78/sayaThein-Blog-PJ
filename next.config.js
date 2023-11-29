@@ -1,10 +1,8 @@
-/** @type {import('next').NextConfig} */
+const dotenv = require('dotenv');
+dotenv.config({ path: '../.env' });
+
 const nextConfig = {
-      reactStrictMode: true,
-}
-
-
-module.exports = {
+  reactStrictMode: true,
   images: {
     remotePatterns: [
       {
@@ -17,15 +15,17 @@ module.exports = {
   },
   env: {
     API: process.env.API,
+    NEXT_AUTH_URL : process.env.NEXT_AUTH_URL,
+    JWT_SECRECT : process.env.JWT_SECRECT,
   },
-      async rewrites() {
-        return [
-          {
-            source: "/api/auth/:path*",
-            destination: "/api/auth/nextauth",
-          },
-        ];
+  async rewrites() {
+    return [
+      {
+        source: "/api/auth/:path*",
+        destination: "/api/auth/nextauth",
       },
-    };
+    ];
+  },
+};
 
-module.exports = nextConfig
+module.exports = nextConfig;

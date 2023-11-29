@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { signIn, useSession } from "next-auth/react";
@@ -50,11 +50,10 @@ const Login = ({ mode }) => {
   // }
 
   const login = async (e) => {
-
     setLoading(true)
-
     e.preventDefault();
     console.log("Login Fn emit");
+
 
     try {
       const res = await signIn("credentials", {
@@ -63,23 +62,22 @@ const Login = ({ mode }) => {
         redirect: false,
       });
 
+      console.log("res ==> ", res);
       if (res.error) {
-        setLoading(false)
-        setError("\x1b[31m%s\x1b[0m", "Error in submit", res.error);
+        setLoading(false);
+        setError(res.error);
         setError("Invalid Credentials");
         return;
       }
-      // Redirect after successful login
-      router.push('/profile/1');
+      router.push('/');
       setLoading(false)
     } catch (error) {
       setLoading(false)
       console.error("Error in login:", error);
       setError(error);
+      throw error
     }
     setLoading(false)
-
-    // {localStorage.setItem("user", JSON.stringify(user))}
 
   };
 

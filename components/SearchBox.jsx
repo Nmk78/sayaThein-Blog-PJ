@@ -14,6 +14,7 @@ const SearchBox = () => {
 
   const searchHandler = async ()=>{
     try {
+      console.log("API", process.env);
       const res = await fetch("http://localhost:4000/posts/search", {
         method: "POST",
         headers: {
@@ -36,7 +37,6 @@ const SearchBox = () => {
     }
   }
 
-  console.log(resultPosts);
   return (
     <div
       id="searchBox"
@@ -55,7 +55,7 @@ const SearchBox = () => {
             onChange={(e)=>{setSearchString(e.target.value)}}
             className="w-4/5 h-10 px-4 bg-gray-200 text-gray-700 font-medium text-xl top-10 rounded-l-full focus:outline-none focus:ring-0 "
           />{" "}
-          <button className="rounded-r-full bg-gray-300 w-1/5" onClick={searchHandler}>
+          <button className="rounded-r-full bg-gray-300 w-1/5" disabled={!searchString ? true : false} onClick={searchHandler}>
             <FontAwesomeIcon
               icon={faMagnifyingGlass}
               className=" text-sky-900 w-5 items-center"
@@ -63,11 +63,11 @@ const SearchBox = () => {
             />
           </button>
         </div>
-        <div id="searchResult" className="h-auto min-h-10 max-h-72 overflow-scroll">
+        {resultPosts && <div id="searchResult" className="h-auto min-h-10 max-h-72 overflow-scroll">
           <div id="result">
       <SearchResult resultPosts={resultPosts} />
           </div>
-        </div>
+        </div>}
       </div>
     </div>
   );

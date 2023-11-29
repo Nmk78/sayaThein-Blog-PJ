@@ -8,11 +8,13 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faAdd } from "@fortawesome/free-solid-svg-icons";
 import { signOut, useSession, getProvider } from "next-auth/react";
 import Loading from "./Loading";
+import { fetchData } from "next-auth/client/_utils";
 
 const Profile = () => {
   const { data: session, status } = useSession();
   const [posts, setPosts] = useState([]);
-  const [user, setUser] = useState();
+  const [user, setUser] = useState({});
+  const [data, setData] = useState(null);
   let id;
 
   if (typeof window !== "undefined") {
@@ -33,10 +35,9 @@ const Profile = () => {
       });
 
       if (res.ok) {
-        let data = await res.json();
-        console.log(data);
-        setUser(data.user)
-        return  setPosts(data.posts);
+        let fetchedData = await res.json();
+        setData(fetchedData)
+        console.log(user, posts);
       }
       throw new Error(`HTTP error! Status: ${res.status}`);
     } catch (error) {
@@ -46,9 +47,17 @@ const Profile = () => {
 
   useEffect(() => {
     fetchAuthorPost();
-    console.log(posts, user);
   }, []);
   // fetchAuthorPost();
+  useEffect(() => {
+    console.log("data ==>", data);
+    if (data) {
+      setPosts(data.posts);
+      setUser(...data.user);
+      console.log(user, posts);
+      console.log(user._id);
+    }
+  }, [data?.posts, data?.user]);
 
   if (status == "loading") {
     return (
@@ -75,10 +84,10 @@ const Profile = () => {
           />
           <div className="mx-2 flex flex-col items-start h-fit content-evenly">
             <div className="text-2xl font-bold text-white dark:text-white-500 mt-4">
-              {status == "authenticated" ? session.token?.name : user.name}
+              {status == "authenticated" ? session.token?.name : user?.name}
             </div>
             <div className="text-sm font-light text-white dark:text-white-500 mb-3">
-              {session?.token?.email}
+            {status == "authenticated" ? session.token?.email : user?.email}
             </div>
             {status == "authenticated" ? (
               <div id="userAccessOnly" className="flex flex-row items-center ">
@@ -122,21 +131,19 @@ const Profile = () => {
         {/* {posts == [] ? <div>No uploaded post</div> : <></>} */}
         <div id="uploadedPosts" className="w-full px-3">
           {posts ? (
-            () => {
-              posts?.reverse().map(({ _id, title, coverImgUrl, author }) => {
-                return (
-                  <Post
-                    key={_id}
-                    id={_id}
-                    title={title}
-                    author={author.name}
-                    coverImgUrl={coverImgUrl}
-                  />
-                );
-              });
-            }
+            posts
+              .reverse()
+              .map(({ _id, title, coverImgUrl, author }) => (
+                <Post
+                  key={_id}
+                  id={_id}
+                  title={title}
+                  author={author.name}
+                  coverImgUrl={coverImgUrl}
+                />
+              ))
           ) : (
-            <>No Post Found</>
+            <p>No Post Found</p>
           )}
         </div>
       </div>

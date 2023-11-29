@@ -12,32 +12,13 @@ const authOptions = {
       name: "credentials",
       credentials: {},
 
-      // async authorize (credentials){
-      //   console.log("authorize fn rund");
-      //   const { email, password } = credentials;
-
-      //   try {
-      //     await connectToMongoDB();
-      //     const user = await user.findOne({ email });
-
-      //     if (!user) {
-      //       return null;
-      //     }
-      //     const passwordMatch = await bcrypt.compare(password, user.password);
-      //     if (!passwordMatch) {
-      //       return null;
-      //     }
-      //     console.log("Passwordmatch", passwordMatch);
-      //   return user;
-      //   } catch (error) {
-      //     console.log(error);
-      //   }
-
-      // },
-
       async authorize(credentials) {
-        const { email, password } = credentials;
+        console.log("Request Object:", req);
 
+        const { email, password } = credentials;
+        if (!email || !password) {
+          return null;
+        }
         try {
           await connectToMongoDB();
           const user = await User.findOne({ email });
@@ -45,24 +26,27 @@ const authOptions = {
           if (!user) {
             return null;
           }
+
           const passwordMatch = await bcrypt.compare(password, user.password);
 
           if (!passwordMatch) {
             return null;
           }
-          console.log(user);
+
           return user;
         } catch (error) {
           console.log(error);
+          throw error;
         }
       },
     }),
   ],
   callbacks: {
     session: async (session, user) => {
-      console.log(user);
-      // Add the user object to the session
+      if(user){
+        console.log(user);
       session.user = user;
+      }
       return Promise.resolve(session);
     },
   },
@@ -73,6 +57,7 @@ const authOptions = {
   secret: process.env.JWT_SECRECT,
   pages: {
     signIn: "/login",
+    signOut: "/",
   },
 };
 

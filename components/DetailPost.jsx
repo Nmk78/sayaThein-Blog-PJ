@@ -193,13 +193,6 @@ const DetailPost = ({ mode }) => {
         id={_id}
         className="w-auto md:w-2/3 h-auto bg-gray-300 dark:bg-slate-900 mt-[-11px] flex flex-col items-center justify-between"
       >
-        {/* <Image
-          src="https://unsplash.com/photos/a-desert-landscape-with-rocks-and-sand-THlO6Mkf5uI"
-          alt="logo"
-          width={400}
-          height={115}
-          className=" object-contain object-center m-3"
-        /> */}
         <img src={coverImgUrl} alt={title} className="w-full h-auto mt-2 mb-4" />
         <div
           id="Content_Area"
