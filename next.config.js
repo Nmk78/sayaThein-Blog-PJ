@@ -16,7 +16,7 @@ const nextConfig = {
   env: {
     API: process.env.API,
     NEXT_AUTH_URL : process.env.NEXT_AUTH_URL,
-    JWT_SECRECT : process.env.JWT_SECRECT,
+    JWT_SECRET : process.env.JWT_SECRET,
   },
   async rewrites() {
     return [

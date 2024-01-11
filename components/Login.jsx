@@ -3,21 +3,21 @@
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { signIn, useSession } from "next-auth/react";
-import Loading from "./Loading";
+import { useSession } from "next-auth/react";
+import { signIn } from "next-auth/react";
 
+import Loading from "./Loading";
+import axios from "axios";
 
 const Login = ({ mode }) => {
-
   const { data: session, status } = useSession();
   const router = useRouter();
 
-  if(status == "authenticated"){
-    router.push("/")
+  if (status == "authenticated") {
+    router.push("/");
   }
 
-  
-  const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState(false);
 
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -25,74 +25,85 @@ const Login = ({ mode }) => {
   const [referralCode, setRefferalcode] = useState("");
   const [error, setError] = useState("");
 
-  // const login = async  (e) => {
-  //   e.preventDefault()
+  // //1
+  // const login = async (e) => {
+  //   e.preventDefault();
   //   console.log("Login Fn emit");
 
   //   try {
   //     const res = await signIn("credentials", {
-  //       email, password, redirect: false
-  //     })
-  //     if(res.error)
-  //     {
-  //       setError(res.error)
+  //       email,
+  //       password,
+  //       redirect: false,
+  //     });
+  //     if (res.error) {
+  //       console.log(error);
+  //       setError("\x1b[31m%s\x1b[0m", "Error in submit", error);
   //     }
   //     router.push(res.url || "/");
   //     // router.push('/')
-
-  //   }
-  //    catch (error) {
+  //   } catch (error) {
   //     console.log(error);
-  //     setError('\x1b[31m%s\x1b[0m',"Error in submit", error);
-
+  //     setError("\x1b[31m%s\x1b[0m", "Error in submit", error);
   //   }
   //   return;
-  // }
-
-  const login = async (e) => {
-    setLoading(true)
-    e.preventDefault();
-    console.log("Login Fn emit");
+  // };
 
 
-    try {
-      const res = await signIn("credentials", {
-        email,
-        password,
-        redirect: false,
-      });
+    const login = async (e) => {
+      setLoading(true);
 
-      console.log("res ==> ", res);
-      if (res.error) {
+      e.preventDefault();
+      console.log("Login Fn emit");
+              setError("");
+
+      try {
+
+        const res = await axios.post("http://localhost:4000/user/login", {
+          email,
+          password,
+        });
+        console.log(res);
+
+
+        if (res.status == 200) {
+          const {_id, name, email } = res.data.loginnedUser;
+
+          console.log("Data = ", _id, name, email);
+          localStorage.setItem("adminId", _id);
+          localStorage.setItem("adminEmail", email);
+          localStorage.setItem("adminName", name);
+
+          const form = e.target;
+          form.reset();
+          setEmail("");
+          setPassword("");
+          setError("");
+          router.push(`/profile/${_id}`);
+          setLoading(false);
+
+        } else {
+          setError("Something went wrong.");
+        }
+      } catch (error) {
+        setError(error.message);
         setLoading(false);
-        setError(res.error);
-        setError("Invalid Credentials");
-        return;
       }
-      router.push('/');
-      setLoading(false)
-    } catch (error) {
-      setLoading(false)
-      console.error("Error in login:", error);
-      setError(error);
-      throw error
-    }
-    setLoading(false)
-
-  };
+      setLoading(false);
+    };
 
   const register = async (e) => {
-    setLoading(true)
+    setLoading(true);
 
     e.preventDefault();
     console.log("Register Fn emit");
-      if (!name || !email || !password || !referralCode) {
-        setError("Please fill all the fields");
-        if (password.length < 8) {
-          setError("Password must has at least 8 digits");
-        }
-        return;
+    if (!name || !email || !password || !referralCode) {
+      setError("Please fill all the fields");
+      if (password.length < 8) {
+        setError("Password must has at least 8 digits");
       }
+      return;
+    }
 
     try {
       const res = await fetch("/api/register", {
@@ -103,7 +114,7 @@ const Login = ({ mode }) => {
         body: JSON.stringify({ name, email, password, referralCode }),
       });
       if (res.ok) {
-        setLoading(false)
+        setLoading(false);
 
         const form = e.target;
         form.reset();
@@ -117,11 +128,10 @@ const Login = ({ mode }) => {
         setError("Something went wrong.");
       }
     } catch (error) {
-      setError("\x1b[31m%s\x1b[0m", "Error in submit", error);
-      setLoading(false)
+      setError(error.message);
+      setLoading(false);
     }
-    setLoading(false)
-
+    setLoading(false);
   };
 
   // if(loading){
@@ -136,10 +146,11 @@ const Login = ({ mode }) => {
         id={`${mode}_form`}
         className="w-full h-full flex flex-col justify-center items-center gap-4 p-4 bg-gray-200 dark:bg-slate-800"
       >
-        {loading && <div className="absolute flex items-center justify-center inset-0 bg-black bg-opacity-50">
-        <Loading size="3x" />
-
-        </div>}
+        {loading && (
+          <div className="absolute flex items-center justify-center inset-0 bg-black bg-opacity-50">
+            <Loading size="3x" />
+          </div>
+        )}
         {mode == "register" ? (
           <form onSubmit={register} className="w-full">
             <div className="w-full h-auto pt-5 px-3 pb-4 dark:bg-sky-700 bg-sky-400 rounded-2xl">
@@ -157,13 +168,13 @@ const Login = ({ mode }) => {
                 name="Name"
                 id="Name"
                 placeholder="Name"
-                required                disabled={loading}
-
+                required
+                disabled={loading}
                 onChange={(e) => {
                   setName(e.target.value);
                 }}
               />
-              
+
               <span className="block text-sm font-medium text-white">
                 Email
               </span>
@@ -177,8 +188,8 @@ const Login = ({ mode }) => {
                 name="email"
                 id="email"
                 placeholder="Email"
-                required                disabled={loading}
-
+                required
+                disabled={loading}
                 onChange={(e) => {
                   setEmail(e.target.value);
                 }}
@@ -215,8 +226,8 @@ const Login = ({ mode }) => {
                 name="refferal_Code"
                 id="referralCode"
                 placeholder="Refferal Code"
-                required                 disabled={loading}
-
+                required
+                disabled={loading}
                 onChange={(e) => {
                   setRefferalcode(e.target.value);
                 }}
@@ -262,7 +273,7 @@ const Login = ({ mode }) => {
             </div>
           </form>
         ) : (
-          <form onSubmit={login} className="w-full">
+          <form onSubmit={login} method="POST" className="w-full">
             <div className="w-full h-auto pt-5 px-3 pb-4 dark:bg-sky-700 bg-sky-400 rounded-2xl">
               <div className="text-3xl font-bold text-white dark:text-white-500 my-2">
                 Login as Admin{" "}
@@ -281,8 +292,8 @@ const Login = ({ mode }) => {
                 name="email"
                 id="email"
                 placeholder="Email"
-                required                 disabled={loading}
-
+                required
+                disabled={loading}
                 onChange={(e) => {
                   setEmail(e.target.value);
                 }}
@@ -300,8 +311,8 @@ const Login = ({ mode }) => {
                 name="password"
                 id="password"
                 placeholder="Password"
-                required                 disabled={loading}
-
+                required
+                disabled={loading}
                 onChange={(e) => {
                   setPassword(e.target.value);
                 }}
@@ -340,9 +351,9 @@ const Login = ({ mode }) => {
             </div>
             <div className="w-full flex justify-center my-4">
               <button
-                type="submit"                 disabled={loading}
-
-                onClick={()=> console.log("Loginned")}
+                type="submit"
+                disabled={loading}
+                onClick={() => console.log("Loginned")}
                 className="dark:bg-sky-700 font-bold bg-sky-400 rounded-xl px-4 py-2"
               >
                 Login{" "}
