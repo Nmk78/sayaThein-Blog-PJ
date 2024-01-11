@@ -2,6 +2,7 @@ const asyncHandler = require("express-async-handler")
 const User = require("../models/userModel");
 const Post = require("../models/postModel");
 const { isValidObjectId } = require("mongoose");
+const bcrypt = require("bcrypt")
 
 // const get_all_users = async (req, res) => {
 //       res.status(200).json({
@@ -23,6 +24,7 @@ const { isValidObjectId } = require("mongoose");
     //   });
     // });
 
+*/
     // const user_login = asyncHandler(async (req, res) => {
     //   const { email, password } = req.body;
     //       if (!email || !password) {
@@ -34,7 +36,45 @@ const { isValidObjectId } = require("mongoose");
     //     message: "Login Successful",
     //   });
     // });
- */
+
+    const user_login = async (req, res) => {
+      const { email, password } = req.body;
+      if (!email || !password) {
+        res.status(400);
+        res.json({ error: "Fill all fields" });
+        return;
+      }
+      try {
+        const loginnedUser = await User.findOne({ email: email });
+        console.log("loginnedUser", loginnedUser);
+        if (!loginnedUser) {
+          res.status(400);
+          res.json({ error: "user not found" });
+        }
+        const passwordMatch = await bcrypt.compare(password, loginnedUser.password);
+    
+        if (!passwordMatch) {
+          res.status(400);
+          res.json({ error: "Invalid Password" });
+        }
+    
+        // const createToken = (KPTMYK) => {
+        //   const payload = { KPTMYK };
+        //   return jwt.sign(payload, process.env.JWT_secret, { expiresIn: "15d" });
+        // };
+
+        // const token = createToken(loginnedUser.email);
+        console.log(loginnedUser);
+        res.status(200);
+        res.json({
+          loginnedUser
+        });
+      } catch (error) {
+        res.status(400);
+        res.json({ error: error.message });
+      }
+    };
+
 
 const get_one_user = async (req, res) => {
   const { id } = req.params;
@@ -82,5 +122,7 @@ module.exports = {
   get_one_user,
   get_all_posts_by_author,
   // user_register,
-  // user_login,
+  user_login,
 };
+
+

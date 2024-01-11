@@ -9,7 +9,8 @@ const router = express.Router();
 
 router.
       route("/").
-            get(get_all_posts);router.
+            get(get_all_posts);
+router.
       route("/search").
             post(search_posts);
 router.

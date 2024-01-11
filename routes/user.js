@@ -9,9 +9,9 @@ const router = express.Router();
 // router
 //       .route("/register")
 //             .post(user_register)
-// router
-//       .route("/login")
-//             .post(user_login)
+router
+      .route("/login")
+            .post(user_login)
 
 router
       .route("/:id")

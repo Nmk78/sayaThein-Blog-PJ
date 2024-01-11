@@ -4,18 +4,24 @@ const Post = require("../models/postModel");
 const create_a_post = async (req, res) => {
   const { title, author, coverImgUrl, content, tags } = req.body;
 
-  const post = await Post.create({
-    title,
-    coverImgUrl,
-    content,
-    author,
-    tags,
-  });
-  console.log("post", post);
-
-  res.status(201).json({
-    post,
-  });
+  try {
+    const post = await Post.create({
+      title,
+      coverImgUrl,
+      content,
+      author,
+      tags,
+    });
+    console.log("post", post);
+  
+    res.status(201).json({
+      post,
+    });
+  } catch (error) {
+    res.status(400).json({
+      message: error.message,
+    });
+  }
 };
 
 const get_a_post = async (req, res) => {
