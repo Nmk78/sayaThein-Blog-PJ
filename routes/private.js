@@ -3,11 +3,13 @@ const {
             edit_a_post,
             delete_a_post,
             create_a_post     } = require("../controller/postController");
+const verifyToken = require("../middleware/authChecker");
 
 const router = express.Router();
 
 //Middleware
 
+router.use(verifyToken);	//Protect all route below by JWT
 
 //Private Routes 
 router
