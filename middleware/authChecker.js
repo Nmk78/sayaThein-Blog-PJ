@@ -12,7 +12,7 @@ const verifyToken = (req, res, next) => {
 
   try {
     const token = authorization.split(' ')[1];
-    const verified = JWT.verify(token, process.env.JWT_secret);
+    const verified = JWT.verify(token, process.env.JWT_SECRECT);
     req.user = verified; // Attach user information to the request object if needed
     next();
   } catch (error) {
