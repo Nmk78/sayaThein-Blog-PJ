@@ -9,18 +9,30 @@ import { faAdd } from "@fortawesome/free-solid-svg-icons";
 import { signOut, useSession, getProvider } from "next-auth/react";
 import Loading from "./Loading";
 import { fetchData } from "next-auth/client/_utils";
+import axios from "axios";
+import { useRouter } from "next/navigation";
 
 const Profile = () => {
+  const token = localStorage.getItem("token");
+  const adminId = localStorage.getItem("adminId");
+  const email = localStorage.getItem("adminEmail");
+  const name = localStorage.getItem("adminName");
+  let profileImage = localStorage.getItem("profileImg");
+  const refferalCode = localStorage.getItem("refferalCode");
+
   const { data: session, status } = useSession();
+  const router = useRouter()
+
   const [posts, setPosts] = useState([]);
   const [user, setUser] = useState({});
   const [data, setData] = useState(null);
-  let id;
+  const [profileImg, setProfileImg] = useState("");
 
+  let id;
   if (typeof window !== "undefined") {
     id = window.location.pathname.split("/").pop();
   }
-  const fetchAuthorPost = async () => {
+  const fetchAuthorInfoAndPosts = async () => {
     try {
       const res = await fetch(`http://localhost:4000/user/posts/`, {
         method: "POST",
@@ -36,7 +48,7 @@ const Profile = () => {
 
       if (res.ok) {
         let fetchedData = await res.json();
-        setData(fetchedData)
+        setData(fetchedData);
         console.log(user, posts);
       }
       throw new Error(`HTTP error! Status: ${res.status}`);
@@ -45,17 +57,61 @@ const Profile = () => {
     }
   };
 
+  const changeProfileImg = async () => {
+    let url = prompt("Enter profile image url");
+    try {
+      console.log("URL",url);
+      if (url !== null || url !== "") {
+        console.log("RUNNED");
+        if(url == "" || url == " " || url === null){
+          alert("Url can't be empty.")
+          return
+        }
+      const res = await axios.patch("http://localhost:4000/user/profile-img", {
+        id: adminId,
+        profileImg: url,
+        })
+        .then((res) => {
+          console.log("PATCH request successful:", res.data);
+          setProfileImg(url);
+          localStorage.setItem("profileImg", url);
+          profileImage = res.data.profileImg
+        })
+        .catch((error) => {
+          console.error("Error in PATCH request:", error.message);
+        });
+      } else {
+        url
+        alert('You clicked "Cancel" or closed the prompt.');
+      }
+
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
+
+
+  const logOut = async () => {
+    const token = localStorage.removeItem("token");
+    const adminId = localStorage.removeItem("adminId");
+    const email = localStorage.removeItem("adminEmail");
+    const name = localStorage.removeItem("adminName");
+    let profileImage = localStorage.removeItem("profileImg");
+    const refferalCode = localStorage.removeItem("refferalCode");
+    router.push("/");
+
+  }
+
   useEffect(() => {
-    fetchAuthorPost();
+    fetchAuthorInfoAndPosts();
   }, []);
-  // fetchAuthorPost();
+  // fetchAuthorInfoAndPosts();
   useEffect(() => {
     console.log("data ==>", data);
     if (data) {
+      setProfileImg(user.profileImg)
       setPosts(data.posts);
       setUser(...data.user);
-      console.log(user, posts);
-      console.log(user._id);
     }
   }, [data?.posts, data?.user]);
 
@@ -74,22 +130,47 @@ const Profile = () => {
         id="Profile"
         className=" w-full h-full flex flex-col items-center mx-auto px-4 py-2"
       >
-        <div className="w-full h-36 flex flex-row items-center  bg-cyan-600 dark:bg-slate-900  rounded-xl">
-          <Image
-            src="/images/sample4.jpg"
-            alt="logo"
-            width={150}
-            height={150}
-            className="object-cover rounded-full w-24 h-24 mx-3"
-          />
+        <div className="w-full h-44  flex flex-row items-center  bg-cyan-600 dark:bg-slate-900  rounded-xl">
+          { token ? (<div
+            className=" rounded-full w-28 h-28 mx-3 cursor-pointer"
+            onClick={() => {
+              changeProfileImg();
+            }}
+          >
+            <img
+              src={profileImg || "/images/sample4.jpg"}
+              alt="profile image"
+              width={160}
+              height={160}
+              className="object-cover rounded-full w-28 h-28 "
+            />
+            <p className=" text-[8px] text-center animate-pulse mt-2">Change profile Image</p>
+          </div>): <div
+            className=" rounded-full w-28 h-28 mx-3"
+          >
+            <img
+              src={profileImg || "/images/sample4.jpg"}
+              alt="profile image"
+              width={160}
+              height={160}
+              className="object-cover rounded-full w-28 h-28 "
+            />
+          </div>}
           <div className="mx-2 flex flex-col items-start h-fit content-evenly">
             <div className="text-2xl font-bold text-white dark:text-white-500 mt-4">
-              {status == "authenticated" ? session.token?.name : user?.name}
+              {token ? name : user?.name}
             </div>
-            <div className="text-sm font-light text-white dark:text-white-500 mb-3">
-            {status == "authenticated" ? session.token?.email : user?.email}
-            </div>
-            {status == "authenticated" ? (
+            <div className="text-sm font-light text-white dark:text-white-500 my-3">
+              {token ? email : user?.email}
+            </div>{" "}
+            {token ? (
+              <div className="text-sm font-light text-white dark:text-white-500 mb-3">
+                Refferal Code - {refferalCode}
+              </div>
+            ) : (
+              ""
+            )}
+            {token ? (
               <div id="userAccessOnly" className="flex flex-row items-center ">
                 <Link
                   href="/post/create"
@@ -102,16 +183,16 @@ const Profile = () => {
                   />
                 </Link>
                 <button
-                  className="bg-sky-900 dark:bg-cyan-800 text-white dark:text-white-500 text-sm px-3 py-2 rounded-full mx-2 text-center"
+                  className="bg-sky-900 dark:bg-cyan-800 text-white dark:text-white-500 text-sm px-2 py-1.5 flex justify-center rounded-xl mx-2 text-center"
                   onClick={() => {
-                    signOut({ callbackUrl: "/" });
+                    logOut();
                   }}
                 >
                   Logout
                 </button>
                 <button
-                  className="bg-sky-900 dark:bg-cyan-800 text-white dark:text-white-500 text-sm px-3 py-2 rounded-full  text-center"
-                  onClick={fetchAuthorPost}
+                  className="bg-sky-900 dark:bg-cyan-800 text-white dark:text-white-500 text-sm px-2 py-1.5 rounded-xl flex justify-center text-center"
+                  onClick={fetchAuthorInfoAndPosts}
                 >
                   Reload Posts
                 </button>
@@ -119,8 +200,8 @@ const Profile = () => {
             ) : (
               <>
                 <button
-                  className="bg-sky-900 dark:bg-cyan-800 text-white dark:text-white-500 text-sm px-3 py-2 rounded-full mx-4 text-center"
-                  onClick={fetchAuthorPost}
+                  className="bg-sky-900 dark:bg-cyan-800 text-white dark:text-white-500 text-sm px-2 py-1.5 rounded-xl mx-4 flex justify-center text-center"
+                  onClick={fetchAuthorInfoAndPosts}
                 >
                   Reload Posts
                 </button>

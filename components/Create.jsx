@@ -10,6 +10,13 @@ import Loading from "./Loading";
 // import Form from "./Form";
 
 const Create = ({ mode, post }) => {
+
+  const token = localStorage.getItem("token");
+  const adminEmail = localStorage.getItem("adminEmail");
+  const adminName = localStorage.getItem("adminName");
+  const adminId = localStorage.getItem("adminId");
+  const profileImg = localStorage.getItem("profileImg");
+  
   const { data: session, status } = useSession();
   const { fetchPosts } = usePostContext();
   const router = useRouter();
@@ -72,21 +79,22 @@ const Create = ({ mode, post }) => {
   if (status == "loading") {
     return (
       <>
-        <Loading size="3x" />
+        <Loading className="absolute top-1/2 left-1/2" size="3x" />
       </>
     );
   }
 
-  if (status != "authenticated") {
-    router.push("/login");
-  }
+  // if (status != "authenticated" || token) {
+  //   router.push("/login");
+  // }
 
   const handler = async () => {
-    if (status != "authenticated") {
+    if (!token) {
       console.log("Unauthenticated error");
-      setEmail(session.user.email);
       return;
     }
+    setEmail(adminEmail);
+
     if (title == "" || content == "") {
       console.log("Content Not Found");
       return;
@@ -113,9 +121,10 @@ const Create = ({ mode, post }) => {
             coverImgUrl,
             content,
             author: {
-              id: session.token?.sub,
-              name: session.token?.name,
-              email: session.token?.email,
+              id: adminId,
+              name: adminName,
+              email: adminEmail,
+              profileImg: profileImg,
             },
             tags,
           }),
@@ -123,12 +132,13 @@ const Create = ({ mode, post }) => {
       );
       if (res.ok) {
         router.push(redirectTo);
-        setLoading(false);
         fetchPosts();
         setTitle("");
         setCoverImgUrl("");
         setContent("");
         setTags([]);
+        setLoading(false);
+
         console.log("Successfully created");
       }
       console.log(body);
@@ -161,14 +171,14 @@ const Create = ({ mode, post }) => {
       <div className="flex flex-col items-center justify-start text-4xl text-clip dark:text-cyan-400 text-sky-900 font-latin font-extrabold">
         {mode == "edit" ? "Edit" : "Create a new post"}
       </div>
-      <div className="h-[80%] flex flex-col items-center justify-start  ">
-        <div className="bg-gray-300 dark:bg-slate-900 h-full mb-[-5]">
+      <div className="h-[80%] w-full flex flex-col items-center justify-start  ">
+        <div id="Editor" className="bg-gray-300 dark:bg-slate-900 h-full mb-[-5]">
           <ReactQuill
             theme="snow"
             modules={modules}
             formats={formats}
             placeholder="Write a post..."
-            className="h-[80%] text-xl mx-1 placeholder-gray-600 dark:placeholder-gray-200  text-gray-950  bg-gray-300 dark:text-gray-100 dark:bg-slate-900"
+            className="h-[80%] whitespace-break-spaces text-xl mx-1 placeholder-gray-600 dark:placeholder-gray-200  text-gray-950  bg-gray-300 dark:text-gray-100 dark:bg-slate-900"
             value={content}
             onChange={(e) => {
               // console.log(e);
@@ -209,7 +219,7 @@ const Create = ({ mode, post }) => {
             type="text"
             className="w-full h-10 rounded-lg px-2 border-2 border-sky-400 dark:border-sky-700 dark:bg-sky-900 bg-sky-100"
             placeholder="Tags : #vocabulary #grammar "
-            value={mode == "edit" ? editTags : ""}
+            value={mode == "edit" ? editTags : tags}
             onChange={tagHandler}
           />
         </div>

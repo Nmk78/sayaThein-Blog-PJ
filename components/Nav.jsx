@@ -11,6 +11,9 @@ const Nav = () => {
  
 
   const{data: session, status } = useSession();
+  const token = localStorage.getItem("token");
+  const id = localStorage.getItem("adminId");
+  const profileImg = localStorage.getItem("profileImg");
 
   console.log("Session Status - ",{data: session, status });
 
@@ -31,16 +34,16 @@ const Nav = () => {
       <div id="themeSwitcher profile" className="flex flex-row h-full items-center">
         <ThemeSwitcher />
         {
-          status === "authenticated" ? (
-            <Link href={`/profile/${session.token?.sub}`} className="flex gap-2 flex-center mr-4">
+          token ? (
+            <Link href={`/profile/${id}`} className="flex gap-2 flex-center mr-4">
               <div>
                 {" "}
-                <Image
-                  src="/images/sample4.jpg"
-                  alt="logo"
+                <img
+                  src={profileImg}
+                  alt="Profile image"
                   width={40}
                   height={40}
-                  className="object-contain rounded-full"
+                  className="object-contain aspect-square rounded-full"
                 />
               </div>
             </Link>

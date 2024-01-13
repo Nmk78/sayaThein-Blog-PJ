@@ -12,4 +12,10 @@
     
     }
 
-   
+    #Editor{
+      width: 100%;
+      padding: 2px;
+    }
+   /* .ql-container{
+    width: 350px;
+   } */

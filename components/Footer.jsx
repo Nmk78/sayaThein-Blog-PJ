@@ -15,6 +15,8 @@ import SearchboxToggler from "./SearchboxToggler";
 import { useSession } from "next-auth/react";
 
 const Footer = () => {
+
+  const token = localStorage.getItem("token");
   const { data: session, status } = useSession();
 
   let user = true;
@@ -45,7 +47,7 @@ const Footer = () => {
           Search
         </span>
       </div>
-      {status === "authenticated" ? (
+      {token ? (
         <Link href="/post/create" className="flex flex-col items-center m-0">
           <FontAwesomeIcon
             icon={faAdd}

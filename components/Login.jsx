@@ -67,12 +67,15 @@ const Login = ({ mode }) => {
 
 
         if (res.status == 200) {
-          const {_id, name, email } = res.data.loginnedUser;
+          const {_id, name, email, profileImg, refferalCode, token } = res.data;
 
-          console.log("Data = ", _id, name, email);
+          console.log("Data = ", _id, name, email, token);
           localStorage.setItem("adminId", _id);
           localStorage.setItem("adminEmail", email);
           localStorage.setItem("adminName", name);
+          localStorage.setItem("profileImg", profileImg);
+          localStorage.setItem("refferalCode", refferalCode);
+          localStorage.setItem("token", token);
 
           const form = e.target;
           form.reset();

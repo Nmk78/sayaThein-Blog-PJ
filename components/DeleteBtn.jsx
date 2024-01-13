@@ -8,6 +8,8 @@ import React, { useEffect } from "react";
 
 const DeleteBtn = ({id}) => {
 
+  const adminId = localStorage.getItem("adminId");
+
   const { data: session, status } = useSession();
   const { fetchPosts } = usePostContext();
 
@@ -23,7 +25,7 @@ const DeleteBtn = ({id}) => {
         },
         body: JSON.stringify({
           author: {
-            id: session.token?.sub,
+            id: adminId,
           }
         }),
       });

@@ -18,6 +18,9 @@ import Loading from "./Loading";
 const DetailPost = ({ mode }) => {
   const { data: session, status } = useSession();
 
+  const token = localStorage.getItem("token");
+  const adminId = localStorage.getItem("adminId");
+
 
   // if (mode == "saved") {
   //   let id;
@@ -183,7 +186,7 @@ const DetailPost = ({ mode }) => {
   // let like = true;
   {loading && <div className="w-full h-full flex flex-col items-center justify-center"><Loading size="3x" /></div>}
 
-  const { _id, title,coverImgUrl, content, author, updatedAt, tags } = post;
+  const { _id, title,coverImgUrl, content, author,  updatedAt, tags } = post;
 
   const sanitizedContent = DOMPurify.sanitize(content);
 
@@ -204,8 +207,8 @@ const DetailPost = ({ mode }) => {
           >
             <div className="flex">
               <Link href={`/profile/${author?.id}`} className="flex">
-                <Image
-                  src="/images/sample4.jpg"
+                <img
+                  src={author?.profileImg ||"/images/sample4.jpg"}
                   alt="profile-image"
                   width={40}
                   height={40}
@@ -227,7 +230,7 @@ const DetailPost = ({ mode }) => {
                   </div>
                 </div>
               </Link>
-              {status == "authenticated" && session?.token.sub == author?.id ? (
+              {(token && adminId == author?.id )? (
                 <div id="userDependElement" className="ml-2">
                   <Link href={`edit/${_id}`}>
                     <FontAwesomeIcon
