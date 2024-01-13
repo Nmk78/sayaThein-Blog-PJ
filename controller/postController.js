@@ -58,14 +58,14 @@ const get_all_posts = async (req, res) => {
 
 const edit_a_post = async (req, res) => {
   const { id } = req.params;
-  const { title, content, tags } = req.body;
+  const { title, content, coverImgUrl, tags } = req.body;
   console.log("pended update ", req.body);
   if (!isValidObjectId(id)) {
     return res.status(400).json({ error: "Invalid post ID" });
   }
   const updatedPost = await Post.findByIdAndUpdate(
     { _id: id },
-    { title, content, tags },
+    { title, content, coverImgUrl, tags },
     { new: true }
   );
   console.log(updatedPost);

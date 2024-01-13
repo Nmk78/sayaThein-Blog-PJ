@@ -3,12 +3,17 @@ const mongoose = require("mongoose");
 const authorSchema = new mongoose.Schema(
   {
     id: {
-      type: mongoose.Schema.Types.ObjectId,
+      // type: mongoose.Schema.Types.ObjectId,
+      type: String,
       required: true,
     },
     name: {
       type: String,
       required: true,
+    },
+    profileImg: {
+      type: String,
+      required: false,
     },
     email: {
       type: String,
