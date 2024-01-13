@@ -1,13 +1,13 @@
-const express = require("express");
+import express, { json } from "express";
 const dotenv = require("dotenv").config();
-const cors = require('cors');
+import cors from 'cors';
 
 //Routes
-const userRoutes = require("./routes/user");
-const postRoutes = require("./routes/post");
-const privateRoutes = require("./routes/private");
-const errorHandler = require("./middleware/errorHandler");
-const connectToDB = require("./dbConnection");
+import userRoutes from "./routes/user";
+import postRoutes from "./routes/post";
+import privateRoutes from "./routes/private";
+import errorHandler from "./middleware/errorHandler";
+import connectToDB from "./dbConnection";
 
 connectToDB();
 
@@ -28,7 +28,7 @@ app.use((req, res, next) => {
   console.log(req.path, req.method);
   next();
 });
-app.use(express.json());
+app.use(json());
 app.use(cors());
 app.use("/user", userRoutes);
 app.use("/posts", postRoutes);
