@@ -13,6 +13,15 @@ connectToDB();
 
 const app = express();
 
+app.use(cors());
+
+app.use((req, res, next) => {
+  res.header('Access-Control-Allow-Origin', 'https://wyt-blog.vercel.app');
+  res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
+  next();
+});
+
 app.get("/", (req, res) => {
   res.status(200).json({
     message: "Welcome",
@@ -29,7 +38,6 @@ app.use((req, res, next) => {
   next();
 });
 app.use(express.json());
-app.use(cors());
 app.use("/user", userRoutes);
 app.use("/posts", postRoutes);
 app.use("/post", privateRoutes);
