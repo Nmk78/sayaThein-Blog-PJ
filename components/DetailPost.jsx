@@ -162,7 +162,7 @@ const DetailPost = ({ mode }) => {
         id = window.location.pathname.split("/").pop();
       }
       try {
-        const response = await axios.get(`${process.env.NEXT_PUBLIC_API}+"posts/${id}`, {
+        const response = await axios.get(`${process.env.NEXT_PUBLIC_API}+"posts/"${id}`, {
           headers: {
             "Content-Type": "application/json",
           },
