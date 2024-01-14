@@ -1,9 +1,8 @@
 const dotenv = require("dotenv");
 dotenv.config();
 
-const withTM = require("next-transpile-modules")(["mongodb"]);
 
-module.exports = withTM({
+module.exports = {
   reactStrictMode: true,
   images: {
     remotePatterns: [
@@ -35,11 +34,8 @@ module.exports = withTM({
         net: false,
       };
     }
-    config.module.rules.push({
-      test: /\.css$/,
-      use: ['style-loader', 'css-loader'],
-    });
+
     return config;
   },
   
-});
+};
