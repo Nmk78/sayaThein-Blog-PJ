@@ -6,7 +6,7 @@ const SearchboxToggler = ({ size }) => {
   const [open, setOpen] = useState(true);
 
   const searchBoxTogglerFn = () => {
-    if (typeof window !== "undefined") {
+    if (typeof window !== undefined) {
       const div = document.getElementById("searchBox");
   
       if (div) {

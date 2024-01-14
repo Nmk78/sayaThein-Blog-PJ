@@ -1,4 +1,4 @@
-'use client'
+"use client";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEdit } from "@fortawesome/free-solid-svg-icons";
@@ -19,10 +19,9 @@ import axios from "axios";
 const DetailPost = ({ mode }) => {
   const { data: session, status } = useSession();
 
-  if (typeof localStorage !== 'undefined') {
-
-  const token = localStorage.getItem("token");
-  const adminId = localStorage.getItem("adminId");
+  if (typeof localStorage !== "undefined") {
+    const token = localStorage.getItem("token");
+    const adminId = localStorage.getItem("adminId");
   }
   // if (mode == "saved") {
   //   let id;
@@ -157,7 +156,10 @@ const DetailPost = ({ mode }) => {
   useEffect(() => {
     setLoading(true);
     const fetchPosts = async () => {
-      const id = window.location.pathname.split("/").pop();
+      let id;
+      if (typeof window !== "undefined") {
+        id = window.location.pathname.split("/").pop();
+      }
       try {
         const response = await axios.get(`process.env.NEXT_PUBLIC_API${id}`, {
           headers: {

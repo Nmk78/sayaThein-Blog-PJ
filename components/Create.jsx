@@ -5,9 +5,13 @@ import { useSession } from "next-auth/react";
 import { usePostContext } from "@app/Contex/postContext";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
-import ReactQuill from "react-quill";
+// import ReactQuill from "react-quill";
 import Loading from "./Loading";
 import axios from "axios";
+import dynamic from 'next/dynamic';
+
+const ReactQuill = dynamic(() => import('react-quill'), { ssr: false });
+
 
 const Create = ({ mode, post }) => {
   let token, adminEmail, adminId, adminName, profileImg;
@@ -155,6 +159,8 @@ const Create = ({ mode, post }) => {
     setTags(e.target.value.split("#"));
     console.log(tags);
   };
+
+
 
   return (
     <div

@@ -6,7 +6,9 @@ import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 const GoBack = () => {
 
   const goBack = () => {
+    if (typeof window !== 'undefined') {
       window.history.back();
+    }
   };
 
   return (
