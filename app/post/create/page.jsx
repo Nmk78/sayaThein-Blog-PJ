@@ -1,5 +1,5 @@
 import React from 'react'
-import Create from '@components/create'
+import Create from '@components/Create'
 
 const page = () => {
   return (
