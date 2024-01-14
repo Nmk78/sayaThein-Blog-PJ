@@ -13,83 +13,88 @@ import axios from "axios";
 import { useRouter } from "next/navigation";
 
 const Profile = () => {
-  const token = localStorage.getItem("token");
-  const adminId = localStorage.getItem("adminId");
-  const email = localStorage.getItem("adminEmail");
-  const name = localStorage.getItem("adminName");
-  let profileImage = localStorage.getItem("profileImg");
-  const refferalCode = localStorage.getItem("refferalCode");
+  let token, email, adminId, name, profileImage, refferalCode;
+
+  let id;
+  if (typeof window !== "undefined") {
+    adminId ? (id = adminId) : (id = window.location.pathname.split("/").pop());
+  }
+  if (typeof localStorage !== "undefined") {
+    token = localStorage.getItem("token");
+    adminId = localStorage.getItem("adminId");
+    email = localStorage.getItem("adminEmail");
+    name = localStorage.getItem("adminName");
+    profileImage = localStorage.getItem("profileImg");
+    refferalCode = localStorage.getItem("refferalCode");
+  }
 
   const { data: session, status } = useSession();
-  const router = useRouter()
+  const router = useRouter();
 
   const [posts, setPosts] = useState([]);
   const [user, setUser] = useState({});
   const [data, setData] = useState(null);
   const [profileImg, setProfileImg] = useState("");
 
-  let id;
-  if (typeof window !== "undefined") {
-    id = window.location.pathname.split("/").pop();
-  }
   const fetchAuthorInfoAndPosts = async () => {
+
     try {
-      const res = await fetch(`http://localhost:4000/user/posts/`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
+      const response = await axios.post(
+        process.env.NEXT_PUBLIC_API + "user/posts/",
+        {
           author: {
             id: id,
           },
-        }),
-      });
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
 
-      if (res.ok) {
-        let fetchedData = await res.json();
-        setData(fetchedData);
+      if (response.status == 200) {
+        setData(response.data);
         console.log(user, posts);
       }
-      throw new Error(`HTTP error! Status: ${res.status}`);
     } catch (error) {
       console.error("Fetch error:", error);
+      
     }
   };
 
   const changeProfileImg = async () => {
     let url = prompt("Enter profile image url");
     try {
-      console.log("URL",url);
+      console.log("URL", url);
       if (url !== null || url !== "") {
         console.log("RUNNED");
-        if(url == "" || url == " " || url === null){
-          alert("Url can't be empty.")
-          return
+        if (url == "" || url == " " || url === null) {
+          alert("Url can't be empty.");
+          return;
         }
-      const res = await axios.patch("http://localhost:4000/user/profile-img", {
-        id: adminId,
-        profileImg: url,
-        })
-        .then((res) => {
-          console.log("PATCH request successful:", res.data);
-          setProfileImg(url);
-          localStorage.setItem("profileImg", url);
-          profileImage = res.data.profileImg
-        })
-        .catch((error) => {
-          console.error("Error in PATCH request:", error.message);
-        });
+        const response = await axios
+          .patch(process.env.NEXT_PUBLIC_API + "user/profile-img", {
+            id: adminId,
+            profileImg: url,
+          })
+          .then((response) => {
+            console.log("PATCH request successful:", response.data);
+            setProfileImg(url);
+            localStorage.setItem("profileImg", url);
+            profileImage = response.data.profileImg;
+          })
+          .catch((error) => {
+            console.error("Error in PATCH request:", error.message);
+          });
       } else {
-        url
+        url;
         alert('You clicked "Cancel" or closed the prompt.');
       }
-
     } catch (error) {
       console.log(error.message);
     }
   };
-
 
   const logOut = async () => {
     const token = localStorage.removeItem("token");
@@ -99,8 +104,7 @@ const Profile = () => {
     let profileImage = localStorage.removeItem("profileImg");
     const refferalCode = localStorage.removeItem("refferalCode");
     router.push("/");
-
-  }
+  };
 
   useEffect(() => {
     fetchAuthorInfoAndPosts();
@@ -109,7 +113,7 @@ const Profile = () => {
   useEffect(() => {
     console.log("data ==>", data);
     if (data) {
-      setProfileImg(user.profileImg)
+      setProfileImg(user.profileImg);
       setPosts(data.posts);
       setUser(...data.user);
     }
@@ -131,31 +135,35 @@ const Profile = () => {
         className=" w-full h-full flex flex-col items-center mx-auto px-4 py-2"
       >
         <div className="w-full h-44  flex flex-row items-center  bg-cyan-600 dark:bg-slate-900  rounded-xl">
-          { token ? (<div
-            className=" rounded-full w-28 h-28 mx-3 cursor-pointer"
-            onClick={() => {
-              changeProfileImg();
-            }}
-          >
-            <img
-              src={profileImg || "/images/sample4.jpg"}
-              alt="profile image"
-              width={160}
-              height={160}
-              className="object-cover rounded-full w-28 h-28 "
-            />
-            <p className=" text-[8px] text-center animate-pulse mt-2">Change profile Image</p>
-          </div>): <div
-            className=" rounded-full w-28 h-28 mx-3"
-          >
-            <img
-              src={profileImg || "/images/sample4.jpg"}
-              alt="profile image"
-              width={160}
-              height={160}
-              className="object-cover rounded-full w-28 h-28 "
-            />
-          </div>}
+          {token ? (
+            <div
+              className=" rounded-full w-28 h-28 mx-3 cursor-pointer"
+              onClick={() => {
+                changeProfileImg();
+              }}
+            >
+              <img
+                src={profileImg || "/images/sample4.jpg"}
+                alt="profile image"
+                width={160}
+                height={160}
+                className="object-cover rounded-full w-28 h-28 "
+              />
+              <p className=" text-[8px] text-center animate-pulse mt-2">
+                Change profile Image
+              </p>
+            </div>
+          ) : (
+            <div className=" rounded-full w-28 h-28 mx-3">
+              <img
+                src={profileImg || "/images/sample4.jpg"}
+                alt="profile image"
+                width={160}
+                height={160}
+                className="object-cover rounded-full w-28 h-28 "
+              />
+            </div>
+          )}
           <div className="mx-2 flex flex-col items-start h-fit content-evenly">
             <div className="text-2xl font-bold text-white dark:text-white-500 mt-4">
               {token ? name : user?.name}

@@ -1,4 +1,4 @@
-"use client";
+'use client'
 
 import React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -16,7 +16,10 @@ import { useSession } from "next-auth/react";
 
 const Footer = () => {
 
-  const token = localStorage.getItem("token");
+  let token;
+  if (typeof localStorage !== 'undefined') {
+  token = localStorage.getItem("token");
+  }
   const { data: session, status } = useSession();
 
   let user = true;

@@ -1,4 +1,4 @@
-"use client";
+'use client'
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEdit } from "@fortawesome/free-solid-svg-icons";
@@ -14,14 +14,16 @@ import { formatISO9075 } from "date-fns";
 import { useSession } from "next-auth/react";
 import DeleteBtn from "./DeleteBtn";
 import Loading from "./Loading";
+import axios from "axios";
 
 const DetailPost = ({ mode }) => {
   const { data: session, status } = useSession();
 
+  if (typeof localStorage !== 'undefined') {
+
   const token = localStorage.getItem("token");
   const adminId = localStorage.getItem("adminId");
-
-
+  }
   // if (mode == "saved") {
   //   let id;
 
@@ -157,23 +159,23 @@ const DetailPost = ({ mode }) => {
     const fetchPosts = async () => {
       const id = window.location.pathname.split("/").pop();
       try {
-        const res = await fetch(`http://localhost:4000/posts/${id}`, {
-          method: "GET",
+        const response = await axios.get(`process.env.NEXT_PUBLIC_API${id}`, {
           headers: {
             "Content-Type": "application/json",
           },
         });
 
-        if (!res.ok) {
-          setLoading(false);
-          throw new Error(`HTTP error! Status: ${res.status}`);
+        if (response.status === 200) {
+          const post = response.data;
+          // Do something with the posts data
+          console.log("Fetched posts:", post);
+        } else {
+          console.error("Failed to fetch post");
+          throw new Error(`HTTP error! Status: ${response.status}`);
         }
 
-        const data = await res.json();
-        console.log("Data =",data.post);
-        setPost(data.post);
+        setPost(response.data.post);
         setLoading(false);
-
       } catch (error) {
         console.error("Fetch error:", error);
       }
@@ -184,9 +186,15 @@ const DetailPost = ({ mode }) => {
   // console.log("Detail post-", post);
 
   // let like = true;
-  {loading && <div className="w-full h-full flex flex-col items-center justify-center"><Loading size="3x" /></div>}
+  {
+    loading && (
+      <div className="w-full h-full flex flex-col items-center justify-center">
+        <Loading size="3x" />
+      </div>
+    );
+  }
 
-  const { _id, title,coverImgUrl, content, author,  updatedAt, tags } = post;
+  const { _id, title, coverImgUrl, content, author, updatedAt, tags } = post;
 
   const sanitizedContent = DOMPurify.sanitize(content);
 
@@ -196,7 +204,11 @@ const DetailPost = ({ mode }) => {
         id={_id}
         className="w-auto md:w-2/3 h-auto bg-gray-300 dark:bg-slate-900 mt-[-11px] flex flex-col items-center justify-between"
       >
-        <img src={coverImgUrl} alt={title} className="w-full h-auto mt-2 mb-4" />
+        <img
+          src={coverImgUrl}
+          alt={title}
+          className="w-full h-auto mt-2 mb-4"
+        />
         <div
           id="Content_Area"
           className=" w-full h-full px-3 py-2 flex flex-col justify-around"
@@ -208,7 +220,7 @@ const DetailPost = ({ mode }) => {
             <div className="flex">
               <Link href={`/profile/${author?.id}`} className="flex">
                 <img
-                  src={author?.profileImg ||"/images/sample4.jpg"}
+                  src={author?.profileImg || "/images/sample4.jpg"}
                   alt="profile-image"
                   width={40}
                   height={40}
@@ -230,7 +242,7 @@ const DetailPost = ({ mode }) => {
                   </div>
                 </div>
               </Link>
-              {(token && adminId == author?.id )? (
+              {token && adminId == author?.id ? (
                 <div id="userDependElement" className="ml-2">
                   <Link href={`edit/${_id}`}>
                     <FontAwesomeIcon

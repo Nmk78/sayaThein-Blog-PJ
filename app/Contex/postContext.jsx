@@ -1,5 +1,6 @@
-"use client";
+'use client'
 
+import axios from "axios";
 import { createContext, useContext, useEffect, useState } from "react";
 
 
@@ -10,19 +11,24 @@ export const PostContextProvider = ({ children }) => {
 
   const fetchPosts = async () => {
     try {
-      const res = await fetch("http://localhost:4000/posts/", {
-        method: "GET",
+      const response = await axios.get(process.env.NEXT_PUBLIC_API + "posts/", {
         headers: {
-          "Content-Type": "application/json",
+          'Content-Type': 'application/json',
         },
       });
+    
+      if (response.status === 200) {
+        const posts = response.data.posts;
+        // Do something with the posts data
+        console.log('Fetched posts:', posts);
+      } else {
+        console.error('Failed to fetch posts');
+        throw new Error(`HTTP error! Status: ${response.status}`);
 
-      if (!res.ok) {
-        throw new Error(`HTTP error! Status: ${res.status}`);
       }
 
-      const data = await res.json(); // Await the promise
-      setPosts(data.posts); // Update posts state
+
+      setPosts(response.data.posts); // Update posts state
       // console.log(data);
     } catch (error) {
       console.error("Fetch error:", error);

@@ -1,11 +1,9 @@
-"use client";
+'use client'
 
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { useSession } from "next-auth/react";
-import { signIn } from "next-auth/react";
-
 import Loading from "./Loading";
 import axios from "axios";
 
@@ -25,75 +23,50 @@ const Login = ({ mode }) => {
   const [referralCode, setRefferalcode] = useState("");
   const [error, setError] = useState("");
 
-  // //1
-  // const login = async (e) => {
-  //   e.preventDefault();
-  //   console.log("Login Fn emit");
+  const login = async (e) => {
+    setLoading(true);
 
-  //   try {
-  //     const res = await signIn("credentials", {
-  //       email,
-  //       password,
-  //       redirect: false,
-  //     });
-  //     if (res.error) {
-  //       console.log(error);
-  //       setError("\x1b[31m%s\x1b[0m", "Error in submit", error);
-  //     }
-  //     router.push(res.url || "/");
-  //     // router.push('/')
-  //   } catch (error) {
-  //     console.log(error);
-  //     setError("\x1b[31m%s\x1b[0m", "Error in submit", error);
-  //   }
-  //   return;
-  // };
+    e.preventDefault();
+    console.log("Login Fn emit");
+    setError("");
 
+    try {
+      const response = await axios.post(process.env.NEXT_PUBLIC_API+"user/login", {
+        email,
+        password,
+      });
+      console.log(response);
 
-    const login = async (e) => {
-      setLoading(true);
+      if (response.status == 200) {
+        const { _id, name, email, profileImg, refferalCode, token } =
+          response.data;
 
-      e.preventDefault();
-      console.log("Login Fn emit");
-              setError("");
+        console.log("Data = ", _id, name, email, token);
+        if (typeof localStorage !== 'undefined') {
 
-      try {
-
-        const res = await axios.post("http://localhost:4000/user/login", {
-          email,
-          password,
-        });
-        console.log(res);
-
-
-        if (res.status == 200) {
-          const {_id, name, email, profileImg, refferalCode, token } = res.data;
-
-          console.log("Data = ", _id, name, email, token);
-          localStorage.setItem("adminId", _id);
-          localStorage.setItem("adminEmail", email);
-          localStorage.setItem("adminName", name);
-          localStorage.setItem("profileImg", profileImg);
-          localStorage.setItem("refferalCode", refferalCode);
-          localStorage.setItem("token", token);
-
-          const form = e.target;
-          form.reset();
-          setEmail("");
-          setPassword("");
-          setError("");
-          router.push(`/profile/${_id}`);
-          setLoading(false);
-
-        } else {
-          setError("Something went wrong.");
+        localStorage.setItem("adminId", _id);
+        localStorage.setItem("adminEmail", email);
+        localStorage.setItem("adminName", name);
+        localStorage.setItem("profileImg", profileImg);
+        localStorage.setItem("refferalCode", refferalCode);
+        localStorage.setItem("token", token);
         }
-      } catch (error) {
-        setError(error.message);
+        const form = e.target;
+        form.reset();
+        setEmail("");
+        setPassword("");
+        setError("");
+        router.push(`/profile/${_id}`);
         setLoading(false);
+      } else {
+        setError("Something went wrong.");
       }
+    } catch (error) {
+      setError(error.message);
       setLoading(false);
-    };
+    }
+    setLoading(false);
+  };
 
   const register = async (e) => {
     setLoading(true);
@@ -109,14 +82,15 @@ const Login = ({ mode }) => {
     }
 
     try {
-      const res = await fetch("/api/register", {
+      const response = await fetch("/api/register", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({ name, email, password, referralCode }),
       });
-      if (res.ok) {
+
+      if (response.status == 200) {
         setLoading(false);
 
         const form = e.target;
@@ -136,12 +110,6 @@ const Login = ({ mode }) => {
     }
     setLoading(false);
   };
-
-  // if(loading){
-  //   // if(status == "loading"){
-  //     return (<div className="w-full h-full flex flex-col items-center justify-center ">
-  //     </div>)
-  //   }
 
   return (
     <>

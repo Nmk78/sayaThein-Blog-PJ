@@ -1,19 +1,14 @@
-"use client";
+// 'use client'
 
-import React, { useContext, useState } from "react";
+import React from "react";
 
 import Post from "@components/Post";
 import Loading from "@components/Loading";
 import { postContext, usePostContext } from "@app/Contex/postContext";
-// import { useSession } from "next-auth/react";
 const Home = () => {
 
 
   const { posts } = usePostContext();
-
-  
-
-  // const{data: session, status } = useSession();
 
   if(posts == []){
     // if(status == "loading"){
@@ -40,7 +35,6 @@ const Home = () => {
         
 
         {posts?.map(({_id, title, coverImgUrl, author, date})=>{
-          // return <div>{title}</div>
                 return <Post key={_id} id={_id} title = {title} author = {author} coverImgUrl={coverImgUrl} />
         })}
 

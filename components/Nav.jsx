@@ -1,19 +1,21 @@
-"use client";
+'use client'
 
 import React from "react";
 import ThemeSwitcher from "../app/themeSwitcher";
 import Image from "next/image";
 import Link from "next/link";
 import {useSession, getProvider } from "next-auth/react";
-import { data } from "autoprefixer";
 
 const Nav = () => {
  
 
   const{data: session, status } = useSession();
-  const token = localStorage.getItem("token");
-  const id = localStorage.getItem("adminId");
-  const profileImg = localStorage.getItem("profileImg");
+  let token, profileImg, id;
+  if (typeof localStorage !== 'undefined') {
+   token = localStorage.getItem("token");
+  id = localStorage.getItem("adminId");
+  profileImg = localStorage.getItem("profileImg");
+  }
 
   console.log("Session Status - ",{data: session, status });
 

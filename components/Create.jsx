@@ -1,5 +1,4 @@
 "use client";
-
 import "react-quill/dist/quill.snow.css";
 import { useSession } from "next-auth/react";
 import { usePostContext } from "@app/Contex/postContext";
@@ -7,16 +6,19 @@ import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import ReactQuill from "react-quill";
 import Loading from "./Loading";
-// import Form from "./Form";
+import axios from "axios";
 
 const Create = ({ mode, post }) => {
+  let token, adminEmail, adminId, adminName, profileImg;
 
-  const token = localStorage.getItem("token");
-  const adminEmail = localStorage.getItem("adminEmail");
-  const adminName = localStorage.getItem("adminName");
-  const adminId = localStorage.getItem("adminId");
-  const profileImg = localStorage.getItem("profileImg");
-  
+  if (typeof localStorage !== "undefined") {
+    token = localStorage.getItem("token");
+    adminEmail = localStorage.getItem("adminEmail");
+    adminName = localStorage.getItem("adminName");
+    adminId = localStorage.getItem("adminId");
+    profileImg = localStorage.getItem("profileImg");
+  }
+
   const { data: session, status } = useSession();
   const { fetchPosts } = usePostContext();
   const router = useRouter();
@@ -44,7 +46,6 @@ const Create = ({ mode, post }) => {
       ["link"],
       ["clean"],
     ],
-
   };
 
   const formats = [
@@ -73,8 +74,7 @@ const Create = ({ mode, post }) => {
 
   useEffect(() => {
     mode == "edit" ? editHandler() : null;
-  }, [post?._id]);
-
+  }, [mode, post?._id]);
 
   if (status == "loading") {
     return (
@@ -84,9 +84,9 @@ const Create = ({ mode, post }) => {
     );
   }
 
-  // if (status != "authenticated" || token) {
-  //   router.push("/login");
-  // }
+  if (!token) {
+    router.push("/login");
+  }
 
   const handler = async () => {
     if (!token) {
@@ -99,39 +99,42 @@ const Create = ({ mode, post }) => {
       console.log("Content Not Found");
       return;
     }
-    console.log("API", process.env.API);
 
     try {
       setLoading(true);
 
-      let API = "http://localhost:4000";
+      let API = process.env.NEXT_PUBLIC_API;
 
       let method = mode === "edit" ? "PATCH" : "POST";
       console.log(mode);
 
-      const res = await fetch(
-        `${API}/post/${mode === "edit" ? post._id : "create"}`,
-        {
-          method: method,
-          headers: {
-            "Content-Type": "application/json",
+      const response = await axios({
+        method: method,
+        url: `${API}/post/${mode === "edit" ? post._id : "create"}`,
+        headers: {
+          "Content-Type": "application/json",
+        },
+        data: {
+          title,
+          coverImgUrl,
+          content,
+          author: {
+            id: adminId,
+            name: adminName,
+            email: adminEmail,
+            profileImg: profileImg,
           },
-          body: JSON.stringify({
-            title,
-            coverImgUrl,
-            content,
-            author: {
-              id: adminId,
-              name: adminName,
-              email: adminEmail,
-              profileImg: profileImg,
-            },
-            tags,
-          }),
-        }
-      );
-      if (res.ok) {
+          tags,
+        },
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      console.log(response);
+
+      if (response.status === 201 || response.status === 200) {
         router.push(redirectTo);
+        console.log(redirectTo);
         fetchPosts();
         setTitle("");
         setCoverImgUrl("");
@@ -141,20 +144,15 @@ const Create = ({ mode, post }) => {
 
         console.log("Successfully created");
       }
-      console.log(body);
-      if (!res.ok) {
-        throw new Error(`HTTP error! Status: ${res.status}`);
-      }
-      console.log(res);
     } catch (error) {
       setLoading(false);
       console.error("Fetch error:", error);
     }
   };
-  
+
   const tagHandler = (e) => {
     setTags(e.target.value.split("#"));
-    // console.log(tags);
+    console.log(tags);
   };
 
   return (
@@ -165,14 +163,17 @@ const Create = ({ mode, post }) => {
       {loading && (
         <div className="absolute flex items-center justify-center inset-0 bg-black bg-opacity-50">
           <Loading size="3x" />
-        </div> 
+        </div>
       )}
 
       <div className="flex flex-col items-center justify-start text-4xl text-clip dark:text-cyan-400 text-sky-900 font-latin font-extrabold">
         {mode == "edit" ? "Edit" : "Create a new post"}
       </div>
       <div className="h-[80%] w-full flex flex-col items-center justify-start  ">
-        <div id="Editor" className="bg-gray-300 dark:bg-slate-900 h-full mb-[-5]">
+        <div
+          id="Editor"
+          className="bg-gray-300 dark:bg-slate-900 h-full mb-[-5]"
+        >
           <ReactQuill
             theme="snow"
             modules={modules}
@@ -187,7 +188,9 @@ const Create = ({ mode, post }) => {
           />
         </div>
         <div className="w-full px-1 ">
-          <span className="block text-sm font-medium text-white mt-2">Title</span>
+          <span className="block text-sm font-medium text-white mt-2">
+            Title
+          </span>
           <input
             type="text"
             className="w-full h-10 rounded-lg px-2 border-2 border-sky-400 dark:border-sky-700 dark:bg-sky-900 bg-sky-100"
@@ -198,8 +201,11 @@ const Create = ({ mode, post }) => {
               setTitle(e.target.value);
             }}
           />
-        </div><div className="w-full px-1 ">
-          <span className="block text-sm font-medium text-white mt-2 ">Cover Image</span>
+        </div>
+        <div className="w-full px-1 ">
+          <span className="block text-sm font-medium text-white mt-2 ">
+            Cover Image
+          </span>
           <input
             type="text"
             className="w-full h-10 rounded-lg px-2 border-2 border-sky-400 dark:border-sky-700 dark:bg-sky-900 bg-sky-100"

@@ -1,5 +1,4 @@
 'use client'
-
 import React from "react";
 import Loading from "./Loading";
 import Post from "./Post";
@@ -8,12 +7,14 @@ import { usePostContext } from "@app/Contex/postContext";
 const SavedPosts = () => {
   let loading = false;
   const { posts } = usePostContext();
-  let savedPostsId = JSON.parse(localStorage.getItem("posts")) || [];
-
+  let savedPostsId
+  if (typeof localStorage !== "undefined") {
+    savedPostsId = JSON.parse(localStorage.getItem("posts")) || [];
+  }
 
   const savedPosts = posts.filter((post) =>
-  savedPostsId.some((savedPost) => savedPost._id === post._id)
-);
+    savedPostsId.some((savedPost) => savedPost._id === post._id)
+  );
 
   if (loading) {
     return (
@@ -26,14 +27,23 @@ const SavedPosts = () => {
 
   return (
     <div className="flex flex-col md:w-3/4 h-screen items-center mx-auto px-4 pt-5">
-
-        {savedPosts != [] ? (
-          savedPosts.reverse().map((savedPost) => {
-            return <Post mode="saved" id={savedPost._id} title={savedPost.title} author={savedPost.author.name} date={savedPost.createdAt} />;
-          })
-        ) : (
-          <span className="my-4 flex item-center justify-center">There is no saved posts.</span>
-        )}
+      {savedPosts != [] ? (
+        savedPosts.reverse().map((savedPost) => {
+          return (
+            <Post
+              mode="saved"
+              id={savedPost._id}
+              title={savedPost.title}
+              author={savedPost.author.name}
+              date={savedPost.createdAt}
+            />
+          );
+        })
+      ) : (
+        <span className="my-4 flex item-center justify-center">
+          There is no saved posts.
+        </span>
+      )}
     </div>
   );
 };

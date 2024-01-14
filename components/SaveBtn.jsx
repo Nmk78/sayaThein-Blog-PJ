@@ -1,4 +1,4 @@
-"use client";
+'use client'
 
 import { faHeart, faHeartCircleCheck } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -26,14 +26,18 @@ const SaveBtn = ({ post }) => {
       // console.log("Saved ID", post._id);
       const postToSave = {_id: post._id}
       existingPosts.push(postToSave);
+      if (typeof localStorage !== 'undefined') {
 
       localStorage.setItem("posts", JSON.stringify(existingPosts));
+      }
     } else {
       // console.log("Removed ID", post._id);
       const updatedPosts = existingPosts.filter(
         (existingPost) => existingPost._id !== post._id
       );
+      if (typeof localStorage !== 'undefined') {
       localStorage.setItem("posts", JSON.stringify(updatedPosts));
+      }
       setSave(false); // Update state if needed
     }
   };

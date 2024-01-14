@@ -1,22 +1,22 @@
-const dotenv = require('dotenv');
-dotenv.config({ path: '../.env' });
+const dotenv = require("dotenv");
+dotenv.config();
 
 const nextConfig = {
   reactStrictMode: true,
   images: {
     remotePatterns: [
       {
-        protocol: 'https',
-        hostname: 'assets.example.com',
-        port: '',
-        pathname: '/account123/**',
+        protocol: "https",
+        hostname: "assets.example.com",
+        port: "",
+        pathname: "/account123/**",
       },
     ],
   },
   env: {
-    API: process.env.API,
-    NEXT_AUTH_URL : process.env.NEXT_AUTH_URL,
-    JWT_SECRET : process.env.JWT_SECRET,
+    API: process.env.NEXT_PUBLIC_API,
+    NEXT_AUTH_URL: process.env.NEXT_AUTH_URL,
+    JWT_SECRET: process.env.JWT_SECRET,
   },
   async rewrites() {
     return [
@@ -25,6 +25,16 @@ const nextConfig = {
         destination: "/api/auth/nextauth",
       },
     ];
+  },
+  webpack: (config, { isServer }) => {
+    if (!isServer) {
+      config.resolve.fallback = {
+        fs: false,
+        net: false,
+      };
+    }
+
+    return config;
   },
 };
 

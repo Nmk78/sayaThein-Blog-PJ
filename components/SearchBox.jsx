@@ -1,4 +1,4 @@
-"use client";
+'use client'
 
 import React, { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -7,6 +7,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 
 import SearchResult from "./SearchResult";
+import axios from "axios";
 const SearchBox = () => {
 
   const [resultPosts, setResultPosts] = useState([])
@@ -14,23 +15,21 @@ const SearchBox = () => {
 
   const searchHandler = async ()=>{
     try {
-      console.log("API", process.env);
-      const res = await fetch("http://localhost:4000/posts/search", {
-        method: "POST",
+
+      const response = await axios.post(process.env.NEXT_PUBLIC_API+"posts/search", {
+        search: {
+          searchString: searchString,
+        },
+      }, {
         headers: {
-          "Content-Type": "application/json",
-        },body: JSON.stringify({
-          search: {
-            searchString: searchString
-          },
-        }),
+          'Content-Type': 'application/json',
+        },
       });
 
-      if (res.ok) {
-        let data = await res.json();
-        return setResultPosts(data.posts);
+      if (response.status == 200 ) {
+        return setResultPosts(response.data.posts);
       }
-      throw new Error(`HTTP error! Status: ${res.status}`);
+      throw new Error(`HTTP error! Status: ${response.status}`);
       
     } catch (error) {
       console.error("Fetch error:", error);
@@ -51,6 +50,7 @@ const SearchBox = () => {
             name="searchBar"
             placeholder="Search...."
             id="searchbar"
+            autoFocus
             value={searchString}
             onChange={(e)=>{setSearchString(e.target.value)}}
             className="w-4/5 h-10 px-4 bg-gray-200 text-gray-700 font-medium text-xl top-10 rounded-l-full focus:outline-none focus:ring-0 "

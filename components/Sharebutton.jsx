@@ -19,7 +19,6 @@ const ShareButton = () => {
         console.error("Error sharing:", error);
       }
     } else {
-      // Fallback for browsers that do not support Web Share API
       const shareUrl = window.location.href;
       navigator.clipboard.writeText(shareUrl)
       console.log("Fallback share:", shareUrl);
