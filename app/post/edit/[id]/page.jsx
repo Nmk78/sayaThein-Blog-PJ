@@ -1,7 +1,7 @@
 'use client'
 
 import React, { useState, useEffect } from "react";
-import Create from "@components/create";
+import Create from "@components/Create";
 import { response } from "express";
 
 const Page = () => {
