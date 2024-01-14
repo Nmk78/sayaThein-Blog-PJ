@@ -8,9 +8,9 @@ module.exports = {
     remotePatterns: [
       {
         protocol: "https",
-        hostname: "assets.example.com",
+        hostname: "https://wyt-blog.vercel.app/",
         port: "",
-        pathname: "/account123/**",
+        pathname: "/public/images/**",
       },
     ],
   },
