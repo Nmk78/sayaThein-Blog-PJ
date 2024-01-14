@@ -40,7 +40,7 @@ export async function POST(req) {
     console.log("\x1b[31m%s\x1b[0m", "Register Failed", error);
 
     return NextResponse.json(
-      { message: "User register failed" },
+      { message: error.message },
       { status: 500 }
     );
   }

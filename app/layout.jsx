@@ -13,7 +13,12 @@ import SearchBox from "@components/SearchBox";
 export const metadata = {
   title: "WYT | Online English Guide",
   description: "English guideline and tutoring.",
+    manifest: '/manifest.json',
+    icons:{logo: '/logo.jpg'},
+    themeColor: "#009688",
 };
+
+
 
 const RootLayout = ({ children }) => {
   return (

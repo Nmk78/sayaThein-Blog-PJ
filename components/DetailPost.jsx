@@ -19,9 +19,10 @@ import axios from "axios";
 const DetailPost = ({ mode }) => {
   const { data: session, status } = useSession();
 
+  let token, adminId
   if (typeof localStorage !== "undefined") {
-    const token = localStorage.getItem("token");
-    const adminId = localStorage.getItem("adminId");
+    token = localStorage.getItem("token");
+    adminId = localStorage.getItem("adminId");
   }
   // if (mode == "saved") {
   //   let id;
