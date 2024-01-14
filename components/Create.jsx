@@ -1,4 +1,5 @@
-"use client";
+'use client'
+
 import "react-quill/dist/quill.snow.css";
 import { useSession } from "next-auth/react";
 import { usePostContext } from "@app/Contex/postContext";

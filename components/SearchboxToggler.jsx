@@ -6,15 +6,23 @@ const SearchboxToggler = ({ size }) => {
   const [open, setOpen] = useState(true);
 
   const searchBoxTogglerFn = () => {
-    const div = document.getElementById("searchBox");
-    if (open) {
-      setOpen(false);
-      div.classList.remove("hidden"); // Explicitly remove the "hidden" class
-    } else {
-      setOpen(true);
-      div.classList.add("hidden"); // Explicitly add the "hidden" class
+    if (typeof window !== "undefined") {
+      const div = document.getElementById("searchBox");
+  
+      if (div) {
+        if (open) {
+          setOpen(false);
+          div.classList.remove("hidden");
+        } else {
+          setOpen(true);
+          div.classList.add("hidden");
+        }
+      } else {
+        console.error("Element with id 'searchBox' not found");
+      }
     }
   };
+  
 
   return (
     <button onClick={() => searchBoxTogglerFn()}>
