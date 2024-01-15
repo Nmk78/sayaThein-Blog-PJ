@@ -63,7 +63,7 @@ const Login = ({ mode }) => {
       }
     } catch (error) {
       console.log(error);
-      setError(error.message);
+      setError(response.data.error);
       setLoading(false);
     }
     setLoading(false);
