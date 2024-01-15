@@ -23,7 +23,6 @@ const Login = ({ mode }) => {
   const [referralCode, setRefferalcode] = useState("");
   const [error, setError] = useState("");
 
-  let response;
 
   const login = async (e) => {
     setLoading(true);
@@ -33,7 +32,7 @@ const Login = ({ mode }) => {
     setError("");
 
     try {
-      response = await axios.post(process.env.NEXT_PUBLIC_API + "user/login", {
+      const response = await axios.post(process.env.NEXT_PUBLIC_API + "user/login", {
         email,
         password,
       });
@@ -83,7 +82,7 @@ const Login = ({ mode }) => {
     }
 
     try {
-      response = await fetch("/api/register", {
+      const response = await fetch("/api/register", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
