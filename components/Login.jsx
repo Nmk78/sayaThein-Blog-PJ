@@ -63,14 +63,11 @@ const Login = ({ mode }) => {
         setError("Something went wrong.");
       }
     } catch (error) {
-      setError(response.data.error);
-      setLoading(false);
-    } finally {
-      response.data
-      setLoading(false);
-    }
+      setError(error);
+
     setLoading(false);
   };
+}
 
   const register = async (e) => {
     setLoading(true);
@@ -109,7 +106,7 @@ const Login = ({ mode }) => {
         setError("Something went wrong.");
       }
     } catch (error) {
-      setError(response.data.error);
+      setError(error);
       setLoading(false);
     }
     setLoading(false);
@@ -334,6 +331,7 @@ const Login = ({ mode }) => {
                 Login{" "}
               </button>
             </div>
+            
           </form>
         )}
       </div>
