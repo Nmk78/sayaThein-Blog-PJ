@@ -114,8 +114,12 @@ const Create = ({ mode, post }) => {
     let method = mode === "edit" ? "PATCH" : "POST";
     console.log(mode);
 
-    const url = mode === "edit" ? `${API}post/${post._id}` : `${API}post/create`;
-
+    if (mode === "edit" && post?._id) {
+      url = `${API}post/${post._id}`;
+    } else {
+      url = `${API}post/create`;
+    }
+    
     try {
       setLoading(true);
   
