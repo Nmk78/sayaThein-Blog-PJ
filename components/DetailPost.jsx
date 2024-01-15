@@ -156,6 +156,7 @@ const DetailPost = ({ mode }) => {
 
   useEffect(() => {
     setLoading(true);
+    console.log(loading);
     const fetchPost = async () => {
       setLoading(true)
       let id;
@@ -185,15 +186,17 @@ const DetailPost = ({ mode }) => {
         console.error("Fetch error:", error);
         setLoading(false)
       }
+      console.log(loading);
     };
 
     fetchPost();
   }, []);
-  
+
   {
     loading && (
       <div className="w-full h-full flex flex-col items-center justify-center">
         <Loading size="3x" />
+
       </div>
     );
   }
