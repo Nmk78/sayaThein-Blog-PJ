@@ -213,18 +213,15 @@ const DetailPost = ({ mode }) => {
         id={_id}
         className="w-full md:w-2/3 h-auto bg-gray-300 dark:bg-slate-900 mt-[-11px] flex flex-col items-center justify-between"
       >
-        {/* <Image
-          src={coverImgUrl}
-          alt={title}
-          className="w-full h-auto mt-2 mb-4"
-        /> */}
-        <Image
-          src={coverImgUrl}
-          alt={title}
-          layout="fill"
-          objectFit="cover"
-          className="w-full h-auto mt-2 mb-4"
-        />
+        <div className="w-full h-auto">
+          <Image
+            src={coverImgUrl}
+            alt={title}
+            layout="fill"
+            objectFit="cover"
+            className="w-full h-auto mt-2 mb-4"
+          />
+        </div>
         <div
           id="Content_Area"
           className=" w-full h-full px-3 py-2 flex flex-col justify-around"
