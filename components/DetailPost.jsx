@@ -209,7 +209,7 @@ const DetailPost = ({ mode }) => {
     <div className="flex flex-col items-center h-full">
       <div
         id={_id}
-        className="w-auto md:w-2/3 h-auto bg-gray-300 dark:bg-slate-900 mt-[-11px] flex flex-col items-center justify-between"
+        className="w-full md:w-2/3 h-auto bg-gray-300 dark:bg-slate-900 mt-[-11px] flex flex-col items-center justify-between"
       >
         <Image
           src={coverImgUrl}
