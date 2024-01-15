@@ -23,6 +23,8 @@ const Login = ({ mode }) => {
   const [referralCode, setRefferalcode] = useState("");
   const [error, setError] = useState("");
 
+  let response;
+
   const login = async (e) => {
     setLoading(true);
 
@@ -31,7 +33,7 @@ const Login = ({ mode }) => {
     setError("");
 
     try {
-      const response = await axios.post(process.env.NEXT_PUBLIC_API+"user/login", {
+      response = await axios.post(process.env.NEXT_PUBLIC_API+"user/login", {
         email,
         password,
       });
@@ -62,7 +64,6 @@ const Login = ({ mode }) => {
         setError("Something went wrong.");
       }
     } catch (error) {
-      console.log(error);
       setError(response.data.error);
       setLoading(false);
     }
@@ -106,7 +107,7 @@ const Login = ({ mode }) => {
         setError("Something went wrong.");
       }
     } catch (error) {
-      setError(error.message);
+      setError(response.data.error);
       setLoading(false);
     }
     setLoading(false);
