@@ -23,25 +23,27 @@ const Login = ({ mode }) => {
   const [referralCode, setRefferalcode] = useState("");
   const [error, setError] = useState("");
 
-
   const login = async (e) => {
     setLoading(true);
-
+  
     e.preventDefault();
     console.log("Login Fn emit");
     setError("");
-
+  
     try {
-      const response = await axios.post(process.env.NEXT_PUBLIC_API + "user/login", {
-        email,
-        password,
-      });
+      const response = await axios.post(
+        process.env.NEXT_PUBLIC_API + "user/login",
+        {
+          email,
+          password,
+        }
+      );
       console.log(response);
-
-      if (response.status == 200) {
+  
+      if (response.status === 200) {
         const { _id, name, email, profileImg, refferalCode, token } =
           response.data;
-
+  
         console.log("Data = ", _id, name, email, token);
         if (typeof localStorage !== "undefined") {
           localStorage.setItem("adminId", _id);
@@ -62,11 +64,65 @@ const Login = ({ mode }) => {
         setError("Something went wrong.");
       }
     } catch (error) {
-      setError(error);
-
-    setLoading(false);
+      if (error.response && error.response.status === 404) {
+        setError("User not found");
+      } else {
+        setError("An error occurred during login.");
+      }
+    } finally {
+      setLoading(false);
+    }
   };
-}
+  
+
+  // const login = async (e) => {
+  //   setLoading(true);
+
+  //   e.preventDefault();
+  //   console.log("Login Fn emit");
+  //   setError("");
+
+  //   try {
+  //     const response = await axios.post(
+  //       process.env.NEXT_PUBLIC_API + "user/login",
+  //       {
+  //         email,
+  //         password,
+  //       }
+  //     );
+  //     console.log(response);
+
+  //     if (response.status == 200) {
+  //       const { _id, name, email, profileImg, refferalCode, token } =
+  //         response.data;
+
+  //       console.log("Data = ", _id, name, email, token);
+  //       if (typeof localStorage !== "undefined") {
+  //         localStorage.setItem("adminId", _id);
+  //         localStorage.setItem("adminEmail", email);
+  //         localStorage.setItem("adminName", name);
+  //         localStorage.setItem("profileImg", profileImg);
+  //         localStorage.setItem("refferalCode", refferalCode);
+  //         localStorage.setItem("token", token);
+  //       }
+  //       const form = e.target;
+  //       form.reset();
+  //       setEmail("");
+  //       setPassword("");
+  //       setError("");
+  //       router.push(`/profile/${_id}`);
+  //       setLoading(false);
+  //     } else {
+  //       setError("Something went wrong.");
+  //     }
+  //     if(response.status === 404){
+  //       return setError("User not found");
+  //     }
+  //   } catch (error) {
+  //     setError(error);
+  //     setLoading(false);
+  //   }
+  // };
 
   const register = async (e) => {
     setLoading(true);
@@ -330,7 +386,6 @@ const Login = ({ mode }) => {
                 Login{" "}
               </button>
             </div>
-            
           </form>
         )}
       </div>
