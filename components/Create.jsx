@@ -118,6 +118,7 @@ const Create = ({ mode, post }) => {
         url: `${API}/post/${mode === "edit" ? post._id : "create"}`,
         headers: {
           "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
         },
         data: {
           title,
@@ -131,9 +132,7 @@ const Create = ({ mode, post }) => {
           },
           tags,
         },
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
+
       });
       console.log(response);
 
