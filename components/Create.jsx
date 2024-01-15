@@ -98,24 +98,27 @@ const Create = ({ mode, post }) => {
       console.log("Unauthenticated error");
       return;
     }
+  
     setEmail(adminEmail);
-
-    if (title == "" || content == "") {
+  
+    if (title === "" || content === "") {
       console.log("Content Not Found");
       return;
     }
-
+  
     try {
       setLoading(true);
-
+  
       let API = process.env.NEXT_PUBLIC_API;
-
+  
       let method = mode === "edit" ? "PATCH" : "POST";
       console.log(mode);
-
+  
+      const url = mode === "edit" ? `${API}/post/${post._id}` : `${API}/post/create`;
+  
       const response = await axios({
         method: method,
-        url: `${API}/post/${mode === "edit" ? post._id : "create"}`,
+        url: url,
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
@@ -132,10 +135,10 @@ const Create = ({ mode, post }) => {
           },
           tags,
         },
-
       });
+  
       console.log(response);
-
+  
       if (response.status === 201 || response.status === 200) {
         router.push(redirectTo);
         console.log(redirectTo);
@@ -145,7 +148,7 @@ const Create = ({ mode, post }) => {
         setContent("");
         setTags([]);
         setLoading(false);
-
+  
         console.log("Successfully created");
       }
     } catch (error) {
@@ -153,6 +156,69 @@ const Create = ({ mode, post }) => {
       console.error("Fetch error:", error);
     }
   };
+  
+
+
+  // const handler = async () => {
+  //   if (!token) {
+  //     console.log("Unauthenticated error");
+  //     return;
+  //   }
+  //   setEmail(adminEmail);
+
+  //   if (title == "" || content == "") {
+  //     console.log("Content Not Found");
+  //     return;
+  //   }
+
+  //   try {
+  //     setLoading(true);
+
+  //     let API = process.env.NEXT_PUBLIC_API;
+
+  //     let method = mode === "edit" ? "PATCH" : "POST";
+  //     console.log(mode);
+
+  //     const response = await axios({
+  //       method: method,
+  //       url: `${API}/post/${mode === "edit" ? post._id : "create"}`,
+  //       headers: {
+  //         "Content-Type": "application/json",
+  //         Authorization: `Bearer ${token}`,
+  //       },
+  //       data: {
+  //         title,
+  //         coverImgUrl,
+  //         content,
+  //         author: {
+  //           id: adminId,
+  //           name: adminName,
+  //           email: adminEmail,
+  //           profileImg: profileImg,
+  //         },
+  //         tags,
+  //       },
+
+  //     });
+  //     console.log(response);
+
+  //     if (response.status === 201 || response.status === 200) {
+  //       router.push(redirectTo);
+  //       console.log(redirectTo);
+  //       fetchPosts();
+  //       setTitle("");
+  //       setCoverImgUrl("");
+  //       setContent("");
+  //       setTags([]);
+  //       setLoading(false);
+
+  //       console.log("Successfully created");
+  //     }
+  //   } catch (error) {
+  //     setLoading(false);
+  //     console.error("Fetch error:", error);
+  //   }
+  // };
 
   const tagHandler = (e) => {
     setTags(e.target.value.split("#"));
