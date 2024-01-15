@@ -62,6 +62,7 @@ const Login = ({ mode }) => {
         setError("Something went wrong.");
       }
     } catch (error) {
+      console.log(error);
       setError(error.message);
       setLoading(false);
     }
