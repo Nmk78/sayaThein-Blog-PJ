@@ -143,7 +143,7 @@ const Profile = () => {
               }}
             >
               <Image
-                src={profileImg}
+                src={profileImage || "/images/sample4.jpg"}
                 alt="profile image"
                 width={160}
                 height={160}
@@ -156,7 +156,7 @@ const Profile = () => {
           ) : (
             <div className=" rounded-full w-28 h-28 mx-3">
               <Image
-                src={profileImg || "/images/sample4.jpg"}
+                src={profileImage || "/images/sample4.jpg"}
                 alt="profile image"
                 width={160}
                 height={160}
