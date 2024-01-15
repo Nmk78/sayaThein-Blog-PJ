@@ -221,7 +221,9 @@ const DetailPost = ({ mode }) => {
         <Image
           src={coverImgUrl}
           alt={title}
-          className="w-full object-contain object-center rounded-full"
+          layout="fill"
+          objectFit="cover"
+          className="w-full h-auto mt-2 mb-4"
         />
         <div
           id="Content_Area"
