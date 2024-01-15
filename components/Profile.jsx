@@ -143,7 +143,7 @@ const Profile = () => {
               }}
             >
               <Image
-                src={profileImg || "/images/sample4.jpg"}
+                src={profileImg}
                 alt="profile image"
                 width={160}
                 height={160}
