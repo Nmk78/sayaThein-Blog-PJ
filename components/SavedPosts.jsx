@@ -19,9 +19,9 @@ const SavedPosts = () => {
   if (loading) {
     return (
       <div className="w-full h-full flex flex-col items-center justify-center ">
-        <Loading size="2x" />
-        <span className="my-4">Loading saved posts...</span>
-      </div>
+      <Loading size="3x" />
+      <span className="my-4">Loading saved posts...</span>
+    </div>
     );
   }
 

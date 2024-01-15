@@ -174,8 +174,9 @@ const Login = ({ mode }) => {
         className="w-full h-full flex flex-col justify-center items-center gap-4 p-4 bg-gray-200 dark:bg-slate-800"
       >
         {loading && (
-          <div className="absolute flex items-center justify-center inset-0 bg-black bg-opacity-50">
+            <div className="w-full h-full flex flex-col items-center justify-center ">
             <Loading size="3x" />
+            <span className="my-4">Loading...</span>
           </div>
         )}
         {mode == "register" ? (

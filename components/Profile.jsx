@@ -122,9 +122,9 @@ const Profile = () => {
   if (status == "loading") {
     return (
       <div className="w-full h-full flex flex-col items-center justify-center ">
-        <Loading size="3x" />
-        <span className="my-4">Loading Profile...</span>
-      </div>
+      <Loading size="3x" />
+      <span className="my-4">Loading Profile...</span>
+    </div>
     );
   }
 

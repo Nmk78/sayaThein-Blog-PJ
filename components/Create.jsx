@@ -35,7 +35,8 @@ const Create = ({ mode, post }) => {
   const [tags, setTags] = useState([]);
   const [loading, setLoading] = useState(false);
 
-  let editTags = tags.map((tag) => "#" + tag);
+  let editedTags = tags.filter(tag => tag !== "").map(tag => "#" + tag).join(" ");
+
   const redirectTo = mode == "edit" ? `/post/${post._id}` : "/";
 
   const modules = {
@@ -83,9 +84,10 @@ const Create = ({ mode, post }) => {
 
   if (status == "loading") {
     return (
-      <>
-        <Loading className="absolute top-1/2 left-1/2" size="3x" />
-      </>
+      <div className="w-full h-full flex flex-col items-center justify-center ">
+      <Loading size="3x" />
+      <span className="my-4">Loading post data...</span>
+    </div>
     );
   }
 
@@ -99,22 +101,23 @@ const Create = ({ mode, post }) => {
       return;
     }
   
-    setEmail(adminEmail);
   
     if (title === "" || content === "") {
       console.log("Content Not Found");
       return;
     }
   
+    let API = process.env.NEXT_PUBLIC_API;
+
+    setEmail(adminEmail);
+  
+    let method = mode === "edit" ? "PATCH" : "POST";
+    console.log(mode);
+
+    const url = mode === "edit" ? `${API}post/${post._id}` : `${API}post/create`;
+
     try {
       setLoading(true);
-  
-      let API = process.env.NEXT_PUBLIC_API;
-  
-      let method = mode === "edit" ? "PATCH" : "POST";
-      console.log(mode);
-  
-      const url = mode === "edit" ? `${API}post/${post._id}` : `${API}post/create`;
   
       const response = await axios({
         method: method,
@@ -136,9 +139,7 @@ const Create = ({ mode, post }) => {
           tags,
         },
       });
-  
-      console.log(response);
-  
+    
       if (response.status === 201 || response.status === 200) {
         router.push(redirectTo);
         console.log(redirectTo);
@@ -153,7 +154,7 @@ const Create = ({ mode, post }) => {
       }
     } catch (error) {
       setLoading(false);
-      console.error("Fetch error:", error);
+      console.error("Edit error:", error);
     }
   };
   
@@ -233,8 +234,9 @@ const Create = ({ mode, post }) => {
       className="w-full h-full flex flex-col justify-evenly bg-gray-400 dark:bg-slate-900"
     >
       {loading && (
-        <div className="absolute flex items-center justify-center inset-0 bg-black bg-opacity-50">
+          <div className="w-full h-full flex flex-col items-center justify-center ">
           <Loading size="3x" />
+          <span className="my-4">Loading...</span>
         </div>
       )}
 
@@ -297,7 +299,7 @@ const Create = ({ mode, post }) => {
             type="text"
             className="w-full h-10 rounded-lg px-2 border-2 border-sky-400 dark:border-sky-700 dark:bg-sky-900 bg-sky-100"
             placeholder="Tags : #vocabulary #grammar "
-            value={mode == "edit" ? editTags : tags}
+            value={mode == "edit" ? editedTags : tags}
             onChange={tagHandler}
           />
         </div>

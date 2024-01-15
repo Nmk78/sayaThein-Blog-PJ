@@ -197,9 +197,10 @@ const DetailPost = ({ mode }) => {
 
   {
     loading && (
-      <div className="w-full h-full flex flex-col items-center justify-center">
-        <Loading size="3x" />
-      </div>
+      <div className="w-full h-full flex flex-col items-center justify-center ">
+      <Loading size="3x" />
+      <span className="my-4">Loading post...</span>
+    </div>
     );
   }
 
