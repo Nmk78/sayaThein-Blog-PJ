@@ -19,7 +19,7 @@ import axios from "axios";
 const DetailPost = ({ mode }) => {
   const { data: session, status } = useSession();
 
-  let token, adminId
+  let token, adminId;
   if (typeof localStorage !== "undefined") {
     token = localStorage.getItem("token");
     adminId = localStorage.getItem("adminId");
@@ -158,21 +158,24 @@ const DetailPost = ({ mode }) => {
     setLoading(true);
     console.log(loading);
     const fetchPost = async () => {
-      setLoading(true)
+      setLoading(true);
       let id;
       if (typeof window !== "undefined") {
         id = window.location.pathname.split("/").pop();
       }
       try {
-        const response = await axios.get(`${process.env.NEXT_PUBLIC_API}posts/${id}`, {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        });
+        const response = await axios.get(
+          `${process.env.NEXT_PUBLIC_API}posts/${id}`,
+          {
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        );
 
         if (response.status === 200) {
           const post = response.data;
-          setLoading(false)
+          setLoading(false);
           // Do something with the posts data
           console.log("Fetched posts:", post);
         } else {
@@ -184,7 +187,7 @@ const DetailPost = ({ mode }) => {
         setLoading(false);
       } catch (error) {
         console.error("Fetch error:", error);
-        setLoading(false)
+        setLoading(false);
       }
       console.log(loading);
     };
@@ -196,7 +199,6 @@ const DetailPost = ({ mode }) => {
     loading && (
       <div className="w-full h-full flex flex-col items-center justify-center">
         <Loading size="3x" />
-
       </div>
     );
   }
@@ -211,10 +213,15 @@ const DetailPost = ({ mode }) => {
         id={_id}
         className="w-full md:w-2/3 h-auto bg-gray-300 dark:bg-slate-900 mt-[-11px] flex flex-col items-center justify-between"
       >
-        <Image
+        {/* <Image
           src={coverImgUrl}
           alt={title}
           className="w-full h-auto mt-2 mb-4"
+        /> */}
+        <Image
+          src={coverImgUrl}
+          alt={title}
+          className="w-full object-contain object-center rounded-full"
         />
         <div
           id="Content_Area"
