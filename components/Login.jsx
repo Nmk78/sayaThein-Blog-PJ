@@ -1,4 +1,4 @@
-'use client'
+"use client";
 
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
@@ -33,7 +33,7 @@ const Login = ({ mode }) => {
     setError("");
 
     try {
-      response = await axios.post(process.env.NEXT_PUBLIC_API+"user/login", {
+      response = await axios.post(process.env.NEXT_PUBLIC_API + "user/login", {
         email,
         password,
       });
@@ -44,14 +44,13 @@ const Login = ({ mode }) => {
           response.data;
 
         console.log("Data = ", _id, name, email, token);
-        if (typeof localStorage !== 'undefined') {
-
-        localStorage.setItem("adminId", _id);
-        localStorage.setItem("adminEmail", email);
-        localStorage.setItem("adminName", name);
-        localStorage.setItem("profileImg", profileImg);
-        localStorage.setItem("refferalCode", refferalCode);
-        localStorage.setItem("token", token);
+        if (typeof localStorage !== "undefined") {
+          localStorage.setItem("adminId", _id);
+          localStorage.setItem("adminEmail", email);
+          localStorage.setItem("adminName", name);
+          localStorage.setItem("profileImg", profileImg);
+          localStorage.setItem("refferalCode", refferalCode);
+          localStorage.setItem("token", token);
         }
         const form = e.target;
         form.reset();
@@ -66,7 +65,8 @@ const Login = ({ mode }) => {
     } catch (error) {
       setError(response.data.error);
       setLoading(false);
-    } finally{
+    } finally {
+      response.data
       setLoading(false);
     }
     setLoading(false);
