@@ -59,6 +59,7 @@ const user_login = async (req, res) => {
     if (!loginnedUser) {
       res.status(400);
       res.json({ error: "user not found" });
+      return
     }
 
     console.log(loginnedUser);
@@ -67,6 +68,7 @@ const user_login = async (req, res) => {
     if (!passwordMatch) {
       res.status(400);
       res.json({ error: "Invalid Password" });
+      return
     }
 
     console.log(loginnedUser);
@@ -82,10 +84,14 @@ const user_login = async (req, res) => {
       refferalCode: loginnedUser.code,
       token: token,
     });
+    return
+
   } catch (error) {
     console.log(error);
     res.status(500);
     res.json({ error: error.message });
+    return
+
   }
 };
 
