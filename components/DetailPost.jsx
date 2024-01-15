@@ -206,7 +206,7 @@ const DetailPost = ({ mode }) => {
   const sanitizedContent = DOMPurify.sanitize(content);
 
   return (
-    <div className="flex flex-col item-center h-full">
+    <div className="flex flex-col items-center h-full">
       <div
         id={_id}
         className="w-auto md:w-2/3 h-auto bg-gray-300 dark:bg-slate-900 mt-[-11px] flex flex-col items-center justify-between"
