@@ -66,6 +66,8 @@ const Login = ({ mode }) => {
     } catch (error) {
       setError(response.data.error);
       setLoading(false);
+    } finally{
+      setLoading(false);
     }
     setLoading(false);
   };
