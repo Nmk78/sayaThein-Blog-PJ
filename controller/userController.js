@@ -57,26 +57,21 @@ const user_login = async (req, res) => {
       "_id name email password code profileImg"
     );
     if (!loginnedUser) {
-      res.status(400);
-      res.json({ error: "user not found" });
-      return
+      return res.status(404).json({ error: "user not found" });
     }
 
     console.log(loginnedUser);
     const passwordMatch = await bcrypt.compare(password, loginnedUser.password);
 
     if (!passwordMatch) {
-      res.status(400);
-      res.json({ error: "Invalid Password" });
-      return
+      return res.status(400).json({ error: "Invalid Password" });
     }
 
     console.log(loginnedUser);
 
     const token = await createToken(loginnedUser.email);
     console.log(token);
-    res.status(200);
-    res.json({
+    return res.status(200).json({
       _id: loginnedUser._id,
       name: loginnedUser.name,
       email: loginnedUser.email,
@@ -84,37 +79,35 @@ const user_login = async (req, res) => {
       refferalCode: loginnedUser.code,
       token: token,
     });
-    return
-
   } catch (error) {
     console.log(error);
-    res.status(500);
-    res.json({ error: error.message });
-    return
+    res.status(500).json({ error: error.message });
 
   }
 };
 
 const profileImgChange = async (req, res) => {
-  const {id, profileImg} = req.body;
+  const { id, profileImg } = req.body;
   const _id = new mongoose.Types.ObjectId(id);
 
-
   try {
-    const user = await User.findById({_id})
-    if(!user){
-      return res.status(500).json({error: "User not found"})
+    const user = await User.findById({ _id });
+    if (!user) {
+      return res.status(500).json({ error: "User not found" });
     }
-    updatedUser = await User.findByIdAndUpdate({_id},{profileImg}, {new: true})
-    if(!updatedUser){
-      return res.status(500).json({error: "Updated Failed"})
+    updatedUser = await User.findByIdAndUpdate(
+      { _id },
+      { profileImg },
+      { new: true }
+    );
+    if (!updatedUser) {
+      return res.status(500).json({ error: "Updated Failed" });
     }
-    return res.status(200).json(updatedUser)
+    return res.status(200).json(updatedUser);
   } catch (error) {
     console.log(error);
-    return res.status(500).json(({error: error.message}))
+    return res.status(500).json({ error: error.message });
   }
-
 };
 
 const get_one_user = async (req, res) => {
@@ -149,7 +142,9 @@ const get_all_posts_by_author = async (req, res) => {
       res.status(400).json({ message: "Author is required" });
     }
     let posts = await Post.find({ "author.id": author.id });
-    let user = await User.find({ _id: author.id }).select("_id email profileImg name");
+    let user = await User.find({ _id: author.id }).select(
+      "_id email profileImg name"
+    );
     console.log("posts=>", posts);
 
     res.status(200).json({ posts: posts, user: user });
@@ -164,6 +159,5 @@ module.exports = {
   get_all_posts_by_author,
   // user_register,
   user_login,
-  profileImgChange
+  profileImgChange,
 };
-
