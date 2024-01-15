@@ -25,14 +25,13 @@ let adminId, token;
       const response = await axios.delete(`${process.env.NEXT_PUBLIC_API}post/${id}`, {
         headers: {
           "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+
         },
         data: {
           author: {
             id: adminId,
           },
-        },
-        headers: {
-          Authorization: `Bearer ${token}`,
         },
       });
 
