@@ -22,7 +22,7 @@ let adminId, token;
 
   const handleDelete = async () => {
     try {
-      const response = await axios.delete(`http://localhost:4000/post/${id}`, {
+      const response = await axios.delete(`${process.env.NEXT_PUBLIC_API}post/${id}`, {
         headers: {
           "Content-Type": "application/json",
         },
