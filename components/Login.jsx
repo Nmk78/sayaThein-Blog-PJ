@@ -84,7 +84,7 @@ const Login = ({ mode }) => {
     }
 
     try {
-      const response = await fetch("/api/register", {
+      response = await fetch("/api/register", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
