@@ -13,7 +13,6 @@ connectToDB();
 
 const app = express();
 
-app.use(cors());
 
 const corsOptions = {
   origin: 'https://wyt-blog.vercel.app',
@@ -23,6 +22,7 @@ const corsOptions = {
 };
 
 app.use(cors(corsOptions));
+
 
 app.get("/", (req, res) => {
   res.status(200).json({
