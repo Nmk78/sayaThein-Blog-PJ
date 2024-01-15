@@ -156,7 +156,8 @@ const DetailPost = ({ mode }) => {
 
   useEffect(() => {
     setLoading(true);
-    const fetchPosts = async () => {
+    const fetchPost = async () => {
+      setLoading(true)
       let id;
       if (typeof window !== "undefined") {
         id = window.location.pathname.split("/").pop();
@@ -170,6 +171,7 @@ const DetailPost = ({ mode }) => {
 
         if (response.status === 200) {
           const post = response.data;
+          setLoading(false)
           // Do something with the posts data
           console.log("Fetched posts:", post);
         } else {
@@ -181,14 +183,13 @@ const DetailPost = ({ mode }) => {
         setLoading(false);
       } catch (error) {
         console.error("Fetch error:", error);
+        setLoading(false)
       }
     };
 
-    fetchPosts();
+    fetchPost();
   }, []);
-  // console.log("Detail post-", post);
-
-  // let like = true;
+  
   {
     loading && (
       <div className="w-full h-full flex flex-col items-center justify-center">
