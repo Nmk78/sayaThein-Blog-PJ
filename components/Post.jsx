@@ -17,7 +17,7 @@ const Post = ({ id, title, coverImgUrl, author, mode }) => {
         id={id}
         className="w-auto md:w-2/3 h-36 md:h-60 bg-gray-300 dark:bg-slate-900 my-1 flex flex-row items-center justify-start rounded-2xl"
       >
-        <img
+        <Image
           src={coverImgUrl}
           alt={title}
           className="w-32 h-32 ml-2 object-cover rounded-2xl"
@@ -31,7 +31,7 @@ const Post = ({ id, title, coverImgUrl, author, mode }) => {
           </div>
 
           <div className="w-full h-10 flex flex-row items-center justify-around">
-            <img
+            <Image
               src={author?.profileImg || "/images/sample4.jpg"}
               alt="profile-image"
               width={30}

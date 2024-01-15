@@ -142,7 +142,7 @@ const Profile = () => {
                 changeProfileImg();
               }}
             >
-              <img
+              <Image
                 src={profileImg || "/images/sample4.jpg"}
                 alt="profile image"
                 width={160}
@@ -155,7 +155,7 @@ const Profile = () => {
             </div>
           ) : (
             <div className=" rounded-full w-28 h-28 mx-3">
-              <img
+              <Image
                 src={profileImg || "/images/sample4.jpg"}
                 alt="profile image"
                 width={160}

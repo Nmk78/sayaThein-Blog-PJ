@@ -207,7 +207,7 @@ const DetailPost = ({ mode }) => {
         id={_id}
         className="w-auto md:w-2/3 h-auto bg-gray-300 dark:bg-slate-900 mt-[-11px] flex flex-col items-center justify-between"
       >
-        <img
+        <Image
           src={coverImgUrl}
           alt={title}
           className="w-full h-auto mt-2 mb-4"
@@ -222,7 +222,7 @@ const DetailPost = ({ mode }) => {
           >
             <div className="flex">
               <Link href={`/profile/${author?.id}`} className="flex">
-                <img
+                <Image
                   src={author?.profileImg || "/images/sample4.jpg"}
                   alt="profile-image"
                   width={40}
