@@ -21,7 +21,7 @@ const Page = () => {
       });
   
       if (response.status === 200) {
-        console.log("To edit = :", response.data);
+        console.log("To edit = :", response.data.post);
         setPost(response.data);
       } else {
         console.error("Failed to fetch post");
