@@ -1,4 +1,4 @@
-'use client'
+"use client";
 
 import "react-quill/dist/quill.snow.css";
 import { useSession } from "next-auth/react";
@@ -8,15 +8,14 @@ import React, { useEffect, useState } from "react";
 // import ReactQuill from "react-quill";
 import Loading from "./Loading";
 import axios from "axios";
-import dynamic from 'next/dynamic';
+import dynamic from "next/dynamic";
 
-const ReactQuill = dynamic(() => import('react-quill'), { ssr: false });
+const ReactQuill = dynamic(() => import("react-quill"), { ssr: false });
 
-
-const Create = ({ mode, post }) => {
+const Create = ({ mode }) => {
   let token, adminEmail, adminId, adminName, profileImg;
 
-  console.log("post",post);
+  console.log("post", post);
 
   if (typeof localStorage !== "undefined") {
     token = localStorage.getItem("token");
@@ -30,6 +29,8 @@ const Create = ({ mode, post }) => {
   const { fetchPosts } = usePostContext();
   const router = useRouter();
 
+  const [postToEdit, setPostToEdit] = useState({});
+
   const [title, setTitle] = useState("");
   const [coverImgUrl, setCoverImgUrl] = useState("");
   const [email, setEmail] = useState("");
@@ -37,9 +38,12 @@ const Create = ({ mode, post }) => {
   const [tags, setTags] = useState([]);
   const [loading, setLoading] = useState(false);
 
-  let editedTags = tags.filter(tag => tag !== "").map(tag => "#" + tag).join(" ");
+  let editedTags = tags
+    .filter((tag) => tag !== "")
+    .map((tag) => "#" + tag)
+    .join(" ");
 
-  const redirectTo = mode == "edit" ? `/post/${post._id}` : "/";
+  const redirectTo = mode == "edit" ? `/post/${postToEdit._id}` : "/";
 
   const modules = {
     toolbar: [
@@ -72,27 +76,52 @@ const Create = ({ mode, post }) => {
     "color",
   ];
 
-  const editHandler = () => {
-    console.log("edit handler run");
-    if (post) {
-      console.log("Post to edit",post);
+  const fetchPostToEdit = async () => {
+    try {
+      const response = await axios.get(
+        `${process.env.NEXT_PUBLIC_API}posts/${id}`,
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
 
-      setTitle(post?.title);
-      setContent(post?.content);
-      setTags(post?.tags);
+      if (response.status === 200) {
+        console.log("To edit = :", response.data.post);
+        setPostToEdit(response.data.post);
+      } else {
+        console.error("Failed to fetch post");
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+    } catch (error) {
+      console.error("Fetch error:", error);
+      throw error;
+    }
+  };
+  const editHandler = async () => {
+    await fetchPostToEdit();
+    
+    console.log("edit handler run");
+    if (postToEdit) {
+      console.log("Post to edit", postToEdit);
+
+      setTitle(postToEdit?.title);
+      setContent(postToEdit?.content);
+      setTags(postToEdit?.tags);
     }
   };
 
   useEffect(() => {
     mode == "edit" ? editHandler() : null;
-  }, [mode, post?._id]);
+  }, [mode]);
 
   if (status == "loading") {
     return (
       <div className="w-full h-full flex flex-col items-center justify-center ">
-      <Loading size="3x" />
-      <span className="my-4">Loading post data...</span>
-    </div>
+        <Loading size="3x" />
+        <span className="my-4">Loading post data...</span>
+      </div>
     );
   }
 
@@ -105,29 +134,28 @@ const Create = ({ mode, post }) => {
       console.log("Unauthenticated error");
       return;
     }
-  
-  
+
     if (title === "" || content === "") {
       console.log("Content Not Found");
       return;
     }
-  
+
     let API = process.env.NEXT_PUBLIC_API;
 
     setEmail(adminEmail);
-  
+
     let method = mode === "edit" ? "PATCH" : "POST";
     console.log(mode);
 
     if (mode === "edit" && post?._id) {
-      url = `${API}post/${post._id}`;
+      url = `${API}post/${postToEdit._id}`;
     } else {
       url = `${API}post/create`;
     }
-    
+
     try {
       setLoading(true);
-  
+
       const response = await axios({
         method: method,
         url: url,
@@ -148,7 +176,7 @@ const Create = ({ mode, post }) => {
           tags,
         },
       });
-    
+
       if (response.status === 201 || response.status === 200) {
         router.push(redirectTo);
         console.log(redirectTo);
@@ -158,7 +186,7 @@ const Create = ({ mode, post }) => {
         setContent("");
         setTags([]);
         setLoading(false);
-  
+
         console.log("Successfully created");
       }
     } catch (error) {
@@ -166,8 +194,6 @@ const Create = ({ mode, post }) => {
       console.error("Edit error:", error);
     }
   };
-  
-
 
   // const handler = async () => {
   //   if (!token) {
@@ -191,7 +217,7 @@ const Create = ({ mode, post }) => {
 
   //     const response = await axios({
   //       method: method,
-  //       url: `${API}/post/${mode === "edit" ? post._id : "create"}`,
+  //       url: `${API}/post/${mode === "edit" ? postToEdit._id : "create"}`,
   //       headers: {
   //         "Content-Type": "application/json",
   //         Authorization: `Bearer ${token}`,
@@ -235,15 +261,13 @@ const Create = ({ mode, post }) => {
     console.log(tags);
   };
 
-
-
   return (
     <div
       id="Quill-editor"
       className="w-full h-full flex flex-col justify-evenly bg-gray-400 dark:bg-slate-900"
     >
       {loading && (
-          <div className="w-full h-full flex flex-col items-center justify-center ">
+        <div className="w-full h-full flex flex-col items-center justify-center ">
           <Loading size="3x" />
           <span className="my-4">Loading...</span>
         </div>
