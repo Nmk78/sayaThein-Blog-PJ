@@ -22,7 +22,7 @@ const Page = () => {
   
       if (response.status === 200) {
         console.log("To edit = :", response.data.post);
-        setPost(response.data);
+        setPost(response.data.post);
       } else {
         console.error("Failed to fetch post");
         throw new Error(`HTTP error! Status: ${response.status}`);
