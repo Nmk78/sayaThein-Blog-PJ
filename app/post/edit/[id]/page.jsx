@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from "react";
 import Create from "@components/Create";
 import { response } from "express";
+import axios from "axios";
 
 const Page = () => {
   const [post, setPost] = useState({});
@@ -26,10 +27,6 @@ const Page = () => {
         console.log("Fetched posts:", post);
       } else {
         console.error("Failed to fetch post");
-        throw new Error(`HTTP error! Status: ${response.status}`);
-      }
-
-      if (!response.ok) {
         throw new Error(`HTTP error! Status: ${response.status}`);
       }
 
