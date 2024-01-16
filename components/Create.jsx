@@ -94,6 +94,9 @@ const Create = ({ mode }) => {
       if (response.status === 200) {
         console.log("To edit = :", response.data.post);
         setPostToEdit(response.data.post);
+        setTitle(response.data.post.title)
+        setContent(response.data.post.content)
+        setTags(response.data.post.tags)
       } else {
         console.error("Failed to fetch post");
         throw new Error(`HTTP error! Status: ${response.status}`);
@@ -108,14 +111,6 @@ const Create = ({ mode }) => {
 
     console.log("edit handler run");
     console.log("Post to edit", postToEdit);
-
-    if (Object.keys(postToEdit).length !== 0) {
-
-      console.log("Post 2 edit =", postToEdit );
-      setTitle(postToEdit?.title);
-      setContent(postToEdit?.content);
-      setTags(postToEdit?.tags);
-    }
   };
 
   useEffect(() => {
@@ -200,67 +195,6 @@ const Create = ({ mode }) => {
       console.error("Edit error:", error);
     }
   };
-
-  // const handler = async () => {
-  //   if (!token) {
-  //     console.log("Unauthenticated error");
-  //     return;
-  //   }
-  //   setEmail(adminEmail);
-
-  //   if (title == "" || content == "") {
-  //     console.log("Content Not Found");
-  //     return;
-  //   }
-
-  //   try {
-  //     setLoading(true);
-
-  //     let API = process.env.NEXT_PUBLIC_API;
-
-  //     let method = mode === "edit" ? "PATCH" : "POST";
-  //     console.log(mode);
-
-  //     const response = await axios({
-  //       method: method,
-  //       url: `${API}/post/${mode === "edit" ? postToEdit._id : "create"}`,
-  //       headers: {
-  //         "Content-Type": "application/json",
-  //         Authorization: `Bearer ${token}`,
-  //       },
-  //       data: {
-  //         title,
-  //         coverImgUrl,
-  //         content,
-  //         author: {
-  //           id: adminId,
-  //           name: adminName,
-  //           email: adminEmail,
-  //           profileImg: profileImg,
-  //         },
-  //         tags,
-  //       },
-
-  //     });
-  //     console.log(response);
-
-  //     if (response.status === 201 || response.status === 200) {
-  //       router.push(redirectTo);
-  //       console.log(redirectTo);
-  //       fetchPosts();
-  //       setTitle("");
-  //       setCoverImgUrl("");
-  //       setContent("");
-  //       setTags([]);
-  //       setLoading(false);
-
-  //       console.log("Successfully created");
-  //     }
-  //   } catch (error) {
-  //     setLoading(false);
-  //     console.error("Fetch error:", error);
-  //   }
-  // };
 
   const tagHandler = (e) => {
     setTags(e.target.value.split("#"));
