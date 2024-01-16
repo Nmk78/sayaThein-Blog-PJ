@@ -40,6 +40,7 @@ const Page = () => {
     fetchPost();
   }, []);
 
+  console.log("Post ==> ", post);
   return <>{post && <Create mode="edit" post={post} />}</>;
 };
 

@@ -73,8 +73,9 @@ const Create = ({ mode, post }) => {
   ];
 
   const editHandler = () => {
+    console.log("edit handler run");
     if (post) {
-      console.log(post);
+      console.log("Post to edit",post);
 
       setTitle(post?.title);
       setContent(post?.content);
