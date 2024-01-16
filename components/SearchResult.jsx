@@ -34,7 +34,7 @@ const SearchResult = ({ resultPosts }) => {
               alt="profile-image"
               width={30}
               height={30}
-              className="object-contain object-center rounded-full"
+              className="object-cover object-center rounded-full"
             />
             <div className="text-md font-latin font-md text-gray-200 ml-3">
               {post.authorName} 

@@ -238,7 +238,7 @@ const DetailPost = ({ mode }) => {
                   alt="profile-image"
                   width={40}
                   height={40}
-                  className=" object-contain object-center rounded-full"
+                  className=" object-cover object-center rounded-full"
                 />
                 <div className="flex flex-col">
                   <div

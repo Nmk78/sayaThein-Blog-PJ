@@ -36,7 +36,7 @@ const Post = ({ id, title, coverImgUrl, author, mode }) => {
               alt="profile-image"
               width={30}
               height={30}
-              className=" object-contain object-center rounded-full"
+              className=" object-cover object-center rounded-full"
             />
             <div id="name" className="text-md font-latin font-sm ">
               {author?.name}
