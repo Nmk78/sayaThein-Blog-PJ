@@ -16,6 +16,8 @@ const ReactQuill = dynamic(() => import('react-quill'), { ssr: false });
 const Create = ({ mode, post }) => {
   let token, adminEmail, adminId, adminName, profileImg;
 
+  console.log(post);
+
   if (typeof localStorage !== "undefined") {
     token = localStorage.getItem("token");
     adminEmail = localStorage.getItem("adminEmail");
