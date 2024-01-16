@@ -72,6 +72,8 @@ const Create = ({ mode, post }) => {
 
   const editHandler = () => {
     if (post) {
+      console.log(post);
+
       setTitle(post.title || "");
       setContent(post.content || "");
       setTags(post.tags || []);
