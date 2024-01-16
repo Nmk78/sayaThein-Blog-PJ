@@ -74,9 +74,9 @@ const Create = ({ mode, post }) => {
     if (post) {
       console.log(post);
 
-      setTitle(post.title || "");
-      setContent(post.content || "");
-      setTags(post.tags || []);
+      setTitle(post?.title);
+      setContent(post?.content);
+      setTags(post?.tags);
     }
   };
 
