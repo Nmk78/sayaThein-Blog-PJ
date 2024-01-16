@@ -1,4 +1,4 @@
-'use client'
+"use client";
 
 import React, { useState, useEffect } from "react";
 import Create from "@components/Create";
@@ -14,12 +14,15 @@ const Page = () => {
 
   const fetchPost = async () => {
     try {
-      const response = await axios.get(`${process.env.NEXT_PUBLIC_API}posts/${id}`, {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-  
+      const response = await axios.get(
+        `${process.env.NEXT_PUBLIC_API}posts/${id}`,
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
       if (response.status === 200) {
         console.log("To edit = :", response.data.post);
         setPost(response.data.post);
@@ -32,19 +35,12 @@ const Page = () => {
       throw error;
     }
   };
-  
 
   useEffect(() => {
     fetchPost();
   }, []);
 
-  return (
-    <>
-      {
-        post && <Create mode="edit" post={post} />
-      }
-    </>
-  );
+  return <>{post && <Create mode="edit" post={post} />}</>;
 };
 
 export default Page;
