@@ -41,7 +41,11 @@ const Page = () => {
   // }, []);
 
   // console.log("Post ==> ", post);
-  return <>{post != {} && <Create mode="edit" />}</>;
+  return (
+    <>
+      <Create mode="edit" />
+    </>
+  )
 };
 
 export default Page;
