@@ -14,7 +14,7 @@ const ReactQuill = dynamic(() => import("react-quill"), { ssr: false });
 
 const Create = ({ mode }) => {
   let token, adminEmail, adminId, adminName, profileImg;
-  
+
   let id;
 
   if (typeof window !== "undefined") {
@@ -107,8 +107,9 @@ const Create = ({ mode }) => {
     await fetchPostToEdit();
 
     console.log("edit handler run");
-    if (postToEdit) {
-      console.log("Post to edit", postToEdit);
+    console.log("Post to edit", postToEdit);
+
+    if (postToEdit != {}) {
 
       setTitle(postToEdit?.title);
       setContent(postToEdit?.content);
