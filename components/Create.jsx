@@ -15,7 +15,6 @@ const ReactQuill = dynamic(() => import("react-quill"), { ssr: false });
 const Create = ({ mode }) => {
   let token, adminEmail, adminId, adminName, profileImg;
 
-  console.log("post", post);
 
   if (typeof localStorage !== "undefined") {
     token = localStorage.getItem("token");
@@ -101,7 +100,7 @@ const Create = ({ mode }) => {
   };
   const editHandler = async () => {
     await fetchPostToEdit();
-    
+
     console.log("edit handler run");
     if (postToEdit) {
       console.log("Post to edit", postToEdit);
@@ -147,7 +146,7 @@ const Create = ({ mode }) => {
     let method = mode === "edit" ? "PATCH" : "POST";
     console.log(mode);
 
-    if (mode === "edit" && post?._id) {
+    if (mode === "edit" && postToEdit?._id) {
       url = `${API}post/${postToEdit._id}`;
     } else {
       url = `${API}post/create`;
