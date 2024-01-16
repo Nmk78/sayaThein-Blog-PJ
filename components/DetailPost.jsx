@@ -177,7 +177,7 @@ const DetailPost = ({ mode }) => {
           const post = response.data;
           setLoading(false);
           // Do something with the posts data
-          console.log("Fetched posts:", post);
+          console.log("Fetched post detail:", post);
         } else {
           console.error("Failed to fetch post");
           throw new Error(`HTTP error! Status: ${response.status}`);

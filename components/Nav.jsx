@@ -31,7 +31,7 @@ const Nav = () => {
           priority={false} // {false} | {true}
           width={60}
           height={60}
-          className="object-contain"
+          className=" object-cover"
         />
       </Link>
       <div id="themeSwitcher profile" className="flex flex-row h-full items-center">
