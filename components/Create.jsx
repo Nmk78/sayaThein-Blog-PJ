@@ -196,13 +196,12 @@ const Create = ({ mode }) => {
     }
   };
 
-  // const tagHandler = (e) => {
-  //   setTags(e.target.value.split(" "));
-  //   console.log(tags);
-  // };
   const tagHandler = (e) => {
-    setTags((prevTags) => e.target.value.split(" "));
+    const inputValue = e.target.value;
+    const tagsArray = inputValue.split(" ").filter(tag => tag.trim() !== "");
+    setTags(tagsArray);
   };
+  
 
   return (
     <div
