@@ -109,7 +109,7 @@ const Create = ({ mode }) => {
     console.log("edit handler run");
     console.log("Post to edit", postToEdit);
 
-    if (postToEdit != {}) {
+    if (Object.keys(postToEdit).length !== 0) {
 
       console.log("Post 2 edit =", postToEdit );
       setTitle(postToEdit?.title);
