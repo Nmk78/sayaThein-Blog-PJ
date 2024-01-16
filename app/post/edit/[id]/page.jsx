@@ -2,7 +2,6 @@
 
 import React, { useState, useEffect } from "react";
 import Create from "@components/Create";
-import { response } from "express";
 import axios from "axios";
 
 const Page = () => {
@@ -47,9 +46,9 @@ const Page = () => {
       });
   
       if (response.status === 200) {
-        const post = response.data;
-        console.log("Fetched post:", post);
-        setPost(post);
+        const fetchedPost = response.data;
+        console.log("Fetched post:", fetchedPost);
+        setPost(fetchedPost);
       } else {
         console.error("Failed to fetch post");
         throw new Error(`HTTP error! Status: ${response.status}`);
