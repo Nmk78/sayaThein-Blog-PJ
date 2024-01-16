@@ -196,9 +196,12 @@ const Create = ({ mode }) => {
     }
   };
 
+  // const tagHandler = (e) => {
+  //   setTags(e.target.value.split(" "));
+  //   console.log(tags);
+  // };
   const tagHandler = (e) => {
-    setTags(e.target.value.split(" "));
-    console.log(tags);
+    setTags((prevTags) => e.target.value.split(" "));
   };
 
   return (
