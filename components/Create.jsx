@@ -111,6 +111,7 @@ const Create = ({ mode }) => {
 
     if (postToEdit != {}) {
 
+      console.log("Post 2 edit =", postToEdit );
       setTitle(postToEdit?.title);
       setContent(postToEdit?.content);
       setTags(postToEdit?.tags);
