@@ -15,7 +15,7 @@ const ReactQuill = dynamic(() => import("react-quill"), { ssr: false });
 const Create = ({ mode }) => {
   let token, adminEmail, adminId, adminName, profileImg;
 
-  let id;
+  let id, url;
 
   if (typeof window !== "undefined") {
     id = window.location.pathname.split("/").pop();
