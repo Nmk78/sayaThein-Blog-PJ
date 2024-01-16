@@ -46,10 +46,8 @@ const Page = () => {
       });
   
       if (response.status === 200) {
-        const fetchedPost = response.data;
-        console.log("RES = :", response.data);
-        console.log("Fetched post to edit:", fetchedPost);
-        setPost(fetchedPost);
+        console.log("To edit = :", response.data);
+        setPost(response.data);
       } else {
         console.error("Failed to fetch post");
         throw new Error(`HTTP error! Status: ${response.status}`);

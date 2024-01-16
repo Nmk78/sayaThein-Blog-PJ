@@ -46,7 +46,7 @@ const Nav = () => {
                   alt="Profile image"
                   width={40}
                   height={40}
-                  className="object-contain aspect-square rounded-full"
+                  className="object-cover aspect-square rounded-full"
                 />
               </div>
             </Link>
