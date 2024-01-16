@@ -40,7 +40,9 @@ const Page = () => {
 
   return (
     <>
-      <Create mode="edit" post={post} />
+      {
+        post && <Create mode="edit" post={post} />
+      }
     </>
   );
 };
