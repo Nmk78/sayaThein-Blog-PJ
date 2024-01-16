@@ -13,6 +13,31 @@ const Page = () => {
     id = window.location.pathname.split("/").pop();
   }
 
+  // const fetchPost = async () => {
+  //   try {
+  //     const response = await axios.get(`${process.env.NEXT_PUBLIC_API}posts/${id}`, {
+  //       headers: {
+  //         "Content-Type": "application/json",
+  //       },
+  //     });
+
+  //     if (response.status === 200) {
+  //       const post = response.data;
+  //       // Do something with the posts data
+  //       console.log("Fetched posts:", post);
+  //     } else {
+  //       console.error("Failed to fetch post");
+  //       throw new Error(`HTTP error! Status: ${response.status}`);
+  //     }
+
+  //     const data = await response.data.post;
+  //     setPost(data.post);
+  //   } catch (error) {
+  //     console.error("Fetch error:", error);
+  //     throw new Error(`HTTP error! Status: ${response.status}`);
+  //   }
+  // };
+
   const fetchPost = async () => {
     try {
       const response = await axios.get(`${process.env.NEXT_PUBLIC_API}posts/${id}`, {
@@ -20,23 +45,21 @@ const Page = () => {
           "Content-Type": "application/json",
         },
       });
-
+  
       if (response.status === 200) {
         const post = response.data;
-        // Do something with the posts data
-        console.log("Fetched posts:", post);
+        console.log("Fetched post:", post);
+        setPost(post);
       } else {
         console.error("Failed to fetch post");
         throw new Error(`HTTP error! Status: ${response.status}`);
       }
-
-      const data = await response.data.post;
-      setPost(data.post);
     } catch (error) {
       console.error("Fetch error:", error);
-      throw new Error(`HTTP error! Status: ${response.status}`);
+      throw new Error(error);
     }
   };
+  
 
   useEffect(() => {
     fetchPost();
