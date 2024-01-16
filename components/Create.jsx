@@ -44,7 +44,7 @@ const Create = ({ mode }) => {
 
   let editedTags = tags
     .filter((tag) => tag !== "")
-    .map((tag) => "#" + tag)
+    .map((tag) => " " + tag)
     .join(" ");
 
   const redirectTo = mode == "edit" ? `/post/${postToEdit._id}` : "/";
@@ -197,7 +197,7 @@ const Create = ({ mode }) => {
   };
 
   const tagHandler = (e) => {
-    setTags(e.target.value.split("#"));
+    setTags(e.target.value.split(" "));
     console.log(tags);
   };
 
@@ -266,12 +266,12 @@ const Create = ({ mode }) => {
         </div>
         <div className="w-full px-1 ">
           <span className="block text-sm font-medium text-white mt-2 ">
-            Separate categories by #
+            Separate categories by space
           </span>
           <input
             type="text"
             className="w-full h-10 rounded-lg px-2 border-2 border-sky-400 dark:border-sky-700 dark:bg-sky-900 bg-sky-100"
-            placeholder="Tags : #vocabulary #grammar "
+            placeholder="Tags : vocabulary grammar "
             value={mode == "edit" ? editedTags : tags}
             onChange={tagHandler}
           />
