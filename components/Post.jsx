@@ -15,7 +15,7 @@ const Post = ({ id, title, coverImgUrl, author, mode }) => {
       {" "}
       <div
         id={id}
-        className="w-auto md:w-2/3 h-36 md:h-60 mx-auto bg-gray-300 dark:bg-slate-900 my-1 flex flex-row items-center justify-start rounded-2xl"
+        className="w-auto h-36 md:h-48 mx-auto bg-gray-300 dark:bg-slate-900 my-1 flex flex-row items-center justify-start rounded-2xl"
       >
         <Image
           src={coverImgUrl}
