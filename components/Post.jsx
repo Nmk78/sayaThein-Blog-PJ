@@ -10,7 +10,7 @@ const Post = ({ id, title, coverImgUrl, author, mode }) => {
   return (
     <Link
       href={mode == "saved" ? `/saved/${id}` : `/post/${id}`}
-      className="w-full flex justify-center items-center"
+      className="w-full flex items-center"
     >
       {" "}
       <div
