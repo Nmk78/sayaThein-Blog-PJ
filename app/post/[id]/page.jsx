@@ -1,6 +1,8 @@
 
 // 'use client';
 
+'use server'
+
 import { Metadata } from "next";
 import DetailPost from "@components/DetailPost";
 import Loading from "@components/Loading";
