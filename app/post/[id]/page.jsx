@@ -32,6 +32,7 @@ const Posts = () => {
           id = window.location.pathname.split("/").pop();
         }
 
+        console.log(id)
         const response = await axios.get(
           `${process.env.NEXT_PUBLIC_API}posts/${id}`,
           {
@@ -41,6 +42,7 @@ const Posts = () => {
           }
         );
 
+        console.log(response)
         if (response.status === 200) {
           const postData = response.data.post;
           // setPost(postData);
