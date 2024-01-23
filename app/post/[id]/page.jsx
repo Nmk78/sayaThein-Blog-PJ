@@ -59,12 +59,6 @@ const Posts = () => {
   fetchData();
   // }, []);
 
-  export const generateMetadata = () => {
-    return{
-      title: post.title
-    }
-  };
-
   return (
     <>
       {loading && (
@@ -76,6 +70,13 @@ const Posts = () => {
       <DetailPost mode="fetch" post={post} />
     </>
   );
+};
+
+
+export const generateMetadata = () => {
+  return{
+    title: post.title
+  }
 };
 
 export default Posts;
