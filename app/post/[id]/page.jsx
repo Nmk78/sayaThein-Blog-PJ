@@ -1,7 +1,6 @@
-
 // 'use client';
 
-'use server'
+"use server";
 
 import { Metadata } from "next";
 import DetailPost from "@components/DetailPost";
@@ -11,62 +10,60 @@ import React from "react";
 import axios from "axios";
 
 // const [post, setPost] = useState({});
-let post
-export const generateMetadata = () => ({
-  title: post.title,
-  // title: "Test Title",
+let post;
 
-  // Add other metadata properties as needed
-});
 
 const Posts = () => {
-
   let id;
   let loading;
   // const [loading, setLoading] = useState(true);
 
   // useEffect(() => {
-    const fetchData = async () => {
-      // setLoading(true);
-      loading = true;
-      try {
-        if (typeof window !== "undefined") {
-          id = window.location.pathname.split("/").pop();
-        }
+  const fetchData = async () => {
+    // setLoading(true);
+    loading = true;
+    try {
+      if (typeof window !== "undefined") {
+        id = window.location.pathname.split("/").pop();
+      }
 
-        console.log(id)
-        const response = await axios.get(
-          `${process.env.NEXT_PUBLIC_API}posts/${id}`,
-          {
-            headers: {
-              "Content-Type": "application/json",
-            },
-          }
-        );
-
-        console.log(response)
-        if (response.status === 200) {
-          const postData = response.data.post;
-          // setPost(postData);
-          post = postData;
-          // setLoading(false);
-          loading = false;
-        } else {
-          console.error("Failed to fetch post");
-          throw new Error(`HTTP error! Status: ${response.status}`);
+      console.log(id);
+      const response = await axios.get(
+        `${process.env.NEXT_PUBLIC_API}posts/${id}`,
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
         }
-      } catch (error) {
-        console.error("Fetch error:", error);
+      );
+
+      console.log(response);
+      if (response.status === 200) {
+        const postData = response.data.post;
+        // setPost(postData);
+        post = postData;
         // setLoading(false);
         loading = false;
-        throw error;
+      } else {
+        console.error("Failed to fetch post");
+        throw new Error(`HTTP error! Status: ${response.status}`);
       }
-    };
+    } catch (error) {
+      console.error("Fetch error:", error);
+      // setLoading(false);
+      loading = false;
+      throw error;
+    }
+  };
 
-    fetchData();
+  fetchData();
   // }, []);
 
-
+  export const generateMetadata = () => {
+    return{
+      title: post.title
+    }
+  };
 
   return (
     <>
