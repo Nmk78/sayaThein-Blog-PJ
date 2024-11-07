@@ -34,19 +34,16 @@ const get_a_post = async (req, res) => {
         return res.status(200).json({ post });
       }
     } else {
-      res.status(400).json({
+      return res.status(400).json({
         message: "Post not found",
       });
     }
   } catch (error) {
-    res.status(400).json({
+    return res.status(400).json({
       message: "Post not found",
     });
   }
 
-  res.status(200).json({
-    message: `post by ${id}`,
-  });
 };
 
 const get_all_posts = async (req, res) => {

@@ -1,0 +1,161 @@
+[33mcommit 6651e2e6114a252c1f4aa42c0bea64c8d41caa35[m[33m ([m[1;36mHEAD -> [m[1;32mback-end[m[33m, [m[1;31morigin/back-end[m[33m)[m
+Author: Nmk78 <naymyokhant78@gmail.com>
+Date:   Mon Jan 15 22:01:25 2024 +0630
+
+    change status code of user not found from 400 to 404
+
+[33mcommit 90a8bcb16df09712106ee0df0a5ae05e1dd57c80[m
+Author: Nmk78 <naymyokhant78@gmail.com>
+Date:   Mon Jan 15 09:41:54 2024 +0630
+
+    Fixed Login error
+
+[33mcommit 2f877e578812eafd4796e2ce8a9327966097bb86[m
+Author: Nmk78 <naymyokhant78@gmail.com>
+Date:   Mon Jan 15 09:33:25 2024 +0630
+
+    Fixed CORS error
+
+[33mcommit c4e36fff1dbee7280c144f3db67dcd2da82e998e[m
+Author: Nmk78 <naymyokhant78@gmail.com>
+Date:   Mon Jan 15 06:55:04 2024 +0630
+
+    fixed allow origin error for API
+
+[33mcommit 8293106bbd16aee6f49f0029b8a0398bdb93a915[m
+Author: Nmk78 <naymyokhant78@gmail.com>
+Date:   Sun Jan 14 21:14:44 2024 +0630
+
+    added allow origin for API
+
+[33mcommit d6ab6615bb7c1d00999f09ea7045516252235ed0[m
+Author: Nmk78 <naymyokhant78@gmail.com>
+Date:   Sun Jan 14 09:41:00 2024 +0630
+
+    added dotenv
+
+[33mcommit 962fd70f3cf93796764e2ea13e062ec829205560[m
+Author: Nmk78 <naymyokhant78@gmail.com>
+Date:   Sun Jan 14 09:38:34 2024 +0630
+
+    added express
+
+[33mcommit 8877f271b9915665aa1c9bde8ed82c3a0d0827ce[m
+Author: Nmk78 <naymyokhant78@gmail.com>
+Date:   Sun Jan 14 00:24:42 2024 +0630
+
+    ?
+
+[33mcommit 44329bc997131f474cfb169be3b261bfa84c5566[m
+Author: Nmk78 <naymyokhant78@gmail.com>
+Date:   Sat Jan 13 23:52:33 2024 +0630
+
+    Added nodemon
+
+[33mcommit ecc7b7401c7b29d1e0db9cdd13cf27f04936632f[m
+Author: Nmk78 <naymyokhant78@gmail.com>
+Date:   Sat Jan 13 22:48:15 2024 +0630
+
+    test deployment
+
+[33mcommit 0ab52f2b5a46637ec6ea0252313f4ba6eee30523[m
+Author: Nmk78 <naymyokhant78@gmail.com>
+Date:   Sat Jan 13 22:10:55 2024 +0630
+
+    Done?
+
+[33mcommit 946178ae7a3dae0f578ef2f6a594b864c11f6ea6[m
+Author: Nmk78 <naymyokhant78@gmail.com>
+Date:   Sat Jan 13 19:35:16 2024 +0630
+
+    Added Auth Checker
+
+[33mcommit 83c80e28cadfe1d07aa8578d5661a01b75a2547a[m
+Author: Nmk78 <naymyokhant78@gmail.com>
+Date:   Sat Jan 13 18:54:46 2024 +0630
+
+    Almost Done | Beta 0.1
+
+[33mcommit 0d3ca8f939b5e736f5a78a7d1027d74268a3c5a8[m
+Author: Nmk78 <naymyokhant78@gmail.com>
+Date:   Thu Jan 11 18:15:07 2024 +0630
+
+    Added Login controller
+
+[33mcommit 08bf474eb310a3ab8765dfac3cb699cdca46f203[m
+Author: Nmk78 <naymyokhant78@gmail.com>
+Date:   Tue Nov 28 00:45:03 2023 +0630
+
+    almost done fixing some issues
+
+[33mcommit 731447e278e712363c394af897d5b0bf0d48eb22[m
+Author: Nmk78 <naymyokhant78@gmail.com>
+Date:   Mon Nov 27 00:30:33 2023 +0630
+
+    search feature done
+
+[33mcommit 3adb19a9ab87cbec68f905f37903b9056ccbf1da[m
+Author: Nmk78 <naymyokhant78@gmail.com>
+Date:   Sun Nov 26 15:37:31 2023 +0630
+
+    fixed issues that encountered for post in profile
+
+[33mcommit 71f0b66c8d871d31626fe7b4da2800a8c3e21292[m
+Author: Nmk78 <naymyokhant78@gmail.com>
+Date:   Sun Nov 26 01:27:42 2023 +0630
+
+    Implemented posy by author route | still need to test
+
+[33mcommit df9ca939ce9f18ed07f95d03d218caef2fb72a9e[m
+Author: Nmk78 <naymyokhant78@gmail.com>
+Date:   Sun Nov 26 00:35:57 2023 +0630
+
+    Delete feature was done and fixed related issues
+
+[33mcommit 9fdc119aab3577d1e2aa48675d2f269aa2a7dd80[m
+Author: Nmk78 <naymyokhant78@gmail.com>
+Date:   Sat Nov 25 19:38:46 2023 +0630
+
+    fixed edit issue
+
+[33mcommit fcde34673f3c1b6502934aa67b0f6c76a8a444f5[m
+Author: Nmk78 <naymyokhant78@gmail.com>
+Date:   Tue Nov 21 13:34:30 2023 +0630
+
+    fixed bug in fetching post by id
+
+[33mcommit e36cb7e98a10f9b39226c04c49c203378b770bbf[m
+Author: Nmk78 <naymyokhant78@gmail.com>
+Date:   Tue Nov 21 13:30:52 2023 +0630
+
+    Fixed duplicating author id in Blog Schema
+
+[33mcommit 8db97e0c7bae27d2644e505c0d2b4a420fdeaeb7[m
+Author: Nmk78 <naymyokhant78@gmail.com>
+Date:   Sun Nov 5 13:09:26 2023 +0630
+
+    fixing some bugs after modifying front-end
+
+[33mcommit adf831c6d90826a4c82ef6bdb0cafb00529571f6[m
+Author: Nmk78 <naymyokhant78@gmail.com>
+Date:   Sat Nov 4 01:12:44 2023 +0630
+
+    implemented all controller
+
+[33mcommit 4cc5e11478ed967e10d6ac2ca5ca641e31cb0962[m
+Author: Nmk78 <naymyokhant78@gmail.com>
+Date:   Fri Nov 3 16:58:30 2023 +0630
+
+    adding schema
+
+[33mcommit ce49bbe07671f5d7a7ac3690cc999c29afd0839d[m
+Author: Nmk78 <naymyokhant78@gmail.com>
+Date:   Fri Nov 3 00:09:57 2023 +0630
+
+    DB connection, API end points, controller and middleware are almost Done
+
+[33mcommit 7f8699f870c855e91bfcad4eb6b6be3cb2541aa7[m[33m ([m[1;32mmaster[m[33m)[m
+Author: Nmk78 <naymyokhant78@gmail.com>
+Date:   Thu Nov 2 17:11:07 2023 +0630
+
+    Need to add Controller and Middleware
